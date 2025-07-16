@@ -11,6 +11,7 @@ import SuccessModal from './SuccessModal';
 import OnboardingModal from './OnboardingModal';
 import RandomEventModal from './RandomEventModal';
 import BadgeSystem from './BadgeSystem';
+import BadgeCompletionModal from './BadgeCompletionModal';
 
 export default function ReignsGame() {
   const [gameState, setGameState] = useState<GameState>({
@@ -33,6 +34,7 @@ export default function ReignsGame() {
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [randomEvent, setRandomEvent] = useState<any>(null);
   const [showRandomEvent, setShowRandomEvent] = useState(false);
+  const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
 
   // Check for game over conditions
   useEffect(() => {
@@ -139,7 +141,7 @@ export default function ReignsGame() {
   };
 
   const handleContinueToForm = () => {
-    setShowLeadForm(true);
+    setShowBadgeCompletion(true);
   };
 
   const handleFormSubmit = (data: LeadData) => {
@@ -147,6 +149,11 @@ export default function ReignsGame() {
     // Here you would typically send the data to your backend
     setShowLeadForm(false);
     setShowSuccess(true);
+  };
+
+  const handleBadgeCompletionClose = () => {
+    setShowBadgeCompletion(false);
+    setShowLeadForm(true);
   };
 
   const getCurrentCard = () => {
@@ -162,15 +169,15 @@ export default function ReignsGame() {
       <div className="max-w-md mx-auto">
         
         {/* Hero Section */}
-        <div className="relative h-48 mb-6 overflow-hidden">
+          <div className="relative h-40 mb-4 overflow-hidden">
           <img 
             src={heroImage} 
             alt="Event Production" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-          <div className="absolute bottom-4 left-4 right-4 text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-1">
+          <div className="absolute bottom-3 left-3 right-3 text-center">
+            <h1 className="text-xl font-bold text-foreground mb-1">
               🎉 Produtor de Eventos
             </h1>
             <p className="text-xs text-muted-foreground">
@@ -179,20 +186,15 @@ export default function ReignsGame() {
           </div>
         </div>
 
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 pt-2">
 
         {/* Game Metrics */}
         <GameMetrics metrics={gameState.metrics} />
         
-        {/* Badge System */}
-        <BadgeSystem 
-          badges={gameState.badges} 
-          totalPoints={gameState.totalPoints}
-          className="mt-4"
-        />
+        {/* Badge System - Hidden during game */}
 
         {/* Progress Indicator */}
-        <div className="mt-4 mb-6">
+        <div className="mt-3 mb-4">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
             <span>Progresso</span>
             <span>{gameState.currentCard + 1} / {gameCards.length}</span>
@@ -210,7 +212,7 @@ export default function ReignsGame() {
           <GameCard 
             card={currentCard} 
             onChoice={handleChoice}
-            className="mb-8"
+            className="mb-6"
           />
         )}
 
@@ -255,6 +257,14 @@ export default function ReignsGame() {
           event={randomEvent}
           isVisible={showRandomEvent}
           onContinue={() => setShowRandomEvent(false)}
+        />
+
+        {/* Badge Completion Modal */}
+        <BadgeCompletionModal
+          isVisible={showBadgeCompletion}
+          badges={gameState.badges}
+          totalPoints={gameState.totalPoints}
+          onClose={handleBadgeCompletionClose}
         />
         </div>
       </div>

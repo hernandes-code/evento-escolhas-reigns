@@ -3,62 +3,62 @@ import { GameCard } from '../types/game';
 export const gameCards: GameCard[] = [
   {
     id: 'venue-choice',
-    title: 'Decisão Estratégica do Local',
-    description: 'Dois locais estão disponíveis para seu evento de 500 pessoas. O primeiro custa R$ 8.000 e tem capacidade para 800 pessoas em um bairro afastado. O segundo custa R$ 15.000 para 600 pessoas no centro da cidade.',
+    title: 'Escolha do Local',
+    description: 'Evento para 500 pessoas. Local A: R$ 8.000, 800 lugares, bairro afastado. Local B: R$ 15.000, 600 lugares, centro.',
     leftChoice: {
-      text: 'Local de R$ 8.000 (800 pessoas, bairro afastado)',
-      effects: { budget: 25, audience: -15, satisfaction: -10, technology: -5 },
-      consequence: 'Você economizou R$ 7.000, mas 30% dos convidados desistiram pela localização. O transporte público limitado afetou a experiência.',
-      tip: '💡 Dica: Locais centrais podem custar mais, mas reduzem custos de transporte e aumentam a presença do público.'
+      text: 'Local A - R$ 8.000 (afastado)',
+      effects: { budget: 15, audience: -10, satisfaction: -5, technology: -5 },
+      consequence: 'Economizou R$ 7.000, mas 25% desistiram pela localização. Transporte público limitado.',
+      tip: '💡 Dica: Locais centrais reduzem custos de transporte e aumentam presença.'
     },
     rightChoice: {
-      text: 'Local de R$ 15.000 (600 pessoas, centro)',
-      effects: { budget: -20, audience: 20, satisfaction: 15, technology: 10 },
-      consequence: 'Investimento alto, mas 95% de presença confirmada. A localização facilitou parcerias com fornecedores locais.',
-      tip: '💡 Dica: Locais centrais facilitam logística e aumentam a percepção de valor do evento.'
+      text: 'Local B - R$ 15.000 (centro)',
+      effects: { budget: -10, audience: 15, satisfaction: 10, technology: 5 },
+      consequence: 'Investimento alto, mas 95% de presença. Localização facilitou parcerias locais.',
+      tip: '💡 Dica: Locais centrais facilitam logística e aumentam valor percebido.'
     },
     icon: '🏢',
-    educationalContent: 'A localização representa 40% do sucesso de um evento. Lugares centrais aumentam a taxa de presença em até 35%.',
+    educationalContent: 'Localização representa 40% do sucesso. Lugares centrais aumentam presença em 35%.',
     points: { left: 10, right: 25 }
   },
   {
     id: 'pre-event-marketing',
-    title: 'Estratégia de Lançamento',
-    description: 'Seu evento acontece em 60 dias. Você tem R$ 5.000 para marketing. Pode investir tudo em influenciadores agora, ou dividir entre influenciadores (R$ 2.000) e anúncios pagos escalonados (R$ 3.000).',
+    title: 'Marketing (60 dias)',
+    description: 'R$ 5.000 para marketing. Tudo em influenciadores agora ou dividir: R$ 2.000 influenciadores + R$ 3.000 anúncios escalonados?',
     leftChoice: {
-      text: 'R$ 5.000 em influenciadores agora',
-      effects: { budget: -15, audience: 15, satisfaction: 5, technology: -10 },
-      consequence: 'Buzz inicial forte, mas sem sustentação. Depois de 2 semanas, o engajamento caiu 70% e você perdeu o timing final.',
-      tip: '💡 Dica: Campanhas concentradas geram picos, mas podem perder momentum rapidamente.'
+      text: 'R$ 5.000 só influenciadores',
+      effects: { budget: -10, audience: 10, satisfaction: 5, technology: -5 },
+      consequence: 'Buzz inicial forte, mas caiu 70% após 2 semanas. Perdeu timing final.',
+      tip: '💡 Dica: Campanhas concentradas geram picos, mas perdem momentum.'
     },
     rightChoice: {
-      text: 'R$ 2.000 influenciadores + R$ 3.000 anúncios escalonados',
-      effects: { budget: -15, audience: 30, satisfaction: 10, technology: 20 },
-      consequence: 'Estratégia sustentada! Influenciadores criaram buzz inicial, anúncios retargeting converteram indecisos próximo ao evento.',
-      tip: '💡 Dica: Marketing escalonado mantém o evento "top of mind" e otimiza conversões.'
+      text: 'R$ 2.000 + R$ 3.000 escalonado',
+      effects: { budget: -10, audience: 20, satisfaction: 10, technology: 15 },
+      consequence: 'Estratégia sustentada! Buzz inicial + retargeting converteu indecisos.',
+      tip: '💡 Dica: Marketing escalonado mantém "top of mind" e otimiza conversões.'
     },
     icon: '📈',
-    educationalContent: 'Eventos com marketing escalonado têm 60% mais vendas nos últimos 15 dias comparado a campanhas concentradas.',
+    educationalContent: 'Marketing escalonado tem 60% mais vendas nos últimos 15 dias.',
     points: { left: 15, right: 30 }
   },
   {
     id: 'ticketing-dilemma',
-    title: 'Dilema da Precificação',
-    description: 'Você precisa vender 400 ingressos. Pode fazer: 1º lote (100 ingressos) R$ 80, 2º lote R$ 120, 3º lote R$ 150. Ou preço único R$ 100 durante todo período.',
+    title: 'Precificação',
+    description: '400 ingressos. Lotes progressivos: 1º R$ 80, 2º R$ 120, 3º R$ 150. Ou preço único R$ 100?',
     leftChoice: {
-      text: 'Lotes progressivos (R$ 80 → R$ 120 → R$ 150)',
-      effects: { budget: 5, audience: 25, satisfaction: -5, technology: 15 },
-      consequence: 'Vendas rápidas no 1º lote, mas reclamações no 3º. Arrecadação total: R$ 44.000. Criou senso de urgência efetivo.',
-      tip: '💡 Dica: Lotes progressivos aumentam urgência, mas podem gerar insatisfação tardia.'
+      text: 'Lotes R$ 80→120→150',
+      effects: { budget: 5, audience: 20, satisfaction: -5, technology: 10 },
+      consequence: 'Vendas rápidas no 1º lote, reclamações no 3º. Total: R$ 44.000. Urgência efetiva.',
+      tip: '💡 Dica: Lotes progressivos aumentam urgência, mas podem gerar insatisfação.'
     },
     rightChoice: {
       text: 'Preço único R$ 100',
-      effects: { budget: 0, audience: 10, satisfaction: 20, technology: 5 },
-      consequence: 'Vendas constantes, boa satisfação. Arrecadação: R$ 40.000. Sem urgência, vendas foram lentas nos primeiros dias.',
-      tip: '💡 Dica: Preços fixos geram confiança, mas podem reduzir urgência de compra.'
+      effects: { budget: 0, audience: 10, satisfaction: 15, technology: 5 },
+      consequence: 'Vendas constantes, boa satisfação. Total: R$ 40.000. Sem urgência inicial.',
+      tip: '💡 Dica: Preços fixos geram confiança, mas reduzem urgência de compra.'
     },
     icon: '💰',
-    educationalContent: 'Sistemas de lotes aumentam vendas antecipadas em 45%, mas devem ser bem comunicados para evitar insatisfação.',
+    educationalContent: 'Lotes aumentam vendas antecipadas em 45%, mas devem ser bem comunicados.',
     points: { left: 20, right: 15 }
   },
   {
@@ -243,7 +243,7 @@ export const randomEvents = [
 ];
 
 export const INITIAL_METRICS = {
-  budget: 50,
+  budget: 60,
   audience: 50,
   satisfaction: 50,
   technology: 50

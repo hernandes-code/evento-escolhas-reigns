@@ -75,7 +75,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
   return (
     <div 
       className={`
-        relative w-full max-w-sm mx-auto h-96 
+        relative w-full max-w-sm mx-auto h-[420px] 
         ${swipeDirection === 'left' ? 'animate-swipe-left' : ''}
         ${swipeDirection === 'right' ? 'animate-swipe-right' : ''}
         ${!swipeDirection ? 'animate-card-enter' : ''}
@@ -84,7 +84,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
     >
       <div 
         ref={cardRef}
-        className="absolute inset-0 bg-gradient-card rounded-2xl shadow-card border border-border/20 p-6 flex flex-col cursor-grab active:cursor-grabbing select-none"
+        className="absolute inset-0 bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col cursor-grab active:cursor-grabbing select-none"
         style={getCardStyle()}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -102,8 +102,8 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         
         {/* Card Header */}
         <div className="text-center mb-4">
-          <div className="text-4xl mb-2">{card.icon}</div>
-          <h2 className="text-xl font-bold text-foreground mb-2">{card.title}</h2>
+          <div className="text-3xl mb-2">{card.icon}</div>
+          <h2 className="text-lg font-bold text-foreground mb-2">{card.title}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {card.description}
           </p>
@@ -115,24 +115,24 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
             onClick={() => handleChoice('left')}
             disabled={isAnimating}
             variant="outline"
-            className="h-12 text-left justify-start bg-secondary/50 border-border/30 hover:bg-secondary/70 text-foreground"
+            className="min-h-12 h-auto py-3 px-4 text-left justify-start bg-secondary/50 border-border/30 hover:bg-secondary/70 text-foreground text-sm leading-tight whitespace-normal"
           >
-            <span className="mr-2">👈</span>
-            {card.leftChoice.text}
+            <span className="mr-2 flex-shrink-0">👈</span>
+            <span className="flex-1">{card.leftChoice.text}</span>
           </Button>
           
           <Button
             onClick={() => handleChoice('right')}
             disabled={isAnimating}
-            className="h-12 text-left justify-start bg-gradient-primary hover:opacity-90 text-primary-foreground"
+            className="min-h-12 h-auto py-3 px-4 text-left justify-start bg-secondary/50 border-border/30 hover:bg-secondary/70 text-foreground text-sm leading-tight whitespace-normal"
           >
-            <span className="mr-2">👉</span>
-            {card.rightChoice.text}
+            <span className="mr-2 flex-shrink-0">👉</span>
+            <span className="flex-1">{card.rightChoice.text}</span>
           </Button>
         </div>
 
         {/* Swipe Hints */}
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
+        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
           👈 Deslize ou clique para escolher 👉
         </div>
       </div>
