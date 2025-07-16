@@ -50,9 +50,6 @@ export interface LeadData {
   whatsapp: string;
   instagram: string;
   eventType: string;
-  companySize: string;
-  budget: string;
-  eventsPerYear: string;
   mainChallenge: string;
 }
 

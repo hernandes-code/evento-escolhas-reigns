@@ -4,6 +4,7 @@ import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../typ
 import GameCard from './GameCard';
 import GameMetrics from './GameMetrics';
 import heroImage from '../assets/hero-events.jpg';
+import logo from '../assets/logo.png';
 import ConsequenceModal from './ConsequenceModal';
 import GameOverModal from './GameOverModal';
 import LeadForm from './LeadForm';
@@ -165,7 +166,7 @@ export default function ReignsGame() {
   const totalScore = gameState.metrics.budget + gameState.metrics.audience + gameState.metrics.satisfaction + gameState.metrics.technology;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-warm">
       <div className="max-w-md mx-auto">
         
         {/* Hero Section */}
@@ -177,9 +178,16 @@ export default function ReignsGame() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
           <div className="absolute bottom-3 left-3 right-3 text-center">
-            <h1 className="text-xl font-bold text-foreground mb-1">
-              🎉 Produtor de Eventos
-            </h1>
+            <div className="flex items-center justify-center mb-1">
+              <img 
+                src={logo} 
+                alt="Logo da empresa" 
+                className="w-8 h-8 mr-2"
+              />
+              <h1 className="text-xl font-bold text-foreground">
+                Produtor de Eventos
+              </h1>
+            </div>
             <p className="text-xs text-muted-foreground">
               Tome decisões inteligentes e veja seu evento crescer!
             </p>

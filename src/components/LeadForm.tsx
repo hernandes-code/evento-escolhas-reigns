@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Badge } from './ui/badge';
 import { Download, Star, Users, Phone, AtSign, Calendar } from 'lucide-react';
 import type { LeadData } from '../types/game';
+import logo from '../assets/logo.png';
 
 interface LeadFormProps {
   onSubmit: (data: LeadData) => void;
@@ -21,9 +22,6 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
     whatsapp: '',
     instagram: '',
     eventType: '',
-    companySize: '',
-    budget: '',
-    eventsPerYear: '',
     mainChallenge: ''
   });
 
@@ -49,7 +47,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
     }));
   };
 
-  const isFormValid = formData.name && formData.whatsapp && formData.instagram && formData.eventType && formData.companySize && formData.budget && formData.eventsPerYear && formData.mainChallenge;
+  const isFormValid = formData.name && formData.whatsapp && formData.instagram && formData.eventType && formData.mainChallenge;
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
@@ -58,6 +56,11 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
         {/* Header */}
         <div className="text-center mb-6">
           <div className="mb-4">
+            <img 
+              src={logo} 
+              alt="Logo da empresa" 
+              className="w-16 h-16 mx-auto mb-2"
+            />
             <Star className="w-12 h-12 text-warning mx-auto animate-pulse-glow" />
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-2">
@@ -133,64 +136,10 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
               <SelectContent className="bg-popover border-border/30">
                 <SelectItem value="show">Shows/Concertos</SelectItem>
                 <SelectItem value="festa">Festas</SelectItem>
-                <SelectItem value="corporativo">Eventos Corporativos</SelectItem>
-                <SelectItem value="casamento">Casamentos</SelectItem>
-                <SelectItem value="formatura">Formaturas</SelectItem>
                 <SelectItem value="festival">Festivais</SelectItem>
-                <SelectItem value="workshop">Workshops/Cursos</SelectItem>
+                <SelectItem value="bar">Bares</SelectItem>
+                <SelectItem value="balada">Baladas</SelectItem>
                 <SelectItem value="outros">Outros</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="companySize" className="text-sm font-medium text-foreground">
-              👥 Tamanho da empresa/equipe
-            </Label>
-            <Select value={formData.companySize} onValueChange={(value) => handleInputChange('companySize', value)}>
-              <SelectTrigger className="bg-secondary/30 border-border/30">
-                <SelectValue placeholder="Selecione o tamanho" />
-              </SelectTrigger>
-              <SelectContent className="bg-popover border-border/30">
-                <SelectItem value="solo">Trabalho sozinho</SelectItem>
-                <SelectItem value="pequena">2-5 pessoas</SelectItem>
-                <SelectItem value="media">6-20 pessoas</SelectItem>
-                <SelectItem value="grande">21+ pessoas</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="budget" className="text-sm font-medium text-foreground">
-              💰 Orçamento médio por evento
-            </Label>
-            <Select value={formData.budget} onValueChange={(value) => handleInputChange('budget', value)}>
-              <SelectTrigger className="bg-secondary/30 border-border/30">
-                <SelectValue placeholder="Selecione a faixa" />
-              </SelectTrigger>
-              <SelectContent className="bg-popover border-border/30">
-                <SelectItem value="ate5k">Até R$ 5.000</SelectItem>
-                <SelectItem value="5k-20k">R$ 5.000 - R$ 20.000</SelectItem>
-                <SelectItem value="20k-50k">R$ 20.000 - R$ 50.000</SelectItem>
-                <SelectItem value="50k-100k">R$ 50.000 - R$ 100.000</SelectItem>
-                <SelectItem value="100k+">R$ 100.000+</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="eventsPerYear" className="text-sm font-medium text-foreground">
-              📅 Eventos por ano
-            </Label>
-            <Select value={formData.eventsPerYear} onValueChange={(value) => handleInputChange('eventsPerYear', value)}>
-              <SelectTrigger className="bg-secondary/30 border-border/30">
-                <SelectValue placeholder="Selecione a frequência" />
-              </SelectTrigger>
-              <SelectContent className="bg-popover border-border/30">
-                <SelectItem value="1-5">1-5 eventos</SelectItem>
-                <SelectItem value="6-15">6-15 eventos</SelectItem>
-                <SelectItem value="16-30">16-30 eventos</SelectItem>
-                <SelectItem value="31+">31+ eventos</SelectItem>
               </SelectContent>
             </Select>
           </div>
