@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { gameCards, INITIAL_METRICS } from '../data/gameCards';
+import { gameCards, INITIAL_METRICS, randomEvents, GAME_BADGES } from '../data/gameCards';
 import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../types/game';
 import GameCard from './GameCard';
 import GameMetrics from './GameMetrics';
@@ -8,6 +8,9 @@ import ConsequenceModal from './ConsequenceModal';
 import GameOverModal from './GameOverModal';
 import LeadForm from './LeadForm';
 import SuccessModal from './SuccessModal';
+import OnboardingModal from './OnboardingModal';
+import RandomEventModal from './RandomEventModal';
+import BadgeSystem from './BadgeSystem';
 
 export default function ReignsGame() {
   const [gameState, setGameState] = useState<GameState>({
@@ -18,11 +21,18 @@ export default function ReignsGame() {
     completedCards: [],
     showingConsequence: false,
     lastChoice: null,
-    lastConsequence: ''
+    lastConsequence: '',
+    totalPoints: 0,
+    badges: [],
+    randomEventsTriggered: [],
+    choiceHistory: []
   });
 
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [randomEvent, setRandomEvent] = useState<any>(null);
+  const [showRandomEvent, setShowRandomEvent] = useState(false);
 
   // Check for game over conditions
   useEffect(() => {
@@ -69,16 +79,34 @@ export default function ReignsGame() {
 
   const handleChoice = (choice: 'left' | 'right', effects: Partial<GameMetricsType>, consequence: string) => {
     const currentCardId = gameCards[gameState.currentCard].id;
+    const currentCard = gameCards[gameState.currentCard];
+    const points = currentCard.points ? currentCard.points[choice] : 15;
     
     setGameState(prev => ({
       ...prev,
       lastChoice: choice,
       lastConsequence: consequence,
       showingConsequence: true,
-      completedCards: [...prev.completedCards, currentCardId]
+      completedCards: [...prev.completedCards, currentCardId],
+      totalPoints: prev.totalPoints + points,
+      choiceHistory: [...prev.choiceHistory, { cardId: currentCardId, choice, points }]
     }));
 
     applyMetricsEffects(effects);
+    
+    // Random event chance (20%)
+    if (Math.random() < 0.2) {
+      const availableEvents = randomEvents.filter(e => !gameState.randomEventsTriggered.includes(e.id));
+      if (availableEvents.length > 0) {
+        const selectedEvent = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+        setRandomEvent(selectedEvent);
+        setShowRandomEvent(true);
+        setGameState(prev => ({
+          ...prev,
+          randomEventsTriggered: [...prev.randomEventsTriggered, selectedEvent.id]
+        }));
+      }
+    }
   };
 
   const handleConsequenceContinue = () => {
@@ -100,7 +128,11 @@ export default function ReignsGame() {
       completedCards: [],
       showingConsequence: false,
       lastChoice: null,
-      lastConsequence: ''
+      lastConsequence: '',
+      totalPoints: 0,
+      badges: [],
+      randomEventsTriggered: [],
+      choiceHistory: []
     });
     setShowLeadForm(false);
     setShowSuccess(false);
@@ -151,6 +183,13 @@ export default function ReignsGame() {
 
         {/* Game Metrics */}
         <GameMetrics metrics={gameState.metrics} />
+        
+        {/* Badge System */}
+        <BadgeSystem 
+          badges={gameState.badges} 
+          totalPoints={gameState.totalPoints}
+          className="mt-4"
+        />
 
         {/* Progress Indicator */}
         <div className="mt-4 mb-6">
@@ -203,6 +242,19 @@ export default function ReignsGame() {
         <SuccessModal
           onRestart={handleRestart}
           isVisible={showSuccess}
+        />
+
+        {/* Onboarding Modal */}
+        <OnboardingModal
+          isVisible={showOnboarding}
+          onComplete={() => setShowOnboarding(false)}
+        />
+
+        {/* Random Event Modal */}
+        <RandomEventModal
+          event={randomEvent}
+          isVisible={showRandomEvent}
+          onContinue={() => setShowRandomEvent(false)}
         />
         </div>
       </div>

@@ -17,7 +17,11 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
     name: '',
     whatsapp: '',
     instagram: '',
-    eventType: ''
+    eventType: '',
+    companySize: '',
+    budget: '',
+    eventsPerYear: '',
+    mainChallenge: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,7 +46,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
     }));
   };
 
-  const isFormValid = formData.name && formData.whatsapp && formData.instagram && formData.eventType;
+  const isFormValid = formData.name && formData.whatsapp && formData.instagram && formData.eventType && formData.companySize && formData.budget && formData.eventsPerYear && formData.mainChallenge;
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
@@ -60,7 +64,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
             Sua pontuação: <span className="font-bold text-primary">{finalScore}/400</span>
           </p>
           <p className="text-xs text-muted-foreground">
-            Agora que você viu a importância da tecnologia em eventos, que tal conhecer soluções que podem revolucionar seus eventos?
+            🎁 Receba nosso E-book GRATUITO: "Guia Completo de Bilheteria Digital para Eventos" + acesso a nossa comunidade exclusiva de produtores!
           </p>
         </div>
 
@@ -117,20 +121,92 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
           <div className="space-y-2">
             <Label htmlFor="eventType" className="text-sm font-medium text-foreground">
               <Calendar className="w-4 h-4 inline mr-2" />
-              Tipo de evento
+              Tipo de evento que produz
             </Label>
             <Select value={formData.eventType} onValueChange={(value) => handleInputChange('eventType', value)}>
               <SelectTrigger className="bg-secondary/30 border-border/30">
                 <SelectValue placeholder="Selecione o tipo de evento" />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border/30">
-                <SelectItem value="show">Show/Concerto</SelectItem>
-                <SelectItem value="festa">Festa</SelectItem>
-                <SelectItem value="corporativo">Evento Corporativo</SelectItem>
-                <SelectItem value="casamento">Casamento</SelectItem>
-                <SelectItem value="formatura">Formatura</SelectItem>
-                <SelectItem value="festival">Festival</SelectItem>
-                <SelectItem value="workshop">Workshop/Curso</SelectItem>
+                <SelectItem value="show">Shows/Concertos</SelectItem>
+                <SelectItem value="festa">Festas</SelectItem>
+                <SelectItem value="corporativo">Eventos Corporativos</SelectItem>
+                <SelectItem value="casamento">Casamentos</SelectItem>
+                <SelectItem value="formatura">Formaturas</SelectItem>
+                <SelectItem value="festival">Festivais</SelectItem>
+                <SelectItem value="workshop">Workshops/Cursos</SelectItem>
+                <SelectItem value="outros">Outros</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="companySize" className="text-sm font-medium text-foreground">
+              👥 Tamanho da empresa/equipe
+            </Label>
+            <Select value={formData.companySize} onValueChange={(value) => handleInputChange('companySize', value)}>
+              <SelectTrigger className="bg-secondary/30 border-border/30">
+                <SelectValue placeholder="Selecione o tamanho" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border/30">
+                <SelectItem value="solo">Trabalho sozinho</SelectItem>
+                <SelectItem value="pequena">2-5 pessoas</SelectItem>
+                <SelectItem value="media">6-20 pessoas</SelectItem>
+                <SelectItem value="grande">21+ pessoas</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="budget" className="text-sm font-medium text-foreground">
+              💰 Orçamento médio por evento
+            </Label>
+            <Select value={formData.budget} onValueChange={(value) => handleInputChange('budget', value)}>
+              <SelectTrigger className="bg-secondary/30 border-border/30">
+                <SelectValue placeholder="Selecione a faixa" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border/30">
+                <SelectItem value="ate5k">Até R$ 5.000</SelectItem>
+                <SelectItem value="5k-20k">R$ 5.000 - R$ 20.000</SelectItem>
+                <SelectItem value="20k-50k">R$ 20.000 - R$ 50.000</SelectItem>
+                <SelectItem value="50k-100k">R$ 50.000 - R$ 100.000</SelectItem>
+                <SelectItem value="100k+">R$ 100.000+</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="eventsPerYear" className="text-sm font-medium text-foreground">
+              📅 Eventos por ano
+            </Label>
+            <Select value={formData.eventsPerYear} onValueChange={(value) => handleInputChange('eventsPerYear', value)}>
+              <SelectTrigger className="bg-secondary/30 border-border/30">
+                <SelectValue placeholder="Selecione a frequência" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border/30">
+                <SelectItem value="1-5">1-5 eventos</SelectItem>
+                <SelectItem value="6-15">6-15 eventos</SelectItem>
+                <SelectItem value="16-30">16-30 eventos</SelectItem>
+                <SelectItem value="31+">31+ eventos</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="mainChallenge" className="text-sm font-medium text-foreground">
+              🎯 Maior desafio atual
+            </Label>
+            <Select value={formData.mainChallenge} onValueChange={(value) => handleInputChange('mainChallenge', value)}>
+              <SelectTrigger className="bg-secondary/30 border-border/30">
+                <SelectValue placeholder="Selecione o maior desafio" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border/30">
+                <SelectItem value="vendas">Aumentar vendas de ingressos</SelectItem>
+                <SelectItem value="marketing">Marketing e divulgação</SelectItem>
+                <SelectItem value="tecnologia">Soluções tecnológicas</SelectItem>
+                <SelectItem value="organizacao">Organização e gestão</SelectItem>
+                <SelectItem value="custos">Controle de custos</SelectItem>
+                <SelectItem value="publico">Atrair mais público</SelectItem>
                 <SelectItem value="outros">Outros</SelectItem>
               </SelectContent>
             </Select>
@@ -142,13 +218,13 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
               disabled={!isFormValid || isSubmitting}
               className="w-full bg-gradient-primary hover:opacity-90 text-primary-foreground"
             >
-              {isSubmitting ? 'Enviando...' : 'Receber Dicas Exclusivas'}
+              {isSubmitting ? 'Enviando...' : '🎁 Receber E-book Gratuito'}
             </Button>
           </div>
         </form>
 
         <div className="mt-4 text-xs text-muted-foreground text-center">
-          🔒 Seus dados estão seguros e serão usados apenas para enviar dicas sobre eventos
+          🔒 Seus dados estão seguros. Enviaremos o e-book imediatamente e dicas exclusivas sobre bilheteria digital
         </div>
       </div>
     </div>

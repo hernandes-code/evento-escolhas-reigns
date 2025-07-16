@@ -13,13 +13,17 @@ export interface GameCard {
     text: string;
     effects: Partial<GameMetrics>;
     consequence: string;
+    tip?: string;
   };
   rightChoice: {
     text: string;
     effects: Partial<GameMetrics>;
     consequence: string;
+    tip?: string;
   };
   icon: string;
+  educationalContent?: string;
+  points?: { left: number; right: number };
 }
 
 export interface GameState {
@@ -31,6 +35,14 @@ export interface GameState {
   showingConsequence: boolean;
   lastChoice: 'left' | 'right' | null;
   lastConsequence: string;
+  totalPoints: number;
+  badges: string[];
+  randomEventsTriggered: string[];
+  choiceHistory: Array<{
+    cardId: string;
+    choice: 'left' | 'right';
+    points: number;
+  }>;
 }
 
 export interface LeadData {
@@ -38,6 +50,25 @@ export interface LeadData {
   whatsapp: string;
   instagram: string;
   eventType: string;
+  companySize: string;
+  budget: string;
+  eventsPerYear: string;
+  mainChallenge: string;
 }
 
 export type SwipeDirection = 'left' | 'right' | null;
+
+export interface RandomEvent {
+  id: string;
+  title: string;
+  description: string;
+  effects: Partial<GameMetrics>;
+  message: string;
+}
+
+export interface Badge {
+  name: string;
+  description: string;
+  icon: string;
+  requirement: string;
+}
