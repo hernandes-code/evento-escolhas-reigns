@@ -75,7 +75,8 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-card': 'var(--gradient-card)',
-				'gradient-accent': 'var(--gradient-accent)'
+				'gradient-accent': 'var(--gradient-accent)',
+				'gradient-soft': 'var(--gradient-soft)'
 			},
 			boxShadow: {
 				'card': 'var(--shadow-card)',

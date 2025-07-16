@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from './ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Badge } from './ui/badge';
-import { Download, Star, Users, DollarSign, Calendar } from 'lucide-react';
+import { Download, Star, Users, Phone, AtSign, Calendar } from 'lucide-react';
 import type { LeadData } from '../types/game';
 
 interface LeadFormProps {
@@ -58,7 +58,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
         {/* Header */}
         <div className="text-center mb-6">
           <div className="mb-4">
-            <Trophy className="w-12 h-12 text-warning mx-auto animate-pulse-glow" />
+            <Star className="w-12 h-12 text-warning mx-auto animate-pulse-glow" />
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-2">
             Parabéns pelo Desempenho!
@@ -75,7 +75,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-sm font-medium text-foreground">
-              <User className="w-4 h-4 inline mr-2" />
+              <Users className="w-4 h-4 inline mr-2" />
               Nome completo
             </Label>
             <Input
@@ -107,7 +107,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
 
           <div className="space-y-2">
             <Label htmlFor="instagram" className="text-sm font-medium text-foreground">
-              <Instagram className="w-4 h-4 inline mr-2" />
+              <AtSign className="w-4 h-4 inline mr-2" />
               Instagram do evento
             </Label>
             <Input
