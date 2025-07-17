@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Share2, Download } from 'lucide-react';
+import { Share2, Download, Check } from 'lucide-react';
 import logo from '../assets/logo.png';
 import badgeTechMaster from '../assets/badge-tech-master.png';
 import badgeBudgetWizard from '../assets/badge-budget-wizard.png';
@@ -17,13 +17,15 @@ interface BadgeCompletionModalProps {
   badges: string[];
   totalPoints: number;
   onClose: () => void;
+  onEbookClick: () => void;
 }
 
 export default function BadgeCompletionModal({ 
   isVisible, 
   badges, 
   totalPoints, 
-  onClose 
+  onClose,
+  onEbookClick
 }: BadgeCompletionModalProps) {
   const [copied, setCopied] = useState(false);
 
@@ -32,49 +34,57 @@ export default function BadgeCompletionModal({
       name: 'Mestre da Tecnologia',
       description: 'Você priorizou soluções tecnológicas em suas decisões',
       icon: '🔧',
-      message: 'Parabéns! Você demonstrou visão estratégica para tecnologia em eventos.'
+      message: 'Parabéns! Você demonstrou visão estratégica para tecnologia em eventos.',
+      image: badgeTechMaster
     },
     BUDGET_WIZARD: {
       name: 'Mago do Orçamento',
       description: 'Terminou o jogo com excelente controle financeiro',
       icon: '💰',
-      message: 'Impressionante! Você tem talento natural para gestão financeira.'
+      message: 'Impressionante! Você tem talento natural para gestão financeira.',
+      image: badgeBudgetWizard
     },
     CROWD_PLEASER: {
       name: 'Conquistador de Multidões',
       description: 'Manteve alta audiência durante todo o evento',
       icon: '👥',
-      message: 'Fantástico! Você sabe como atrair e manter seu público.'
+      message: 'Fantástico! Você sabe como atrair e manter seu público.',
+      image: badgeCrowdPleaser
     },
     SATISFACTION_GURU: {
       name: 'Guru da Satisfação',
       description: 'Priorizou sempre a experiência do cliente',
       icon: '⭐',
-      message: 'Excelente! Você entende o que faz um evento memorável.'
+      message: 'Excelente! Você entende o que faz um evento memorável.',
+      image: badgeSatisfactionGuru
     },
     RISK_TAKER: {
       name: 'Tomador de Riscos',
       description: 'Ousou em momentos decisivos e deu certo',
       icon: '🎲',
-      message: 'Corajoso! Você tem o perfil empreendedor ideal.'
+      message: 'Corajoso! Você tem o perfil empreendedor ideal.',
+      image: badgeRiskTaker
     },
     STRATEGIC_MIND: {
       name: 'Mente Estratégica',
       description: 'Demonstrou pensamento estratégico excepcional',
       icon: '🧠',
-      message: 'Brilhante! Você tem potencial para grandes eventos.'
+      message: 'Brilhante! Você tem potencial para grandes eventos.',
+      image: badgeStrategicMind
     },
     CRISIS_MANAGER: {
       name: 'Gestor de Crises',
       description: 'Transformou problemas em oportunidades',
       icon: '🚨',
-      message: 'Impressionante! Você tem sangue frio para situações difíceis.'
+      message: 'Impressionante! Você tem sangue frio para situações difíceis.',
+      image: badgeCrisisManager
     },
     DIGITAL_NATIVE: {
       name: 'Nativo Digital',
       description: 'Abraçou soluções digitais modernas',
       icon: '📱',
-      message: 'Perfeito! Você entende o futuro dos eventos.'
+      message: 'Perfeito! Você entende o futuro dos eventos.',
+      image: badgeDigitalNative
     }
   };
 
@@ -116,51 +126,35 @@ Você também produz eventos? Teste suas habilidades: [LINK_DO_JOGO]
           </DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-4">
-          <div className="text-center">
-            <p className="text-muted-foreground mb-4">
-              Você completou o desafio com <strong>{totalPoints} pontos</strong>!
-            </p>
-          </div>
-
+        <div className="space-y-6">
+          {/* Badge principal */}
           {badges.length > 0 && (
-            <div className="space-y-3">
-              <h3 className="font-semibold text-foreground">
-                Suas Conquistas:
+            <div className="text-center">
+              <div className="mb-4">
+                <img 
+                  src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
+                  alt={badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
+                  className="w-32 h-32 mx-auto object-contain"
+                />
+              </div>
+              <h3 className="text-lg font-bold text-foreground mb-2">
+                {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
               </h3>
-              <div className="space-y-2">
-                {badges.map((badgeId) => {
-                  const badge = badgeDetails[badgeId as keyof typeof badgeDetails];
-                  if (!badge) return null;
-                  
-                  return (
-                    <div key={badgeId} className="bg-secondary/30 p-3 rounded-lg">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-lg">{badge.icon}</span>
-                        <span className="font-medium text-foreground">{badge.name}</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-1">
-                        {badge.description}
-                      </p>
-                      <p className="text-xs text-primary font-medium">
-                        {badge.message}
-                      </p>
-                    </div>
-                  );
-                })}
+              <p className="text-sm text-muted-foreground mb-3">
+                {badgeDetails[badges[0] as keyof typeof badgeDetails]?.message}
+              </p>
+              <div className="text-center">
+                <p className="text-lg font-semibold text-primary mb-2">
+                  {totalPoints} pontos
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Você consegue fazer um evento melhor?
+                </p>
               </div>
             </div>
           )}
 
-          <div className="bg-primary/10 p-4 rounded-lg text-center">
-            <p className="text-sm text-foreground mb-2">
-              🎁 <strong>Quer levar seu evento para o próximo nível?</strong>
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Baixe nosso e-book gratuito com estratégias avançadas de produção de eventos no próximo passo!
-            </p>
-          </div>
-
+          {/* Botões */}
           <div className="flex gap-2">
             <Button
               onClick={handleShare}
@@ -175,11 +169,11 @@ Você também produz eventos? Teste suas habilidades: [LINK_DO_JOGO]
             </Button>
             
             <Button
-              onClick={onClose}
+              onClick={onEbookClick}
               variant="outline"
               className="flex-1"
             >
-              Continuar
+              Receber ebook
             </Button>
           </div>
         </div>

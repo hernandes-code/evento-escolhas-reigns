@@ -37,6 +37,28 @@ export default function ReignsGame() {
   const [showRandomEvent, setShowRandomEvent] = useState(false);
   const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
 
+  // Calculate badges based on performance
+  const calculateBadges = (metrics: GameMetricsType, totalPoints: number) => {
+    const badges = [];
+    
+    if (metrics.budget >= 70) badges.push('BUDGET_WIZARD');
+    if (metrics.audience >= 75) badges.push('CROWD_PLEASER');
+    if (metrics.satisfaction >= 70) badges.push('SATISFACTION_GURU');
+    if (metrics.technology >= 65) badges.push('TECH_MASTER');
+    if (totalPoints >= 250) badges.push('STRATEGIC_MIND');
+    
+    // Se não conseguiu nenhuma badge específica, dar uma badge baseada na métrica mais alta
+    if (badges.length === 0) {
+      const maxMetric = Math.max(metrics.budget, metrics.audience, metrics.satisfaction, metrics.technology);
+      if (maxMetric === metrics.budget) badges.push('BUDGET_WIZARD');
+      else if (maxMetric === metrics.audience) badges.push('CROWD_PLEASER');
+      else if (maxMetric === metrics.satisfaction) badges.push('SATISFACTION_GURU');
+      else badges.push('TECH_MASTER');
+    }
+    
+    return badges;
+  };
+
   // Check for game over conditions
   useEffect(() => {
     const { metrics } = gameState;
@@ -60,11 +82,16 @@ export default function ReignsGame() {
         gameOverReason: 'Seu público está insatisfeito! A experiência do evento foi muito ruim.' 
       }));
     } else if (gameState.currentCard >= gameCards.length) {
+      // Game completed successfully - calculate badges
+      const earnedBadges = calculateBadges(metrics, gameState.totalPoints);
       setGameState(prev => ({ 
         ...prev, 
         isGameOver: true, 
-        gameOverReason: 'Você completou todos os desafios! O evento foi um sucesso.' 
+        gameOverReason: 'Você completou todos os desafios! O evento foi um sucesso.',
+        badges: earnedBadges
       }));
+      // Show badge completion modal instead of game over modal
+      setShowBadgeCompletion(true);
     }
   }, [gameState.metrics, gameState.currentCard]);
 
@@ -142,7 +169,7 @@ export default function ReignsGame() {
   };
 
   const handleContinueToForm = () => {
-    setShowBadgeCompletion(true);
+    setShowLeadForm(true);
   };
 
   const handleFormSubmit = (data: LeadData) => {
@@ -238,7 +265,7 @@ export default function ReignsGame() {
           reason={gameState.gameOverReason}
           onRestart={handleRestart}
           onContinueToForm={handleContinueToForm}
-          isVisible={gameState.isGameOver && !showLeadForm && !showSuccess}
+          isVisible={gameState.isGameOver && !showLeadForm && !showSuccess && !showBadgeCompletion}
         />
 
         {/* Lead Form */}
@@ -273,6 +300,7 @@ export default function ReignsGame() {
           badges={gameState.badges}
           totalPoints={gameState.totalPoints}
           onClose={handleBadgeCompletionClose}
+          onEbookClick={handleContinueToForm}
         />
         </div>
       </div>

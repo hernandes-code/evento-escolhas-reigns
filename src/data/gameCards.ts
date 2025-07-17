@@ -7,13 +7,13 @@ export const gameCards: GameCard[] = [
     description: 'Evento para 500 pessoas. Local A: R$ 8.000, 800 lugares, bairro afastado. Local B: R$ 15.000, 600 lugares, centro.',
     leftChoice: {
       text: 'Local A - R$ 8.000 (afastado)',
-      effects: { budget: 15, audience: -10, satisfaction: -5, technology: -5 },
+      effects: { budget: 12, audience: -8, satisfaction: -3, technology: -3 },
       consequence: 'Economizou R$ 7.000, mas 25% desistiram pela localização. Transporte público limitado.',
       tip: '💡 Dica: Locais centrais reduzem custos de transporte e aumentam presença.'
     },
     rightChoice: {
       text: 'Local B - R$ 15.000 (centro)',
-      effects: { budget: -10, audience: 15, satisfaction: 10, technology: 5 },
+      effects: { budget: -8, audience: 12, satisfaction: 8, technology: 3 },
       consequence: 'Investimento alto, mas 95% de presença. Localização facilitou parcerias locais.',
       tip: '💡 Dica: Locais centrais facilitam logística e aumentam valor percebido.'
     },
@@ -27,13 +27,13 @@ export const gameCards: GameCard[] = [
     description: 'R$ 5.000 para marketing. Tudo em influenciadores agora ou dividir: R$ 2.000 influenciadores + R$ 3.000 anúncios escalonados?',
     leftChoice: {
       text: 'R$ 5.000 só influenciadores',
-      effects: { budget: -10, audience: 10, satisfaction: 5, technology: -5 },
+      effects: { budget: -8, audience: 8, satisfaction: 3, technology: -3 },
       consequence: 'Buzz inicial forte, mas caiu 70% após 2 semanas. Perdeu timing final.',
       tip: '💡 Dica: Campanhas concentradas geram picos, mas perdem momentum.'
     },
     rightChoice: {
       text: 'R$ 2.000 + R$ 3.000 escalonado',
-      effects: { budget: -10, audience: 20, satisfaction: 10, technology: 15 },
+      effects: { budget: -8, audience: 15, satisfaction: 8, technology: 12 },
       consequence: 'Estratégia sustentada! Buzz inicial + retargeting converteu indecisos.',
       tip: '💡 Dica: Marketing escalonado mantém "top of mind" e otimiza conversões.'
     },
@@ -47,13 +47,13 @@ export const gameCards: GameCard[] = [
     description: '400 ingressos. Lotes progressivos: 1º R$ 80, 2º R$ 120, 3º R$ 150. Ou preço único R$ 100?',
     leftChoice: {
       text: 'Lotes R$ 80→120→150',
-      effects: { budget: 15, audience: 25, satisfaction: 5, technology: 10 },
+      effects: { budget: 12, audience: 20, satisfaction: 8, technology: 8 },
       consequence: 'Estratégia de urgência funcionou! Vendas explodiram no 1º lote. Total: R$ 44.000. Público se sentiu recompensado por comprar cedo.',
       tip: '💡 Dica: Lotes progressivos criam urgência de compra e recompensam clientes fiéis.'
     },
     rightChoice: {
       text: 'Preço único R$ 100',
-      effects: { budget: 0, audience: 10, satisfaction: 15, technology: 5 },
+      effects: { budget: 5, audience: 8, satisfaction: 12, technology: 3 },
       consequence: 'Vendas constantes, boa satisfação. Total: R$ 40.000. Perdeu oportunidade de criar urgência inicial.',
       tip: '💡 Dica: Preços fixos geram confiança, mas reduzem urgência de compra.'
     },
@@ -67,13 +67,13 @@ export const gameCards: GameCard[] = [
     description: 'Escolha sua plataforma de vendas. Sistema básico tradicional que só vende ingressos, ou plataforma completa que inclui criação de evento, marketing e análise de dados?',
     leftChoice: {
       text: 'Sistema básico tradicional',
-      effects: { budget: 5, audience: 5, satisfaction: 0, technology: 0 },
+      effects: { budget: 3, audience: 3, satisfaction: 0, technology: 0 },
       consequence: 'Sistema funcionou, mas você teve que fazer tudo manualmente. Vendas básicas, sem insights de marketing ou facilidades extras.',
       tip: '💡 Dica: Sistemas básicos funcionam, mas limitam seu potencial de crescimento.'
     },
     rightChoice: {
       text: 'Plataforma completa com marketing',
-      effects: { budget: 10, audience: 30, satisfaction: 25, technology: 35 },
+      effects: { budget: 8, audience: 25, satisfaction: 20, technology: 30 },
       consequence: 'Plataforma auxiliou muito! Criação automática de landing page, campanhas de email e relatórios de vendas. Vendas 60% maiores que o esperado.',
       tip: '💡 Dica: Plataformas completas oferecem ferramentas que potencializam seus resultados.'
     },
@@ -243,10 +243,10 @@ export const randomEvents = [
 ];
 
 export const INITIAL_METRICS = {
-  budget: 60,
-  audience: 50,
-  satisfaction: 50,
-  technology: 50
+  budget: 65,
+  audience: 55,
+  satisfaction: 55,
+  technology: 55
 };
 
 export const GAME_BADGES = {
