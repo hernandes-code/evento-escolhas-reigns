@@ -101,10 +101,10 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         )}
         
         {/* Card Header */}
-        <div className="text-center mb-4">
-          <div className="text-3xl mb-2">{card.icon}</div>
-          <h2 className="text-lg font-bold text-foreground mb-2">{card.title}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+        <div className="text-center mb-6">
+          <div className="text-4xl mb-4">{card.icon}</div>
+          <h2 className="text-xl font-bold text-foreground mb-3">{card.title}</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed px-4">
             {card.description}
           </p>
         </div>
@@ -115,19 +115,24 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
             onClick={() => handleChoice('left')}
             disabled={isAnimating}
             variant="outline"
-            className="min-h-12 h-auto py-3 px-4 text-left justify-start bg-secondary/50 border-border/30 hover:bg-secondary/70 text-foreground text-sm leading-tight whitespace-normal"
+            className="min-h-14 h-auto py-4 px-4 text-left justify-start bg-card border-border hover:border-primary/30 text-foreground text-sm leading-snug whitespace-normal break-words"
           >
-            <span className="mr-2 flex-shrink-0">👈</span>
-            <span className="flex-1">{card.leftChoice.text}</span>
+            <div className="flex flex-col items-start w-full">
+              <div className="text-xs font-medium text-primary mb-1">Opção A</div>
+              <div className="text-sm font-medium leading-snug break-words">{card.leftChoice.text}</div>
+            </div>
           </Button>
           
           <Button
             onClick={() => handleChoice('right')}
             disabled={isAnimating}
-            className="min-h-12 h-auto py-3 px-4 text-left justify-start bg-secondary/50 border-border/30 hover:bg-secondary/70 text-foreground text-sm leading-tight whitespace-normal"
+            variant="outline"
+            className="min-h-14 h-auto py-4 px-4 text-left justify-start bg-card border-border hover:border-primary/30 text-foreground text-sm leading-snug whitespace-normal break-words"
           >
-            <span className="mr-2 flex-shrink-0">👉</span>
-            <span className="flex-1">{card.rightChoice.text}</span>
+            <div className="flex flex-col items-start w-full">
+              <div className="text-xs font-medium text-primary mb-1">Opção B</div>
+              <div className="text-sm font-medium leading-snug break-words">{card.rightChoice.text}</div>
+            </div>
           </Button>
         </div>
 

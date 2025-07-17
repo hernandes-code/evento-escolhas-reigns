@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Badge } from './ui/badge';
-import { Share2, Copy, Check } from 'lucide-react';
+import { Share2, Download } from 'lucide-react';
+import logo from '../assets/logo.png';
+import badgeTechMaster from '../assets/badge-tech-master.png';
+import badgeBudgetWizard from '../assets/badge-budget-wizard.png';
+import badgeCrowdPleaser from '../assets/badge-crowd-pleaser.png';
+import badgeSatisfactionGuru from '../assets/badge-satisfaction-guru.png';
+import badgeRiskTaker from '../assets/badge-risk-taker.png';
+import badgeStrategicMind from '../assets/badge-strategic-mind.png';
+import badgeCrisisManager from '../assets/badge-crisis-manager.png';
+import badgeDigitalNative from '../assets/badge-digital-native.png';
 
 interface BadgeCompletionModalProps {
   isVisible: boolean;

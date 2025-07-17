@@ -47,39 +47,39 @@ export const gameCards: GameCard[] = [
     description: '400 ingressos. Lotes progressivos: 1º R$ 80, 2º R$ 120, 3º R$ 150. Ou preço único R$ 100?',
     leftChoice: {
       text: 'Lotes R$ 80→120→150',
-      effects: { budget: 5, audience: 20, satisfaction: -5, technology: 10 },
-      consequence: 'Vendas rápidas no 1º lote, reclamações no 3º. Total: R$ 44.000. Urgência efetiva.',
-      tip: '💡 Dica: Lotes progressivos aumentam urgência, mas podem gerar insatisfação.'
+      effects: { budget: 15, audience: 25, satisfaction: 5, technology: 10 },
+      consequence: 'Estratégia de urgência funcionou! Vendas explodiram no 1º lote. Total: R$ 44.000. Público se sentiu recompensado por comprar cedo.',
+      tip: '💡 Dica: Lotes progressivos criam urgência de compra e recompensam clientes fiéis.'
     },
     rightChoice: {
       text: 'Preço único R$ 100',
       effects: { budget: 0, audience: 10, satisfaction: 15, technology: 5 },
-      consequence: 'Vendas constantes, boa satisfação. Total: R$ 40.000. Sem urgência inicial.',
+      consequence: 'Vendas constantes, boa satisfação. Total: R$ 40.000. Perdeu oportunidade de criar urgência inicial.',
       tip: '💡 Dica: Preços fixos geram confiança, mas reduzem urgência de compra.'
     },
     icon: '💰',
-    educationalContent: 'Lotes aumentam vendas antecipadas em 45%, mas devem ser bem comunicados.',
-    points: { left: 20, right: 15 }
+    educationalContent: 'Lotes aumentam vendas antecipadas em 45% e criam sensação de exclusividade.',
+    points: { left: 25, right: 15 }
   },
   {
     id: 'technology-choice',
-    title: 'Investimento em Tecnologia',
-    description: 'Você tem R$ 8.000 para tecnologia. Pode investir em: App próprio (R$ 8.000) com funcionalidades completas, ou dividir entre QR Code check-in (R$ 3.000) + Live streaming (R$ 5.000).',
+    title: 'Sistema de Vendas',
+    description: 'Escolha sua plataforma de vendas. Sistema básico tradicional que só vende ingressos, ou plataforma completa que inclui criação de evento, marketing e análise de dados?',
     leftChoice: {
-      text: 'App próprio completo (R$ 8.000)',
-      effects: { budget: -20, audience: 10, satisfaction: 25, technology: 35 },
-      consequence: 'App funcionou perfeitamente! Networking aumentou 300%, satisfação alta. Porém, apenas 40% baixaram antes do evento.',
-      tip: '💡 Dica: Apps próprios oferecem experiência premium, mas dependem de adoção prévia.'
+      text: 'Sistema básico tradicional',
+      effects: { budget: 5, audience: 5, satisfaction: 0, technology: 0 },
+      consequence: 'Sistema funcionou, mas você teve que fazer tudo manualmente. Vendas básicas, sem insights de marketing ou facilidades extras.',
+      tip: '💡 Dica: Sistemas básicos funcionam, mas limitam seu potencial de crescimento.'
     },
     rightChoice: {
-      text: 'QR Check-in (R$ 3.000) + Live Streaming (R$ 5.000)',
-      effects: { budget: -20, audience: 35, satisfaction: 15, technology: 25 },
-      consequence: 'Check-in em 30 segundos, zero filas! Live atingiu 2.000 pessoas online. Soluções simples com alto impacto.',
-      tip: '💡 Dica: Tecnologias focadas resolvem problemas específicos e têm adoção mais rápida.'
+      text: 'Plataforma completa com marketing',
+      effects: { budget: 10, audience: 30, satisfaction: 25, technology: 35 },
+      consequence: 'Plataforma auxiliou muito! Criação automática de landing page, campanhas de email e relatórios de vendas. Vendas 60% maiores que o esperado.',
+      tip: '💡 Dica: Plataformas completas oferecem ferramentas que potencializam seus resultados.'
     },
-    icon: '📱',
-    educationalContent: 'Eventos híbridos (presencial + online) alcançam 3x mais pessoas e geram 40% mais leads qualificados.',
-    points: { left: 25, right: 35 }
+    icon: '🎫',
+    educationalContent: 'Plataformas completas aumentam vendas em até 60% comparado a sistemas básicos.',
+    points: { left: 10, right: 30 }
   },
   {
     id: 'payment-strategy',
@@ -183,23 +183,23 @@ export const gameCards: GameCard[] = [
   },
   {
     id: 'final-decision',
-    title: 'Decisão Final: Expansão',
-    description: 'Seu evento foi um sucesso! Você pode: usar o lucro para fazer uma 2ª edição maior no mesmo ano, ou guardar para investir em tecnologia e fazer uma edição ainda melhor no próximo ano.',
+    title: 'Pós-Evento: Próximos Passos',
+    description: 'Seu evento foi um sucesso! Agora você pode: coletar feedback detalhado dos participantes para melhorar o próximo evento, ou já começar a planejar e divulgar o próximo evento para aproveitar o momentum.',
     leftChoice: {
-      text: '2ª edição ainda este ano',
-      effects: { budget: -25, audience: 20, satisfaction: 5, technology: -10 },
-      consequence: 'Acelerou demais! Segunda edição teve problemas de organização. Público comparou com a primeira e ficou decepcionado.',
-      tip: '💡 Dica: Crescimento rápido pode comprometer qualidade e reputação.'
+      text: 'Coletar feedback e analisar dados',
+      effects: { budget: 5, audience: 15, satisfaction: 30, technology: 25 },
+      consequence: 'Análise revelou insights valiosos! Descobriu pontos de melhoria que aumentarão satisfação em 40% no próximo evento. Base sólida para crescimento.',
+      tip: '💡 Dica: Dados do evento anterior são o segredo para eventos cada vez melhores.'
     },
     rightChoice: {
-      text: 'Investir em tecnologia para próximo ano',
-      effects: { budget: 15, audience: 30, satisfaction: 30, technology: 40 },
-      consequence: 'Paciência recompensada! Próxima edição com tecnologia avançada virou referência. Construiu uma marca sólida.',
-      tip: '💡 Dica: Crescimento sustentado constrói marcas duradouras.'
+      text: 'Já iniciar planejamento do próximo evento',
+      effects: { budget: 10, audience: 25, satisfaction: 5, technology: 0 },
+      consequence: 'Momentum aproveitado, vendas antecipadas boas! Porém, repetiu alguns erros do evento anterior que poderiam ter sido evitados.',
+      tip: '💡 Dica: Pressa pode fazer você repetir erros que dados mostrariam como evitar.'
     },
-    icon: '🎯',
-    educationalContent: 'Eventos que investem em tecnologia entre edições têm 70% mais chances de se tornarem referência no setor.',
-    points: { left: 15, right: 35 }
+    icon: '📊',
+    educationalContent: 'Produtores que analisam dados entre eventos têm 70% mais chances de criar eventos de referência.',
+    points: { left: 35, right: 20 }
   }
 ];
 
