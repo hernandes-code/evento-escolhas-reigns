@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { GameCard as GameCardType, SwipeDirection } from '../types/game';
-import { Button } from './ui/button';
 import styles from './GameCard.module.css';
 
 interface GameCardProps {
@@ -112,27 +111,22 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
 
         {/* Choices */}
         <div className="flex-1 flex flex-col justify-end space-y-3">
-          <Button
+          <button
+            className={styles.choiceButton}
             onClick={() => handleChoice('left')}
             disabled={isAnimating}
-            className={styles.choiceButton}
           >
-            <div className="flex flex-col items-start w-full">
-              <div className="text-xs font-medium text-primary mb-1">Opção A</div>
-              <div className="text-sm font-medium leading-snug break-words">{card.leftChoice.text}</div>
-            </div>
-          </Button>
-          
-          <Button
+            <span className={styles.choiceLabel}>Opção A</span>
+            <span className={styles.choiceText}>{card.leftChoice.text}</span>
+          </button>
+          <button
+            className={styles.choiceButton}
             onClick={() => handleChoice('right')}
             disabled={isAnimating}
-            className={styles.choiceButton}
           >
-            <div className="flex flex-col items-start w-full">
-              <div className="text-xs font-medium text-primary mb-1">Opção B</div>
-              <div className="text-sm font-medium leading-snug break-words">{card.rightChoice.text}</div>
-            </div>
-          </Button>
+            <span className={styles.choiceLabel}>Opção B</span>
+            <span className={styles.choiceText}>{card.rightChoice.text}</span>
+          </button>
         </div>
 
         {/* Swipe Hints */}

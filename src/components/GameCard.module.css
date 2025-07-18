@@ -1,31 +1,48 @@
+
 .choiceButton {
-  background: #007aff;
-  color: #fff;
+  background: #f2f3f7;
+  color: #2d3142;
   border: none;
-  border-radius: 12px;
-  padding: 14px 28px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 1.09rem;
   margin: 10px 0;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.18s, transform 0.08s, box-shadow 0.18s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 6px rgba(60,60,60,0.08);
+  transition: background 0.18s, transform 0.09s, box-shadow 0.19s;
   font-weight: 500;
-  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .choiceButton:hover:not(:disabled) {
-  background: #005fcc;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.14);
-  transform: scale(1.025);
+  background: #e0e2e8;
+  box-shadow: 0 4px 18px rgba(60,60,60,0.14);
+  transform: scale(1.017);
 }
 
 .choiceButton:active:not(:disabled) {
-  background: #003e8a;
-  transform: scale(0.96);
+  background: #d1d4db;
+  transform: scale(0.97);
 }
 
 .choiceButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.choiceLabel {
+  font-size: 0.85rem;
+  color: #9698a6;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.choiceText {
+  font-size: 1.11rem;
+  color: #222;
+  font-weight: 600;
 }
