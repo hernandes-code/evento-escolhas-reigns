@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { GameCard as GameCardType, SwipeDirection } from '../types/game';
 import { Button } from './ui/button';
+import styles from './GameCard.module.css';
 
 interface GameCardProps {
   card: GameCardType;
@@ -114,8 +115,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
           <Button
             onClick={() => handleChoice('left')}
             disabled={isAnimating}
-            variant="outline"
-            className="min-h-14 h-auto py-4 px-4 text-left justify-start bg-card border-border hover:border-primary/30 text-foreground text-sm leading-snug whitespace-normal break-words"
+            className={styles.choiceButton}
           >
             <div className="flex flex-col items-start w-full">
               <div className="text-xs font-medium text-primary mb-1">Opção A</div>
@@ -126,8 +126,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
           <Button
             onClick={() => handleChoice('right')}
             disabled={isAnimating}
-            variant="outline"
-            className="min-h-14 h-auto py-4 px-4 text-left justify-start bg-card border-border hover:border-primary/30 text-foreground text-sm leading-snug whitespace-normal break-words"
+            className={styles.choiceButton}
           >
             <div className="flex flex-col items-start w-full">
               <div className="text-xs font-medium text-primary mb-1">Opção B</div>
