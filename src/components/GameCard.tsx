@@ -16,49 +16,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
   const startX = useRef(0);
   const isDragging = useRef(false);
 
-  const handleChoice = (choice: 'left' | 'right') => {
-    if (isAnimating) return;
-    
-    setIsAnimating(true);
-    setSwipeDirection(choice);
-    setDragOffset(0);
-    
-    const selectedChoice = choice === 'left' ? card.leftChoice : card.rightChoice;
-    
-    setTimeout(() => {
-      onChoice(choice, selectedChoice.effects, selectedChoice.consequence);
-      setSwipeDirection(null);
-      setIsAnimating(false);
-    }, 300);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (isAnimating) return;
-    startX.current = e.touches[0].clientX;
-    isDragging.current = true;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current || isAnimating) return;
-    
-    const currentX = e.touches[0].clientX;
-    const diff = currentX - startX.current;
-    setDragOffset(diff);
-  };
-
-  const handleTouchEnd = () => {
-    if (!isDragging.current || isAnimating) return;
-    
-    isDragging.current = false;
-    
-    const threshold = 100;
-    if (Math.abs(dragOffset) > threshold) {
-      const choice = dragOffset > 0 ? 'right' : 'left';
-      handleChoice(choice);
-    } else {
-      setDragOffset(0);
-    }
-  };
+  // ...existing code...
 
   const getCardStyle = () => {
     if (swipeDirection) return {};
@@ -110,13 +68,13 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         </div>
 
         {/* Choices */}
-        <div className="flex-1 flex flex-col justify-end space-y-3">
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', marginTop: '8px', marginBottom: '8px' }}>
           {[card.leftChoice, card.rightChoice].map((option, index) => (
             <button
               key={index}
               className={styles.choiceButton}
+              style={{ maxWidth: '340px', width: '100%' }}
               onClick={() => handleChoice(index === 0 ? 'left' : 'right')}
-              // Removido disabled para evitar bloqueio visual desnecessário
             >
               <span className={styles.choiceLabel}>
                 {`Opção ${index === 0 ? "A" : "B"}`}

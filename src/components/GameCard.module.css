@@ -7,42 +7,45 @@
   color: #f46b2a;
   border: 1.5px solid #ffd7b3;
   border-radius: 14px;
-  padding: 16px 18px;
-  margin: 10px 0;
+  padding: 12px 12px;
+  margin: 8px 0;
   cursor: pointer;
-  box-shadow: 0 4px 24px rgba(244,107,42,0.09);
-  font-size: 1.09rem;
+  box-shadow: 0 2px 16px rgba(244,107,42,0.08);
+  font-size: 1rem;
   font-family: inherit;
   font-weight: 600;
   width: 100%;
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 4px;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
   transition:
     border-color 0.18s,
     background 0.19s,
     box-shadow 0.19s,
     transform 0.11s;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .choiceLabel {
-  font-size: 0.97rem;
+  font-size: 0.93rem;
   color: #b8b8b8;
   font-weight: 500;
   letter-spacing: 0.04em;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   display: block;
 }
 
 .choiceText {
-  font-size: 1.13rem;
+  font-size: 1.07rem;
   color: #f46b2a;
   font-weight: 700;
-  line-height: 1.35;
-  margin-top: 2px;
+  line-height: 1.28;
+  margin-top: 1px;
   letter-spacing: 0;
   display: block;
 }
@@ -68,10 +71,10 @@
 
 @media (max-width: 600px) {
   .choiceButton {
-    padding: 12px 8px;
-    font-size: 0.97rem;
+    padding: 9px 6px;
+    font-size: 0.93rem;
   }
   .choiceText {
-    font-size: 1.01rem;
+    font-size: 0.97rem;
   }
 }
