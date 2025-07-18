@@ -3,14 +3,16 @@ import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Share2, Download, Check } from 'lucide-react';
 import logo from '../assets/logo.png';
-import badgeTechMaster from '../assets/badge-tech-master.png';
-import badgeBudgetWizard from '../assets/badge-budget-wizard.png';
-import badgeCrowdPleaser from '../assets/badge-crowd-pleaser.png';
-import badgeSatisfactionGuru from '../assets/badge-satisfaction-guru.png';
-import badgeRiskTaker from '../assets/badge-risk-taker.png';
-import badgeStrategicMind from '../assets/badge-strategic-mind.png';
-import badgeCrisisManager from '../assets/badge-crisis-manager.png';
-import badgeDigitalNative from '../assets/badge-digital-native.png';
+// Imagens 3D dos personagens customizados
+import badgeMaoDeVaca from '../assets/badges/mao-de-vaca.png';
+import badgeArrastaMultidao from '../assets/badges/arrasta-multidao.png';
+import badgeMestreDoSorriso from '../assets/badges/mestre-do-sorriso.png';
+import badgeTechnoGuru from '../assets/badges/techno-guru.png';
+import badgeImprovisador from '../assets/badges/improvisador.png';
+import badgePixzeiro from '../assets/badges/pixzeiro.png';
+import badgeInfluencer from '../assets/badges/influencer.png';
+import badgeRaiz from '../assets/badges/raiz.png';
+import badgeAventureiro from '../assets/badges/aventureiro.png';
 
 interface BadgeCompletionModalProps {
   isVisible: boolean;
@@ -30,72 +32,78 @@ export default function BadgeCompletionModal({
   const [copied, setCopied] = useState(false);
 
   const badgeDetails = {
-    TECH_MASTER: {
-      name: 'Mestre da Tecnologia',
-      description: 'Você priorizou soluções tecnológicas em suas decisões',
-      icon: '🔧',
-      message: 'Parabéns! Você demonstrou visão estratégica para tecnologia em eventos.',
-      image: badgeTechMaster
+    'mao-de-vaca': {
+      name: 'Mão de Vaca',
+      description: 'Economizou até no cafezinho!',
+      icon: '�',
+      message: 'Você é o mestre da economia!'
+      , image: badgeMaoDeVaca
     },
-    BUDGET_WIZARD: {
-      name: 'Mago do Orçamento',
-      description: 'Terminou o jogo com excelente controle financeiro',
-      icon: '💰',
-      message: 'Impressionante! Você tem talento natural para gestão financeira.',
-      image: badgeBudgetWizard
+    'arrasta-multidao': {
+      name: 'Arrasta Multidão',
+      description: 'Trouxe até o vizinho pro evento!',
+      icon: '🎉',
+      message: 'Seu evento foi um sucesso de público!',
+      image: badgeArrastaMultidao
     },
-    CROWD_PLEASER: {
-      name: 'Conquistador de Multidões',
-      description: 'Manteve alta audiência durante todo o evento',
-      icon: '👥',
-      message: 'Fantástico! Você sabe como atrair e manter seu público.',
-      image: badgeCrowdPleaser
+    'mestre-do-sorriso': {
+      name: 'Mestre do Sorriso',
+      description: 'Todo mundo saiu feliz e relaxado!',
+      icon: '�',
+      message: 'Você garantiu a felicidade geral!',
+      image: badgeMestreDoSorriso
     },
-    SATISFACTION_GURU: {
-      name: 'Guru da Satisfação',
-      description: 'Priorizou sempre a experiência do cliente',
-      icon: '⭐',
-      message: 'Excelente! Você entende o que faz um evento memorável.',
-      image: badgeSatisfactionGuru
+    'techno-guru': {
+      name: 'Techno Guru',
+      description: 'Usou até drone pra servir salgadinho!',
+      icon: '🤖',
+      message: 'Você é o rei da tecnologia!',
+      image: badgeTechnoGuru
     },
-    RISK_TAKER: {
-      name: 'Tomador de Riscos',
-      description: 'Ousou em momentos decisivos e deu certo',
-      icon: '🎲',
-      message: 'Corajoso! Você tem o perfil empreendedor ideal.',
-      image: badgeRiskTaker
+    'improvisador': {
+      name: 'Improvisador',
+      description: 'Resolve tudo no improviso!',
+      icon: '�',
+      message: 'Você faz milagre com pouco!',
+      image: badgeImprovisador
     },
-    STRATEGIC_MIND: {
-      name: 'Mente Estratégica',
-      description: 'Demonstrou pensamento estratégico excepcional',
-      icon: '🧠',
-      message: 'Brilhante! Você tem potencial para grandes eventos.',
-      image: badgeStrategicMind
+    'pixzeiro': {
+      name: 'Pixzeiro',
+      description: 'Só aceita Pix, sem conversa!',
+      icon: '💳',
+      message: 'Pix é vida!'
+      , image: badgePixzeiro
     },
-    CRISIS_MANAGER: {
-      name: 'Gestor de Crises',
-      description: 'Transformou problemas em oportunidades',
-      icon: '🚨',
-      message: 'Impressionante! Você tem sangue frio para situações difíceis.',
-      image: badgeCrisisManager
-    },
-    DIGITAL_NATIVE: {
-      name: 'Nativo Digital',
-      description: 'Abraçou soluções digitais modernas',
+    'influencer': {
+      name: 'Influencer',
+      description: 'Virou trend no TikTok!',
       icon: '📱',
-      message: 'Perfeito! Você entende o futuro dos eventos.',
-      image: badgeDigitalNative
-    }
+      message: 'Você é o rei das redes sociais!',
+      image: badgeInfluencer
+    },
+    'raiz': {
+      name: 'Raiz',
+      description: 'Não abre mão do papel e caneta!',
+      icon: '�',
+      message: 'Old school é o seu estilo!',
+      image: badgeRaiz
+    },
+    'aventureiro': {
+      name: 'Aventureiro',
+      description: 'Vive no limite, sem medo de errar!',
+      icon: '�️',
+      message: 'Você é destemido e ousado!',
+      image: badgeAventureiro
+    },
   };
 
   const shareText = `🎉 Acabei de completar o desafio do Produtor de Eventos!
 
-${badges.length > 0 ? `Conquistei ${badges.length} badge${badges.length > 1 ? 's' : ''}:
-${badges.map(badge => `${badgeDetails[badge as keyof typeof badgeDetails]?.icon} ${badgeDetails[badge as keyof typeof badgeDetails]?.name}`).join('\n')}
+${badges.length > 0 ? `Recebi a badge: ${badgeDetails[badges[0]]?.icon} ${badgeDetails[badges[0]]?.name} - ${badgeDetails[badges[0]]?.description}
+` : ''}
+💯 Pontuação final: ${totalPoints}
 
-` : ''}💯 Pontuação final: ${totalPoints}
-
-Você também produz eventos? Teste suas habilidades: [LINK_DO_JOGO]
+Descubra seu estilo de produtor e compartilhe também: [LINK_DO_JOGO]
 
 #EventosDigitais #ProducaoEventos #Gamificacao`;
 
@@ -132,23 +140,26 @@ Você também produz eventos? Teste suas habilidades: [LINK_DO_JOGO]
             <div className="text-center">
               <div className="mb-4">
                 <img 
-                  src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
-                  alt={badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
+                  src={badgeDetails[badges[0]]?.image} 
+                  alt={badgeDetails[badges[0]]?.name}
                   className="w-32 h-32 mx-auto object-contain"
                 />
               </div>
               <h3 className="text-lg font-bold text-foreground mb-2">
-                {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
+                {badgeDetails[badges[0]]?.name}
               </h3>
+              <p className="text-sm text-muted-foreground mb-1">
+                {badgeDetails[badges[0]]?.description}
+              </p>
               <p className="text-sm text-muted-foreground mb-3">
-                {badgeDetails[badges[0] as keyof typeof badgeDetails]?.message}
+                {badgeDetails[badges[0]]?.message}
               </p>
               <div className="text-center">
                 <p className="text-lg font-semibold text-primary mb-2">
                   {totalPoints} pontos
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Você consegue fazer um evento melhor?
+                  Compartilhe seu estilo de produtor!
                 </p>
               </div>
             </div>
