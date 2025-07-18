@@ -15,10 +15,13 @@
   font-family: inherit;
   font-weight: 600;
   width: 100%;
-  max-width: 100%;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   gap: 2px;
   transition:
@@ -71,8 +74,9 @@
 
 @media (max-width: 600px) {
   .choiceButton {
-    padding: 9px 6px;
+    padding: 8px 4px;
     font-size: 0.93rem;
+    max-width: 98vw;
   }
   .choiceText {
     font-size: 0.97rem;
