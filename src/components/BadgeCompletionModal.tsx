@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Share2, Download, Check } from 'lucide-react';
+import { Share2, Download } from 'lucide-react';
 import logo from '../assets/logo.png';
-// Imagens 3D dos personagens customizados
-import badgeMaoDeVaca from '../assets/badges/mao-de-vaca.png';
-import badgeArrastaMultidao from '../assets/badges/arrasta-multidao.png';
-import badgeMestreDoSorriso from '../assets/badges/mestre-do-sorriso.png';
-import badgeTechnoGuru from '../assets/badges/techno-guru.png';
-import badgeImprovisador from '../assets/badges/improvisador.png';
-import badgePixzeiro from '../assets/badges/pixzeiro.png';
-import badgeInfluencer from '../assets/badges/influencer.png';
-import badgeRaiz from '../assets/badges/raiz.png';
-import badgeAventureiro from '../assets/badges/aventureiro.png';
+
+// Imagens dos badges
+import badgeMaoDeVaca from '../assets/badge-budget-wizard.png';
+import badgeArrastaMultidao from '../assets/badge-crowd-pleaser.png';
+import badgeMestreDoSorriso from '../assets/badge-satisfaction-guru.png';
+import badgeTechnoGuru from '../assets/badge-tech-master.png';
+import badgeImprovisador from '../assets/badge-crisis-manager.png';
+import badgeNativoCriativo from '../assets/badge-digital-native.png';
+import badgeInfluencer from '../assets/badge-strategic-mind.png';
+import badgeInovador from '../assets/badge-risk-taker.png';
 
 interface BadgeCompletionModalProps {
   isVisible: boolean;
@@ -22,169 +22,172 @@ interface BadgeCompletionModalProps {
   onEbookClick: () => void;
 }
 
-export default function BadgeCompletionModal({ 
-  isVisible, 
-  badges, 
-  totalPoints, 
+interface BadgeDetails {
+  name: string;
+  description: string;
+  icon: string;
+  message: string;
+  image: string;
+}
+
+interface BadgeDictionary {
+  [key: string]: BadgeDetails;
+}
+
+export default function BadgeCompletionModal({
+  isVisible,
+  badges,
+  totalPoints,
   onClose,
   onEbookClick
 }: BadgeCompletionModalProps) {
   const [copied, setCopied] = useState(false);
 
-  const badgeDetails = {
-    'mao-de-vaca': {
-      name: 'Mão de Vaca',
-      description: 'Economizou até no cafezinho!',
-      icon: '�',
-      message: 'Você é o mestre da economia!'
-      , image: badgeMaoDeVaca
+  const badgeDetails: BadgeDictionary = {
+    'budget-wizard': {
+      name: 'Mestre do Orçamento',
+      description: 'Economizou sem comprometer a qualidade!',
+      icon: '💰',
+      message: 'Você é o mestre da gestão financeira!',
+      image: badgeMaoDeVaca
     },
-    'arrasta-multidao': {
-      name: 'Arrasta Multidão',
-      description: 'Trouxe até o vizinho pro evento!',
+    'crowd-pleaser': {
+      name: 'Atrai Multidões',
+      description: 'Seu evento foi um sucesso de público!',
       icon: '🎉',
-      message: 'Seu evento foi um sucesso de público!',
+      message: 'Você sabe como engajar o público!',
       image: badgeArrastaMultidao
     },
-    'mestre-do-sorriso': {
-      name: 'Mestre do Sorriso',
-      description: 'Todo mundo saiu feliz e relaxado!',
-      icon: '�',
-      message: 'Você garantiu a felicidade geral!',
+    'satisfaction-guru': {
+      name: 'Guru da Satisfação',
+      description: 'Todos saíram felizes e satisfeitos!',
+      icon: '😁',
+      message: 'Você é expert em satisfação do cliente!',
       image: badgeMestreDoSorriso
     },
-    'techno-guru': {
-      name: 'Techno Guru',
-      description: 'Usou até drone pra servir salgadinho!',
+    'tech-master': {
+      name: 'Mestre da Tecnologia',
+      description: 'Inovou com soluções tecnológicas!',
       icon: '🤖',
-      message: 'Você é o rei da tecnologia!',
+      message: 'Você domina a tecnologia!',
       image: badgeTechnoGuru
     },
-    'improvisador': {
-      name: 'Improvisador',
-      description: 'Resolve tudo no improviso!',
-      icon: '�',
-      message: 'Você faz milagre com pouco!',
+    'crisis-manager': {
+      name: 'Gestor de Crises',
+      description: 'Resolve qualquer imprevisto!',
+      icon: '🛠️',
+      message: 'Você é expert em gestão de crises!',
       image: badgeImprovisador
     },
-    'pixzeiro': {
-      name: 'Pixzeiro',
-      description: 'Só aceita Pix, sem conversa!',
-      icon: '💳',
-      message: 'Pix é vida!'
-      , image: badgePixzeiro
+    'digital-native': {
+      name: 'Nativo Digital',
+      description: 'Domina as ferramentas digitais!',
+      icon: '💻',
+      message: 'Você é um verdadeiro nativo digital!',
+      image: badgeNativoCriativo
     },
-    'influencer': {
-      name: 'Influencer',
-      description: 'Virou trend no TikTok!',
-      icon: '📱',
-      message: 'Você é o rei das redes sociais!',
+    'strategic-mind': {
+      name: 'Mente Estratégica',
+      description: 'Planeja cada detalhe com precisão!',
+      icon: '🎯',
+      message: 'Você é um estrategista nato!',
       image: badgeInfluencer
     },
-    'raiz': {
-      name: 'Raiz',
-      description: 'Não abre mão do papel e caneta!',
-      icon: '�',
-      message: 'Old school é o seu estilo!',
-      image: badgeRaiz
-    },
-    'aventureiro': {
-      name: 'Aventureiro',
-      description: 'Vive no limite, sem medo de errar!',
-      icon: '�️',
-      message: 'Você é destemido e ousado!',
-      image: badgeAventureiro
-    },
+    'risk-taker': {
+      name: 'Tomador de Riscos',
+      description: 'Ousa inovar e se destaca!',
+      icon: '🚀',
+      message: 'Você é um verdadeiro inovador!',
+      image: badgeInovador
+    }
   };
 
-  const shareText = `🎉 Acabei de completar o desafio do Produtor de Eventos!
+  const badge = badges[0] ? badgeDetails[badges[0]] : undefined;
 
-${badges.length > 0 ? `Recebi a badge: ${badgeDetails[badges[0]]?.icon} ${badgeDetails[badges[0]]?.name} - ${badgeDetails[badges[0]]?.description}
-` : ''}
-💯 Pontuação final: ${totalPoints}
+  const shareText = `🎉 Acabei de completar o Evento Escolhas!
 
-Descubra seu estilo de produtor e compartilhe também: [LINK_DO_JOGO]
+${badge ? `Conquistei a insignia: ${badge.icon} ${badge.name} - ${badge.description}` : ''}
 
-#EventosDigitais #ProducaoEventos #Gamificacao`;
+Descubra seu estilo de gestor e compartilhe também: ${window.location.href}
+#GestãoEventos #EventosCorporativos #InovaçãoEmEventos`;
 
-  const handleShare = async () => {
+  const handleShareBadge = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Desafio do Produtor de Eventos',
-          text: shareText,
+          title: 'Minha Badge do Evento Escolhas',
+          text: shareText
         });
-      } catch (error) {
-        console.log('Erro ao compartilhar:', error);
+      } catch (err) {
+        console.error('Erro ao compartilhar:', err);
       }
     } else {
-      // Fallback para desktop
-      navigator.clipboard.writeText(shareText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(shareText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Erro ao copiar para clipboard:', err);
+      }
     }
   };
 
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent className="max-w-md mx-auto bg-background border-border">
+      <DialogContent className="sm:max-w-[425px] text-center p-6">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold text-foreground">
-            🎉 Parabéns!
+          <img src={logo} alt="Logo" className="w-32 mx-auto mb-4" />
+          <DialogTitle className="text-2xl font-bold text-center mb-4">
+            Parabéns! 🎉
           </DialogTitle>
         </DialogHeader>
-        
-        <div className="space-y-6">
-          {/* Badge principal */}
-          {badges.length > 0 && (
-            <div className="text-center">
+
+        <div className="mt-4">
+          {badge && (
+            <div className="mb-6">
               <div className="mb-4">
                 <img 
-                  src={badgeDetails[badges[0]]?.image} 
-                  alt={badgeDetails[badges[0]]?.name}
-                  className="w-32 h-32 mx-auto object-contain"
+                  src={badge.image}
+                  alt={badge.name}
+                  className="w-32 h-32 mx-auto object-contain drop-shadow-lg rounded-full border-4 border-primary"
                 />
               </div>
               <h3 className="text-lg font-bold text-foreground mb-2">
-                {badgeDetails[badges[0]]?.name}
+                {badge.icon} {badge.name}
               </h3>
               <p className="text-sm text-muted-foreground mb-1">
-                {badgeDetails[badges[0]]?.description}
+                {badge.description}
               </p>
-              <p className="text-sm text-muted-foreground mb-3">
-                {badgeDetails[badges[0]]?.message}
+              <p className="text-base font-semibold text-primary mb-3">
+                {badge.message}
               </p>
               <div className="text-center">
                 <p className="text-lg font-semibold text-primary mb-2">
                   {totalPoints} pontos
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Compartilhe seu estilo de produtor!
+                  Compartilhe seu estilo de gestor!
                 </p>
               </div>
             </div>
           )}
 
-          {/* Botões */}
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-3 mt-4">
             <Button
-              onClick={handleShare}
-              className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
+              onClick={handleShareBadge}
+              className="w-full py-4 text-lg font-bold flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-lg"
+              style={{ fontSize: '1.2rem' }}
             >
-              {copied ? (
-                <Check className="w-4 h-4 mr-2" />
-              ) : (
-                <Share2 className="w-4 h-4 mr-2" />
-              )}
-              {copied ? 'Copiado!' : 'Compartilhar'}
+              <Share2 className="w-6 h-6 mr-3" />
+              {copied ? 'Copiado!' : 'Compartilhar minha badge'}
             </Button>
-            
             <Button
               onClick={onEbookClick}
               variant="outline"
-              className="flex-1"
+              className="w-full py-4 text-lg font-bold rounded-lg"
             >
-              Receber ebook
+              <Download className="w-6 h-6 mr-3" />
+              Baixar material complementar
             </Button>
           </div>
         </div>

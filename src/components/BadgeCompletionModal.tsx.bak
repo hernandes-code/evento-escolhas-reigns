@@ -1,0 +1,321 @@
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
+import { Share2, Download } from 'lucide-react';
+import logo from '../assets/logo.png';
+
+// Imagens dos badges
+import badgeMaoDeVaca from '../assets/badge-budget-wizard.png';
+import badgeArrastaMultidao from '../assets/badge-crowd-pleaser.png';
+import badgeMestreDoSorriso from '../assets/badge-satisfaction-guru.png';
+import badgeTechnoGuru from '../assets/badge-tech-master.png';
+import badgeImprovisador from '../assets/badge-crisis-manager.png';
+import badgeNativoCriativo from '../assets/badge-digital-native.png';
+import badgeInfluencer from '../assets/badge-strategic-mind.png';
+import badgeInovador from '../assets/badge-risk-taker.png';
+
+interface BadgeCompletionModalProps {
+  isVisible: boolean;
+  badges: string[];
+  totalPoints: number;
+  onClose: () => void;
+  onEbookClick: () => void;
+}
+
+interface BadgeDetails {
+  name: string;
+  description: string;
+  icon: string;
+  message: string;
+  image: string;
+}
+
+interface BadgeDictionary {
+  [key: string]: BadgeDetails;
+}
+
+export default function BadgeCompletionModal({
+  isVisible,
+  badges,
+  totalPoints,
+  onClose,
+  onEbookClick
+}: BadgeCompletionModalProps) {
+  const [copied, setCopied] = useState(false);
+
+  const badgeDetails: BadgeDictionary = {
+    'budget-wizard': {
+      name: 'Mestre do Orçamento',
+      description: 'Economizou sem comprometer a qualidade!',
+      icon: '💰',
+      message: 'Você é o mestre da gestão financeira!',
+      image: badgeMaoDeVaca
+    },
+    'crowd-pleaser': {
+      name: 'Atrai Multidões',
+      description: 'Seu evento foi um sucesso de público!',
+      icon: '🎉',
+      message: 'Você sabe como engajar o público!',
+      image: badgeArrastaMultidao
+    },
+    'satisfaction-guru': {
+      name: 'Guru da Satisfação',
+      description: 'Todos saíram felizes e satisfeitos!',
+      icon: '😁',
+      message: 'Você é expert em satisfação do cliente!',
+      image: badgeMestreDoSorriso
+    },
+    'tech-master': {
+      name: 'Mestre da Tecnologia',
+      description: 'Inovou com soluções tecnológicas!',
+      icon: '🤖',
+      message: 'Você domina a tecnologia!',
+      image: badgeTechnoGuru
+    },
+    'crisis-manager': {
+      name: 'Gestor de Crises',
+      description: 'Resolve qualquer imprevisto!',
+      icon: '🛠️',
+      message: 'Você é expert em gestão de crises!',
+      image: badgeImprovisador
+    },
+    'digital-native': {
+      name: 'Nativo Digital',
+      description: 'Domina as ferramentas digitais!',
+      icon: '💻',
+      message: 'Você é um verdadeiro nativo digital!',
+      image: badgeNativoCriativo
+    },
+    'strategic-mind': {
+      name: 'Mente Estratégica',
+      description: 'Planeja cada detalhe com precisão!',
+      icon: '🎯',
+      message: 'Você é um estrategista nato!',
+      image: badgeInfluencer
+    },
+    'risk-taker': {
+      name: 'Tomador de Riscos',
+      description: 'Ousa inovar e se destaca!',
+      icon: '🚀',
+      message: 'Você é um verdadeiro inovador!',
+      image: badgeInovador
+    }
+  };
+  onEbookClick
+}: BadgeCompletionModalProps) {
+  const [copied, setCopied] = useState(false);
+
+  const badgeDetails = {
+    'mao-de-vaca': {
+      name: 'Mestre do Orçamento',
+      description: 'Economizou sem comprometer a qualidade!',
+      icon: '💰',
+      message: 'Você é o mestre da gestão financeira!',
+      image: badgeMaoDeVaca
+    },
+    'arrasta-multidao': {
+      name: 'Atrai Multidões',
+      description: 'Seu evento foi um sucesso de público!',
+      icon: '🎉',
+      message: 'Você sabe como engajar o público!',
+      image: badgeArrastaMultidao
+    },
+    'mestre-do-sorriso': {
+      name: 'Guru da Satisfação',
+      description: 'Todos saíram felizes e satisfeitos!',
+      icon: '😁',
+      message: 'Você é expert em satisfação do cliente!',
+      image: badgeMestreDoSorriso
+    },
+    'techno-guru': {
+      name: 'Mestre da Tecnologia',
+      description: 'Inovou com soluções tecnológicas!',
+      icon: '🤖',
+      message: 'Você domina a tecnologia!',
+      image: badgeTechnoGuru
+    },
+    'improvisador': {
+      name: 'Gestor de Crises',
+      description: 'Resolve qualquer imprevisto!',
+      icon: '🛠️',
+      message: 'Você é expert em gestão de crises!',
+      image: badgeImprovisador
+    },
+    'nativo-digital': {
+      name: 'Nativo Digital',
+      description: 'Domina as ferramentas digitais!',
+      icon: '�',
+      message: 'Você é um verdadeiro nativo digital!',
+      image: badgeNativoCriativo
+    },
+    'influencer': {
+      name: 'Mente Estratégica',
+      description: 'Planeja cada detalhe com precisão!',
+      icon: '🎯',
+      message: 'Você é um estrategista nato!',
+      image: badgeInfluencer
+    },
+    'inovador': {
+      name: 'Tomador de Riscos',
+      description: 'Ousa inovar e se destaca!',
+      icon: '�',
+      message: 'Você é um verdadeiro inovador!',
+      image: badgeInovador
+    },
+      icon: '🏕️',
+      message: 'Você é destemido e ousado!',
+      image: badgeAventureiro
+    }
+  };
+
+  const badge = badgeDetails[badges[0]];
+  const shareText = `🎉 Acabei de completar o Evento Escolhas!
+
+${badges.length > 0 ? `Conquistei a insignia: ${badge?.icon} ${badge?.name} - ${badge?.description}` : ''}
+
+Descubra seu estilo de gestor e compartilhe também: ${window.location.href}
+#GestãoEventos #EventosCorporativos #InovaçãoEmEventos`;
+  const shareText = `🎉 Acabei de completar o desafio do Produtor de Eventos!
+
+${badges.length > 0 ? `Recebi a badge: ${badge?.icon} ${badge?.name} - ${badge?.description}
+${badge?.message}` : ''}
+💯 Pontuação final: ${totalPoints}
+  async function handleShareBadge() {
+Descubra seu estilo de produtor e compartilhe também: ${window.location.href}
+#EventosDigitais #ProducaoEventos #Gamificacao`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Minha Badge!',
+          text: shareText,
+          url: window.location.href
+        });
+      } catch (error) {
+        alert('Não foi possível compartilhar.');
+      }
+    } else {
+      navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
+  const badgeDetails = { 
+    'mao-de-vaca': {
+      name: 'Mão de Vaca',
+      description: 'Economizou até no cafezinho!',
+      icon: '🤑',
+      message: 'Você é o mestre da economia!'
+      , image: badgeMaoDeVaca
+    },
+    'arrasta-multidao': {
+      name: 'Arrasta Multidão',
+      description: 'Trouxe até o vizinho pro evento!',
+      icon: '🎉',
+      message: 'Seu evento foi um sucesso de público!',
+      image: badgeArrastaMultidao
+    },
+    'mestre-do-sorriso': {
+      name: 'Mestre do Sorriso',
+      description: 'Todo mundo saiu feliz e relaxado!',
+      icon: '😁',
+      message: 'Você garantiu a felicidade geral!',
+      image: badgeMestreDoSorriso
+    },
+
+      message: 'Você é destemido e ousado!',
+      image: badgeAventureiro
+    },
+  };
+
+
+
+  const shareText = `🎉 Acabei de completar o desafio do Produtor de Eventos!
+
+${badges.length > 0 ? `Recebi a badge: ${badgeDetails[badges[0]]?.icon} ${badgeDetails[badges[0]]?.name} - ${badgeDetails[badges[0]]?.description}
+                {badge && (
+                  <div className="text-center">
+                    <div className="mb-4">
+                      <img 
+                        src={badge.image} 
+                        alt={badge.name}
+                        className="w-32 h-32 mx-auto object-contain drop-shadow-lg rounded-full border-4 border-primary"
+                      />
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground mb-2">
+                      {badge.icon} {badge.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {badge.description}
+                    </p>
+                    <p className="text-base font-semibold text-primary mb-3">
+                      {badge.message}
+                    </p>
+                    <div className="text-center">
+                      <p className="text-lg font-semibold text-primary mb-2">
+                        {totalPoints} pontos
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Compartilhe seu estilo de produtor!
+                      </p>
+                    </div>
+                  </div>
+                )}
+        <DialogHeader>
+          <DialogTitle className="text-center text-xl font-bold text-foreground">
+            🎉 Parabéns!
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-6">
+          {/* Badge principal */}
+          {badge && (
+            <div className="text-center">
+              <div className="mb-4">
+                <img 
+                  src={badge.image} 
+                  alt={badge.name}
+                  className="w-32 h-32 mx-auto object-contain drop-shadow-lg rounded-full border-4 border-primary"
+                />
+              </div>
+              <h3 className="text-lg font-bold text-foreground mb-2">
+                {badge.icon} {badge.name}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-1">
+                {badge.description}
+              </p>
+              <p className="text-base font-semibold text-primary mb-3">
+                {badge.message}
+              </p>
+              <div className="text-center">
+                <p className="text-lg font-semibold text-primary mb-2">
+                  {totalPoints} pontos
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Compartilhe seu estilo de produtor!
+                </p>
+              </div>
+            </div>
+          )}
+          {/* Botões */}
+          <div className="flex flex-col gap-3 mt-4">
+            <Button
+              onClick={handleShareBadge}
+              className="w-full py-4 text-lg font-bold flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-lg"
+              style={{ fontSize: '1.2rem' }}
+            >
+              <FaShareAlt className="w-6 h-6 mr-3" />
+              {copied ? 'Copiado!' : 'Compartilhar minha badge'}
+            </Button>
+            <Button
+              onClick={onEbookClick}
+              variant="outline"
+              className="w-full py-4 text-lg font-bold rounded-lg"
+            >
+              Receber ebook
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
