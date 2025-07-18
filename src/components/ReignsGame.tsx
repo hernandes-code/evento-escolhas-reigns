@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from "framer-motion";
 import { gameCards, INITIAL_METRICS, randomEvents, GAME_BADGES } from '../data/gameCards';
 import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../types/game';
 import GameCard from './GameCard';
@@ -244,11 +245,21 @@ export default function ReignsGame() {
 
         {/* Game Card */}
         {currentCard && !gameState.isGameOver && (
-          <GameCard 
-            card={currentCard} 
-            onChoice={handleChoice}
-            className="mb-6"
-          />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={gameState.currentCard}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+            >
+              <GameCard 
+                card={currentCard} 
+                onChoice={handleChoice}
+                className="mb-6"
+              />
+            </motion.div>
+          </AnimatePresence>
         )}
 
         {/* Consequence Modal */}
