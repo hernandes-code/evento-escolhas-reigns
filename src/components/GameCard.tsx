@@ -116,7 +116,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
               key={index}
               className={styles.choiceButton}
               onClick={() => handleChoice(index === 0 ? 'left' : 'right')}
-              disabled={isAnimating}
+              // Removido disabled para evitar bloqueio visual desnecessário
             >
               <span className={styles.choiceLabel}>
                 {`Opção ${index === 0 ? "A" : "B"}`}

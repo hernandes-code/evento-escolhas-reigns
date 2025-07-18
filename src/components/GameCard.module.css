@@ -1,6 +1,5 @@
 
-.choiceButton {
-  background: #f2f3f7;
+
 
 /* Botão premium, tamanho e alinhamento ideal para card */
 .choiceButton {
@@ -31,7 +30,7 @@
 
 .choiceLabel {
   font-size: 0.97rem;
-  color: #f7a97a;
+  color: #b8b8b8;
   font-weight: 500;
   letter-spacing: 0.04em;
   margin-bottom: 2px;
