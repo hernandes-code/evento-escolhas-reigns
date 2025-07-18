@@ -114,12 +114,16 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
           {[card.leftChoice, card.rightChoice].map((option, index) => (
             <button
               key={index}
-              className={`${styles.choiceButton} ${index === 0 ? styles.choiceButtonA : styles.choiceButtonB}`}
+              className={styles.choiceButton}
               onClick={() => handleChoice(index === 0 ? 'left' : 'right')}
               disabled={isAnimating}
             >
-              <span className={styles.choiceLabel}>{`Opção ${index === 0 ? "A" : "B"}`}</span>
-              <span className={styles.choiceText}>{option.text}</span>
+              <span className={styles.choiceLabel}>
+                {`Opção ${index === 0 ? "A" : "B"}`}
+              </span>
+              <span className={styles.choiceText}>
+                {option.text}
+              </span>
             </button>
           ))}
         </div>
