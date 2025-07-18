@@ -81,7 +81,7 @@ export default function ReignsGame() {
         ...prev, 
         isGameOver: true, 
         gameOverReason: 'Você completou todos os desafios! O evento foi um sucesso.',
-        badges: [earnedBadge]
+        badges: [earnedBadge.id]
       }));
       setShowBadgeCompletion(true);
     }
