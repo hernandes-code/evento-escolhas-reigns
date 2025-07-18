@@ -70,7 +70,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
   return (
     <div 
       className={`
-        relative w-full max-w-sm mx-auto h-[420px] 
+        relative w-full max-w-sm mx-auto min-h-[420px] flex items-center justify-center
         ${swipeDirection === 'left' ? 'animate-swipe-left' : ''}
         ${swipeDirection === 'right' ? 'animate-swipe-right' : ''}
         ${!swipeDirection ? 'animate-card-enter' : ''}
@@ -79,7 +79,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
     >
       <div 
         ref={cardRef}
-        className="absolute inset-0 bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col cursor-grab active:cursor-grabbing select-none"
+        className="bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full"
         style={getCardStyle()}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
