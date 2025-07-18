@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Share2, Download } from 'lucide-react';
-import logo from '../assets/logo.png';
+import logo from '@/assets/logo.png';
 
 // Imagens dos badges
-import badgeMaoDeVaca from '../assets/badge-budget-wizard.png';
-import badgeArrastaMultidao from '../assets/badge-crowd-pleaser.png';
-import badgeMestreDoSorriso from '../assets/badge-satisfaction-guru.png';
-import badgeTechnoGuru from '../assets/badge-tech-master.png';
-import badgeImprovisador from '../assets/badge-crisis-manager.png';
-import badgeNativoCriativo from '../assets/badge-digital-native.png';
-import badgeInfluencer from '../assets/badge-strategic-mind.png';
-import badgeInovador from '../assets/badge-risk-taker.png';
+import badgeMaoDeVaca from '@/assets/badges/badge-budget-wizard.png';
+import badgeArrastaMultidao from '@/assets/badges/badge-crowd-pleaser.png';
+import badgeMestreDoSorriso from '@/assets/badges/badge-satisfaction-guru.png';
+import badgeTechnoGuru from '@/assets/badges/badge-tech-master.png';
+import badgeImprovisador from '@/assets/badges/badge-crisis-manager.png';
+import badgeNativoCriativo from '@/assets/badges/badge-digital-native.png';
+import badgeInfluencer from '@/assets/badges/badge-strategic-mind.png';
+import badgeInovador from '@/assets/badges/badge-risk-taker.png';
 
 interface BadgeCompletionModalProps {
   isVisible: boolean;
