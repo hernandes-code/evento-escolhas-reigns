@@ -1,48 +1,63 @@
 
 .choiceButton {
   background: #f2f3f7;
-  color: #2d3142;
-  border: none;
-  border-radius: 10px;
-  padding: 16px 18px;
-  font-size: 1.09rem;
-  margin: 10px 0;
+
+.choiceButton {
+  background: #fafbff;
+  color: #212338;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 12px 0;
   cursor: pointer;
-  font-family: inherit;
-  box-shadow: 0 1px 6px rgba(60,60,60,0.08);
-  transition: background 0.18s, transform 0.09s, box-shadow 0.19s;
-  font-weight: 500;
+  box-shadow: 0 2px 14px rgba(33,35,56,0.06);
+  font-size: 1.14rem;
+  transition:
+    border-color 0.18s,
+    background 0.19s,
+    box-shadow 0.2s,
+    transform 0.09s;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 6px;
 }
-
-.choiceButton:hover:not(:disabled) {
-  background: #e0e2e8;
-  box-shadow: 0 4px 18px rgba(60,60,60,0.14);
-  transform: scale(1.017);
+.choiceButtonA {
+  border-color: #d1e4ff;
 }
-
+.choiceButtonB {
+  border-color: #ffe9d6;
+}
+.choiceButton:hover:not(:disabled),
+.choiceButton:focus-visible {
+  background: #f2f6ff;
+  box-shadow: 0 6px 22px rgba(33,35,56,0.13);
+  transform: scale(1.019);
+  border-color: #76a7ff;
+}
+.choiceButtonB:hover:not(:disabled),
+.choiceButtonB:focus-visible {
+  border-color: #ffb36b;
+  background: #fff6ed;
+}
 .choiceButton:active:not(:disabled) {
-  background: #d1d4db;
   transform: scale(0.97);
 }
-
-.choiceButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
 .choiceLabel {
-  font-size: 0.85rem;
-  color: #9698a6;
-  letter-spacing: 0.05em;
+  font-size: 0.86rem;
+  color: #8b94a9;
+  letter-spacing: 0.04em;
   margin-bottom: 2px;
 }
-
 .choiceText {
-  font-size: 1.11rem;
+  font-size: 1.13rem;
+  color: #23263b;
+  font-weight: 600;
+}
+.choiceButton:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
   color: #222;
   font-weight: 600;
 }

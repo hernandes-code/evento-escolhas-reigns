@@ -111,22 +111,17 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
 
         {/* Choices */}
         <div className="flex-1 flex flex-col justify-end space-y-3">
-          <button
-            className={styles.choiceButton}
-            onClick={() => handleChoice('left')}
-            disabled={isAnimating}
-          >
-            <span className={styles.choiceLabel}>Opção A</span>
-            <span className={styles.choiceText}>{card.leftChoice.text}</span>
-          </button>
-          <button
-            className={styles.choiceButton}
-            onClick={() => handleChoice('right')}
-            disabled={isAnimating}
-          >
-            <span className={styles.choiceLabel}>Opção B</span>
-            <span className={styles.choiceText}>{card.rightChoice.text}</span>
-          </button>
+          {[card.leftChoice, card.rightChoice].map((option, index) => (
+            <button
+              key={index}
+              className={`${styles.choiceButton} ${index === 0 ? styles.choiceButtonA : styles.choiceButtonB}`}
+              onClick={() => handleChoice(index === 0 ? 'left' : 'right')}
+              disabled={isAnimating}
+            >
+              <span className={styles.choiceLabel}>{`Opção ${index === 0 ? "A" : "B"}`}</span>
+              <span className={styles.choiceText}>{option.text}</span>
+            </button>
+          ))}
         </div>
 
         {/* Swipe Hints */}
