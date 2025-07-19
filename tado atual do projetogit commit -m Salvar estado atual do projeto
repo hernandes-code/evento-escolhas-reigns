@@ -1,0 +1,24 @@
+[33m50231d3[m[33m ([m[1;36mHEAD[m[33m)[m Teste
+[33m6394a45[m Retorno Funcional
+[33m0aaec2d[m Botões do 1 ao 10
+[33m3df35b6[m Ajuste posição botões
+[33m20b9bc4[m Ajuste erro- tela branca
+[33m8d0b0a1[m Ajuste dimensionamento cards e botão
+[33m83a7ae8[m Botao 5
+[33m74bb0ea[m Botao 4
+[33m29e52a6[m Botao 3
+[33m1b7b4aa[m Botao 2
+[33mb476449[m Botao 1
+[33m6961e27[m Novo ajuste botao
+[33m5d155b4[m Att dos botões
+[33m387e196[m Alteração na cor
+[33mdc96766[m Atualização dos botões
+[33m90a27c3[m Animação card
+[33m04bdba0[m Fix: Badge completion and game balance
+[33ma89ae0b[m Refactor: Implement card, badge, and question updates
+[33m579cdfa[m Refactor: Update form, colors, and logo
+[33m8d8e896[m Refactor: Improve color scheme and UX
+[33m3912fec[m Refactor: Mobile optimization, UI/UX improvements, and lead form adjustments
+[33ma75f4a0[m Refactor: Implement immediate and advanced gamification improvements
+[33m5f6581a[m Add Reigns-style event game
+[33md1ab74c[m Use tech stack vite_react_shadcn_ts
