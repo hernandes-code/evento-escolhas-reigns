@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 import { gameCards, INITIAL_METRICS, randomEvents, GAME_BADGES } from '../data/gameCards';
 import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../types/game';
@@ -54,6 +54,8 @@ export default function ReignsGame() {
   const [showRandomEvent, setShowRandomEvent] = useState(false);
   const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
   const [metricEffects, setMetricEffects] = useState<any[]>([]);
+  const [cardKey, setCardKey] = useState(0); // Para forçar re-render da carta
+  const [cardVisible, setCardVisible] = useState(true); // Controla visibilidade da carta
 
   // Calculate badges based on performance and choices
   const calculateBadges = (metrics: GameMetricsType, totalPoints: number, choiceCategories: any) => {
@@ -206,12 +208,15 @@ export default function ReignsGame() {
     setMetricEffects(prev => prev.filter(effect => effect.id !== id));
   };
 
-  const handleChoice = (choice: 'left' | 'right', effects: Partial<GameMetricsType>, consequence: string) => {
+  const handleChoice = useCallback((choice: 'left' | 'right', effects: Partial<GameMetricsType>, consequence: string) => {
     const currentCardId = gameCards[gameState.currentCard].id;
     const currentCard = gameCards[gameState.currentCard];
     const points = currentCard.points ? currentCard.points[choice] : 15;
     const chosenOption = choice === 'left' ? currentCard.leftChoice : currentCard.rightChoice;
     const category = chosenOption.category || 'general';
+    
+    // Esconder a carta imediatamente para evitar animação dupla
+    setCardVisible(false);
     
     // Play sound based on choice effects
     const totalEffect = (effects.budget || 0) + (effects.audience || 0) + (effects.satisfaction || 0) + (effects.technology || 0);
@@ -223,39 +228,42 @@ export default function ReignsGame() {
       playSound('button-click');
     }
     
-    setGameState(prev => ({
-      ...prev,
-      lastChoice: choice,
-      lastConsequence: consequence,
-      showingConsequence: true,
-      completedCards: [...prev.completedCards, currentCardId],
-      totalPoints: prev.totalPoints + points,
-      choiceHistory: [...prev.choiceHistory, { cardId: currentCardId, choice, points, category }],
-      choiceCategories: {
-        ...prev.choiceCategories,
-        [category]: (prev.choiceCategories[category] || 0) + 1
-      }
-    }));
+    // Aguardar a animação da carta antes de mostrar a consequência
+    setTimeout(() => {
+      setGameState(prev => ({
+        ...prev,
+        lastChoice: choice,
+        lastConsequence: consequence,
+        showingConsequence: true,
+        completedCards: [...prev.completedCards, currentCardId],
+        totalPoints: prev.totalPoints + points,
+        choiceHistory: [...prev.choiceHistory, { cardId: currentCardId, choice, points, category }],
+        choiceCategories: {
+          ...prev.choiceCategories,
+          [category]: (prev.choiceCategories[category] || 0) + 1
+        }
+      }));
 
-    applyMetricsEffects(effects);
-    
-    // Random event chance (20%)
-    if (Math.random() < 0.2) {
-      const availableEvents = randomEvents.filter(e => !gameState.randomEventsTriggered.includes(e.id));
-      if (availableEvents.length > 0) {
-        const selectedEvent = availableEvents[Math.floor(Math.random() * availableEvents.length)];
-        setRandomEvent(selectedEvent);
-        setShowRandomEvent(true);
-        setTimeout(() => playSound('notification'), 800);
-        setGameState(prev => ({
-          ...prev,
-          randomEventsTriggered: [...prev.randomEventsTriggered, selectedEvent.id]
-        }));
+      applyMetricsEffects(effects);
+      
+      // Random event chance (20%)
+      if (Math.random() < 0.2) {
+        const availableEvents = randomEvents.filter(e => !gameState.randomEventsTriggered.includes(e.id));
+        if (availableEvents.length > 0) {
+          const selectedEvent = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+          setRandomEvent(selectedEvent);
+          setShowRandomEvent(true);
+          setTimeout(() => playSound('notification'), 800);
+          setGameState(prev => ({
+            ...prev,
+            randomEventsTriggered: [...prev.randomEventsTriggered, selectedEvent.id]
+          }));
+        }
       }
-    }
-  };
+    }, 200); // Tempo da animação da carta
+  }, [gameState.currentCard, gameState.randomEventsTriggered, playSound]);
 
-  const handleConsequenceContinue = () => {
+  const handleConsequenceContinue = useCallback(() => {
     playSound('card-flip');
     setGameState(prev => ({
       ...prev,
@@ -264,10 +272,17 @@ export default function ReignsGame() {
       lastChoice: null,
       lastConsequence: ''
     }));
-  };
+    
+    // Mostrar a nova carta com uma pequena pausa para melhor UX
+    setTimeout(() => {
+      setCardVisible(true);
+      setCardKey(prev => prev + 1); // Força re-render
+    }, 100);
+  }, [playSound]);
 
-  const handleRestart = () => {
+  const handleRestart = useCallback(() => {
     gameOverProcessed.current = false; // Reset the flag
+    setCardVisible(true); // Mostrar carta no reinício
     setGameState({
       currentCard: 0,
       metrics: { ...INITIAL_METRICS },
@@ -294,28 +309,29 @@ export default function ReignsGame() {
     });
     setShowLeadForm(false);
     setShowSuccess(false);
-  };
+    setCardKey(0); // Reset card key
+  }, []);
 
-  const handleContinueToForm = () => {
+  const handleContinueToForm = useCallback(() => {
     setShowLeadForm(true);
-  };
+  }, []);
 
-  const handleEbookClick = () => {
+  const handleEbookClick = useCallback(() => {
     setShowBadgeCompletion(false);
     setShowLeadForm(true);
-  };
+  }, []);
 
-  const handleFormSubmit = (data: LeadData) => {
+  const handleFormSubmit = useCallback((data: LeadData) => {
     console.log('Lead data submitted:', data);
     // Here you would typically send the data to your backend
     setShowLeadForm(false);
     setShowSuccess(true);
-  };
+  }, []);
 
-  const handleBadgeCompletionClose = () => {
+  const handleBadgeCompletionClose = useCallback(() => {
     setShowBadgeCompletion(false);
     setShowLeadForm(true);
-  };
+  }, []);
 
   const getCurrentCard = () => {
     if (gameState.currentCard >= gameCards.length) return null;
@@ -342,40 +358,48 @@ export default function ReignsGame() {
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </motion.button>
 
-        {/* Hero Section - responsivo e bem encaixado no mobile */}
+        {/* Hero Section - otimizado para mobile */}
         <motion.div 
-          className="w-full mt-2 mb-0"
+          className="w-full mt-1 mb-1"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           {/* Card hero: imagem de fundo com título e subtítulo sobrepostos */}
-          <div className="w-full max-w-md mx-auto h-80 sm:h-96 md:h-[420px] rounded-xl overflow-hidden relative">
+          <div className="w-full max-w-md mx-auto h-48 sm:h-56 md:h-64 rounded-xl overflow-hidden relative">
             <img 
               src={heroImage}
               alt="Event Production" 
               className="w-full h-full object-cover"
               style={{ 
-                objectPosition: '50% 50%',
+                objectPosition: '50% 80%', // Alinhamento centro-inferior
                 transform: 'none',
                 position: 'static'
               }}
             />
-            {/* Overlay para contraste */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10" />
-            {/* Título e subtítulo centralizados */}
-            <div className="absolute inset-0 flex flex-col items-center justify-start z-20 px-4 pt-6">
-              <div className="flex items-center justify-center mb-2">
+            {/* Overlay para contraste - melhorado */}
+                        {/* Overlay reduzido + sombra no topo para texto */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
+            {/* Sombra específica no topo para destacar o texto */}
+            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black/60 via-black/30 to-transparent z-11" />
+            {/* Título e subtítulo centralizados e compactos */}
+                        {/* Título e subtítulo centralizados */}
+            <div className="absolute inset-0 flex flex-col items-center justify-start z-20 px-4 pt-4">
+              <div className="flex items-center justify-center mb-1">
                 <img 
                   src={logo}
                   alt="Logo da empresa" 
-                  className="w-8 h-8 mr-2"
+                  className="w-6 h-6 mr-2"
                 />
-                <h1 className="text-xl font-bold text-white drop-shadow-lg">
+                <h1 className="text-lg font-bold text-white drop-shadow-2xl shadow-black/80" style={{
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8), 1px -1px 2px rgba(0,0,0,0.8), -1px 1px 2px rgba(0,0,0,0.8)'
+                }}>
                   Produtor de Eventos
                 </h1>
               </div>
-              <p className="text-xs text-white mb-3 text-center drop-shadow-lg">
+              <p className="text-xs text-white mb-2 text-center drop-shadow-xl shadow-black/80" style={{
+                textShadow: '1px 1px 2px rgba(0,0,0,0.8), -1px -1px 1px rgba(0,0,0,0.8), 1px -1px 1px rgba(0,0,0,0.8), -1px 1px 1px rgba(0,0,0,0.8)'
+              }}>
                 Tome decisões inteligentes e veja seu evento crescer!
               </p>
             </div>
@@ -455,20 +479,20 @@ export default function ReignsGame() {
         
         {/* Badge System - Hidden during game */}
 
-        {/* Progress Indicator */}
+        {/* Progress Indicator - compacto */}
         <motion.div 
-          className="mt-3 mb-4"
+          className="mt-2 mb-2"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
         >
-          <div className="flex items-center justify-between text-xs text-gray-700 mb-2">
+          <div className="flex items-center justify-between text-xs text-gray-700 mb-1">
             <span>Progresso</span>
             <span>{gameState.currentCard + 1} / {gameCards.length}</span>
           </div>
-          <div className="w-full bg-orange-100 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-orange-100 rounded-full h-1.5 overflow-hidden">
             <motion.div 
-              className="bg-orange-400 h-2 rounded-full"
+              className="bg-orange-400 h-1.5 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${((gameState.currentCard + 1) / gameCards.length) * 100}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
@@ -477,22 +501,20 @@ export default function ReignsGame() {
         </motion.div>
 
         {/* Game Card */}
-        {currentCard && !gameState.isGameOver && (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={gameState.currentCard}
-              initial={{ opacity: 0, x: 60 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -60 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-            >
-              <GameCard 
-                card={currentCard} 
-                onChoice={handleChoice}
-                className="mb-6"
-              />
-            </motion.div>
-          </AnimatePresence>
+        {currentCard && !gameState.isGameOver && !gameState.showingConsequence && cardVisible && (
+          <motion.div
+            key={`${gameState.currentCard}-${cardKey}`}
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -60 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+          >
+            <GameCard 
+              card={currentCard} 
+              onChoice={handleChoice}
+              className="mb-2"
+            />
+          </motion.div>
         )}
 
         {/* Consequence Modal */}
@@ -528,7 +550,10 @@ export default function ReignsGame() {
         {/* Onboarding Modal */}
         <OnboardingModal
           isVisible={showOnboarding}
-          onComplete={() => setShowOnboarding(false)}
+          onComplete={() => {
+            setShowOnboarding(false);
+            setCardVisible(true); // Garantir que a primeira carta seja visível
+          }}
         />
 
         {/* Random Event Modal */}
