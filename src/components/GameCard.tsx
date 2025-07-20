@@ -92,10 +92,10 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
   }), [swipeDirection]);
 
   return (
-    <div className={`relative w-full max-w-sm mx-auto flex items-center justify-center ${className}`}>
+    <div className={`relative w-full max-w-sm mx-auto flex items-center justify-center h-full ${className}`}>
       <motion.div 
         ref={cardRef}
-        className="bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full min-h-[280px] max-h-[400px]"
+        className="bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full h-full min-h-[320px] max-h-[500px]"
         style={getCardStyle}
         whileHover={{ scale: 1.02, y: -5 }}
         whileTap={{ scale: 0.98 }}
@@ -117,15 +117,15 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
           </div>
         )}
         
-        {/* Card Header - compacto */}
+        {/* Card Header - expandido para mobile */}
         <motion.div 
-          className="text-center mb-3"
+          className="text-center mb-4 flex-shrink-0"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }} // Reduzido
         >
           <motion.div 
-            className="text-2xl mb-2"
+            className="text-3xl mb-3"
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.15, duration: 0.4, type: "spring" }} // Reduzido
@@ -133,7 +133,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
             {card.icon}
           </motion.div>
           <motion.h2 
-            className="text-base font-bold text-foreground mb-2"
+            className="text-lg font-bold text-foreground mb-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }} // Reduzido
@@ -141,7 +141,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
             {card.title}
           </motion.h2>
           <motion.p 
-            className="text-xs text-muted-foreground leading-relaxed px-2"
+            className="text-sm text-muted-foreground leading-relaxed px-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.3 }} // Reduzido
@@ -150,13 +150,13 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
           </motion.p>
         </motion.div>
 
-        {/* Choices - compacto */}
-        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', marginTop: '8px', marginBottom: '8px' }}>
+        {/* Choices - expandido para mobile */}
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', marginTop: '12px', marginBottom: '12px', flex: '1' }}>
           {[card.leftChoice, card.rightChoice].map((option, index) => (
             <motion.button
               key={index}
               className={styles.choiceButton}
-              style={{ maxWidth: '340px', width: '100%' }}
+              style={{ maxWidth: '340px', width: '100%', minHeight: '60px' }}
               onClick={() => handleChoice(index === 0 ? 'left' : 'right')}
               initial={{ opacity: 0, x: index === 0 ? -50 : 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -182,7 +182,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
           ))}
           
           {/* Hint dentro do card */}
-          <div className="text-xs text-muted-foreground mt-2 opacity-70">
+          <div className="text-sm text-muted-foreground mt-3 opacity-70">
             Clique para escolher
           </div>
         </div>
