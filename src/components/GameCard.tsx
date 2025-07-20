@@ -95,7 +95,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
     <div className={`relative w-full max-w-sm mx-auto flex items-center justify-center ${className}`}>
       <motion.div 
         ref={cardRef}
-        className="bg-card rounded-2xl shadow-card border border-border/20 p-3 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full"
+        className="bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full min-h-[280px] max-h-[400px]"
         style={getCardStyle}
         whileHover={{ scale: 1.02, y: -5 }}
         whileTap={{ scale: 0.98 }}
@@ -119,13 +119,13 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         
         {/* Card Header - compacto */}
         <motion.div 
-          className="text-center mb-4"
+          className="text-center mb-3"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }} // Reduzido
         >
           <motion.div 
-            className="text-3xl mb-3"
+            className="text-2xl mb-2"
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.15, duration: 0.4, type: "spring" }} // Reduzido
@@ -133,7 +133,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
             {card.icon}
           </motion.div>
           <motion.h2 
-            className="text-lg font-bold text-foreground mb-2"
+            className="text-base font-bold text-foreground mb-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }} // Reduzido
@@ -141,7 +141,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
             {card.title}
           </motion.h2>
           <motion.p 
-            className="text-sm text-muted-foreground leading-relaxed px-3"
+            className="text-xs text-muted-foreground leading-relaxed px-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.3 }} // Reduzido
@@ -180,11 +180,11 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
               </span>
             </motion.button>
           ))}
-        </div>
-
-        {/* Swipe Hints */}
-        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
-          Clique para escolher
+          
+          {/* Hint dentro do card */}
+          <div className="text-xs text-muted-foreground mt-2 opacity-70">
+            Clique para escolher
+          </div>
         </div>
       </motion.div>
     </div>

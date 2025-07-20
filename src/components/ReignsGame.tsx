@@ -342,8 +342,8 @@ export default function ReignsGame() {
   const totalScore = gameState.metrics.budget + gameState.metrics.audience + gameState.metrics.satisfaction + gameState.metrics.technology;
 
   return (
-    <div className="min-h-screen bg-gradient-warm flex flex-col">
-      <div className="max-w-md mx-auto flex-1 flex flex-col">
+    <div className="min-h-screen min-h-[100dvh] bg-gradient-warm flex flex-col overflow-hidden game-container" style={{ position: 'relative' }}>
+      <div className="max-w-md mx-auto flex-1 flex flex-col w-full px-2" style={{ minHeight: '100dvh', position: 'relative' }}>
         {/* Sound Toggle Button */}
         <motion.button
           onClick={() => {
@@ -360,13 +360,13 @@ export default function ReignsGame() {
 
         {/* Hero Section - otimizado para mobile */}
         <motion.div 
-          className="w-full mt-1 mb-1"
+          className="w-full mt-1 mb-2 flex-shrink-0"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           {/* Card hero: imagem de fundo com título e subtítulo sobrepostos */}
-          <div className="w-full max-w-md mx-auto h-48 sm:h-56 md:h-64 rounded-xl overflow-hidden relative">
+          <div className="w-full max-w-md mx-auto h-40 sm:h-44 md:h-48 rounded-xl overflow-hidden relative">
             <img 
               src={heroImage}
               alt="Event Production" 
@@ -481,7 +481,7 @@ export default function ReignsGame() {
 
         {/* Progress Indicator - compacto */}
         <motion.div 
-          className="mt-2 mb-4 px-4"
+          className="mt-auto mb-2 px-2 flex-shrink-0"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
@@ -502,19 +502,19 @@ export default function ReignsGame() {
 
         {/* Game Card */}
         {currentCard && !gameState.isGameOver && !gameState.showingConsequence && cardVisible && (
-          <div className="flex-1 flex items-center justify-center px-4 py-2">
+          <div className="flex-1 flex items-center justify-center py-1 min-h-0" style={{ minHeight: 'calc(100% - 6rem)' }}>
             <motion.div
               key={`${gameState.currentCard}-${cardKey}`}
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -60 }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="w-full"
+              className="w-full h-full flex items-center justify-center"
             >
               <GameCard 
                 card={currentCard} 
                 onChoice={handleChoice}
-                className=""
+                className="w-full"
               />
             </motion.div>
           </div>

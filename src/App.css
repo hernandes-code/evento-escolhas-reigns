@@ -1,8 +1,18 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0;
   text-align: center;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  #root {
+    max-width: 1280px;
+  }
 }
 
 /* Fix para problemas de clique/touch */
@@ -41,6 +51,15 @@ button, a, input, textarea, select {
 
 /* Mobile-specific fixes para modais */
 @media (max-width: 640px) {
+  /* Garantir que body e html ocupem toda tela no mobile */
+  html, body {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  
   [data-radix-dialog-content] {
     margin: 1rem !important;
     max-height: 90vh !important;
@@ -57,6 +76,38 @@ button, a, input, textarea, select {
   .min-h-screen {
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport height para mobile */
+  }
+  
+  /* Prevenir problemas de layout durante transições */
+  .fixed {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Otimizar backdrop-blur para mobile */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
+  /* Prevenir compression/reflow quando modais aparecem */
+  body:has(.fixed.inset-0) {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Garantir que elementos não sejam afetados por overlays */
+  .game-container {
+    position: relative;
+    z-index: 1;
+    will-change: auto;
+    transform: translateZ(0);
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
   }
 }
 
