@@ -289,32 +289,32 @@ export default function BadgeCompletionModal({
 
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent className="max-w-sm mx-auto bg-background border-border max-h-[90vh] overflow-y-auto m-4 w-[calc(100vw-2rem)]">
-        <DialogHeader className="pb-2">
-          <DialogTitle className="text-center text-lg font-bold text-foreground">
+      <DialogContent className="max-w-sm mx-auto bg-background border-border max-h-[95vh] overflow-y-auto m-2 w-[calc(100vw-1rem)] sm:m-4 sm:w-[calc(100vw-2rem)]">
+        <DialogHeader className="pb-1">
+          <DialogTitle className="text-center text-base font-bold text-foreground">
             🎉 Parabéns!
           </DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Badge principal */}
           {badges.length > 0 && (
             <div className="text-center">
-              <div className="mb-3">
+              <div className="mb-2">
                 <img 
                   src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
                   alt={badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
-                  className="w-24 h-24 mx-auto object-contain"
+                  className="w-20 h-20 mx-auto object-contain"
                 />
               </div>
-              <h3 className="text-base font-bold text-foreground mb-2">
+              <h3 className="text-sm font-bold text-foreground mb-1">
                 {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
               </h3>
-              <p className="text-xs text-muted-foreground mb-3">
+              <p className="text-xs text-muted-foreground mb-2">
                 {badgeDetails[badges[0] as keyof typeof badgeDetails]?.message}
               </p>
               <div className="text-center">
-                <p className="text-base font-semibold text-primary mb-1">
+                <p className="text-sm font-semibold text-primary mb-1">
                   {totalPoints} pontos
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -325,11 +325,11 @@ export default function BadgeCompletionModal({
           )}
 
           {/* Mensagem educacional para o eBook */}
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-center">
-            <h4 className="font-semibold text-orange-800 mb-2 text-sm">
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-2.5 text-center">
+            <h4 className="font-semibold text-orange-800 mb-1.5 text-sm">
               🚀 Quer multiplicar seus resultados?
             </h4>
-            <p className="text-xs text-orange-700 mb-2">
+            <p className="text-xs text-orange-700 mb-1.5">
               Durante o jogo, você viu como <strong>organização, ferramentas de bilheteria e marketing integrado</strong> fazem a diferença. 
               Nosso eBook ensina como implementar essas estratégias na prática!
             </p>
@@ -339,7 +339,7 @@ export default function BadgeCompletionModal({
           </div>
 
           {/* Botões */}
-          <div className="flex gap-2 pt-2">
+          <div className="flex gap-2 pt-1">
             <Button
               onClick={handleShareImage}
               disabled={generatingImage}
@@ -364,7 +364,7 @@ export default function BadgeCompletionModal({
               className="flex-1 border-orange-300 text-orange-600 hover:bg-orange-50 text-xs py-2"
             >
               <Download className="w-3 h-3 mr-1" />
-              Baixar eBook Grátis
+              Receber eBook Grátis
             </Button>
           </div>
           

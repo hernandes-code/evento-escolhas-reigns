@@ -19,7 +19,7 @@ import { Volume2, VolumeX } from 'lucide-react';
 import MetricChangeEffects from './MetricChangeEffects';
 
 export default function ReignsGame() {
-  const { playSound, isMuted, toggleMute } = useSound();
+  const { playSound, isMuted, toggleMute, startBackgroundMusic, backgroundMusicPlaying } = useSound();
   const gameOverProcessed = useRef(false);
   
   const [gameState, setGameState] = useState<GameState>({
@@ -350,12 +350,18 @@ export default function ReignsGame() {
             playSound('button-click');
             toggleMute();
           }}
-          className="fixed top-4 right-4 z-40 bg-black/20 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/30 transition-colors"
+          className={`fixed top-4 right-4 z-40 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/30 transition-colors ${
+            backgroundMusicPlaying && !isMuted ? 'bg-green-500/20 border border-green-400/30' : 'bg-black/20'
+          }`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           style={{ pointerEvents: 'auto' }}
+          title={backgroundMusicPlaying && !isMuted ? 'Música ambiente ativa - Clique para silenciar' : 'Som desativado - Clique para ativar'}
         >
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          {backgroundMusicPlaying && !isMuted && (
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+          )}
         </motion.button>
 
         {/* Hero Section - expandido para ocupar mais espaço */}
@@ -556,6 +562,7 @@ export default function ReignsGame() {
           onComplete={() => {
             setShowOnboarding(false);
             setCardVisible(true); // Garantir que a primeira carta seja visível
+            startBackgroundMusic(); // Iniciar música de fundo após primeira interação
           }}
         />
 
