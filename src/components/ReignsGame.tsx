@@ -479,9 +479,9 @@ export default function ReignsGame() {
         
         {/* Badge System - Hidden during game */}
 
-        {/* Progress Indicator - expandido para fechar espaço em branco */}
+        {/* Progress Indicator - mais próximo do card */}
         <motion.div 
-          className="mt-auto mb-2 px-2 flex-shrink-0"
+          className="mb-2 px-2 flex-shrink-0"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
@@ -500,21 +500,21 @@ export default function ReignsGame() {
           </div>
         </motion.div>
 
-        {/* Game Card - ocupando todo espaço disponível */}
+        {/* Game Card - posicionado mais próximo da barra de progresso */}
         {currentCard && !gameState.isGameOver && !gameState.showingConsequence && cardVisible && (
-          <div className="flex-1 flex items-center justify-center" style={{ minHeight: 0 }}>
+          <div className="flex-1 flex items-start justify-center pt-2" style={{ minHeight: 0 }}>
             <motion.div
               key={`${gameState.currentCard}-${cardKey}`}
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -60 }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="w-full h-full flex items-center justify-center"
+              className="w-full h-full flex items-start justify-center"
             >
               <GameCard 
                 card={currentCard} 
                 onChoice={handleChoice}
-                className="w-full h-full"
+                className="w-full"
               />
             </motion.div>
           </div>
