@@ -358,15 +358,15 @@ export default function ReignsGame() {
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </motion.button>
 
-        {/* Hero Section - otimizado para mobile */}
+        {/* Hero Section - expandido para ocupar mais espaço */}
         <motion.div 
-          className="w-full mt-1 mb-2 flex-shrink-0"
+          className="w-full mt-1 mb-1 flex-shrink-0"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Card hero: imagem de fundo com título e subtítulo sobrepostos - expandido */}
-          <div className="w-full max-w-md mx-auto h-52 sm:h-48 md:h-48 rounded-xl overflow-hidden relative">
+          {/* Card hero: imagem de fundo com título e subtítulo sobrepostos - expandido ainda mais */}
+          <div className="w-full max-w-md mx-auto h-56 sm:h-52 md:h-48 rounded-xl overflow-hidden relative">
             <img 
               src={heroImage}
               alt="Event Production" 
@@ -479,20 +479,20 @@ export default function ReignsGame() {
         
         {/* Badge System - Hidden during game */}
 
-        {/* Progress Indicator - mais compacto para dar espaço ao card */}
+        {/* Progress Indicator - expandido para fechar espaço em branco */}
         <motion.div 
-          className="mt-auto mb-1 px-2 flex-shrink-0"
+          className="mt-auto mb-2 px-2 flex-shrink-0"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
         >
-          <div className="flex items-center justify-between text-xs text-gray-700 mb-0.5">
-            <span>Progresso</span>
-            <span>{gameState.currentCard + 1} / {gameCards.length}</span>
+          <div className="flex items-center justify-between text-sm text-gray-700 mb-1.5">
+            <span className="font-medium">Progresso</span>
+            <span className="font-bold">{gameState.currentCard + 1} / {gameCards.length}</span>
           </div>
-          <div className="w-full bg-orange-100 rounded-full h-1 overflow-hidden">
+          <div className="w-full bg-orange-100 rounded-full h-2.5 overflow-hidden shadow-sm">
             <motion.div 
-              className="bg-orange-400 h-1 rounded-full"
+              className="bg-orange-400 h-2.5 rounded-full shadow-sm"
               initial={{ width: 0 }}
               animate={{ width: `${((gameState.currentCard + 1) / gameCards.length) * 100}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
@@ -500,9 +500,9 @@ export default function ReignsGame() {
           </div>
         </motion.div>
 
-        {/* Game Card - expandido para preencher tela mobile */}
+        {/* Game Card - ocupando todo espaço disponível */}
         {currentCard && !gameState.isGameOver && !gameState.showingConsequence && cardVisible && (
-          <div className="flex-1 flex items-center justify-center min-h-0" style={{ minHeight: 'calc(100% - 6rem)' }}>
+          <div className="flex-1 flex items-center justify-center" style={{ minHeight: 0 }}>
             <motion.div
               key={`${gameState.currentCard}-${cardKey}`}
               initial={{ opacity: 0, x: 60 }}

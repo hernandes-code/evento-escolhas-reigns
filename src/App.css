@@ -114,14 +114,14 @@ button, a, input, textarea, select {
   
   /* Otimizações específicas para GameCard no mobile */
   .game-container .bg-card {
-    min-height: 350px !important;
-    max-height: 550px !important;
+    min-height: 380px !important;
+    max-height: 600px !important;
     padding: 1.5rem !important;
   }
   
   /* Hero section expandida no mobile */
-  .game-container .h-52 {
-    height: 14rem !important; /* Aumenta ainda mais a hero no mobile */
+  .game-container .h-56 {
+    height: 15rem !important; /* Aumenta ainda mais a hero no mobile */
   }
 }
 
