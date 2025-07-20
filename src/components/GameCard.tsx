@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { GameCard as GameCardType, SwipeDirection } from '../types/game';
 import styles from './GameCard.module.css';
 
@@ -68,19 +69,25 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
   };
 
   return (
-    <div 
-      className={`
-        relative w-full max-w-sm mx-auto min-h-[420px] flex items-center justify-center
-        ${swipeDirection === 'left' ? 'animate-swipe-left' : ''}
-        ${swipeDirection === 'right' ? 'animate-swipe-right' : ''}
-        ${!swipeDirection ? 'animate-card-enter' : ''}
-        ${className}
-      `}
-    >
-      <div 
+    <div className={`relative w-full max-w-sm mx-auto min-h-[420px] flex items-center justify-center ${className}`}>
+      <motion.div 
         ref={cardRef}
         className="bg-card rounded-2xl shadow-card border border-border/20 p-4 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full"
         style={getCardStyle()}
+        whileHover={{ scale: 1.02, y: -5 }}
+        whileTap={{ scale: 0.98 }}
+        initial={{ opacity: 0, y: 20, rotateY: -10 }}
+        animate={{ 
+          opacity: 1, 
+          y: 0, 
+          rotateY: 0,
+          x: swipeDirection === 'left' ? -1000 : swipeDirection === 'right' ? 1000 : 0,
+          rotate: swipeDirection === 'left' ? -30 : swipeDirection === 'right' ? 30 : 0
+        }}
+        transition={{ 
+          duration: swipeDirection ? 0.3 : 0.6,
+          ease: swipeDirection ? "easeIn" : "easeOut"
+        }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -96,22 +103,55 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         )}
         
         {/* Card Header */}
-        <div className="text-center mb-6">
-          <div className="text-4xl mb-4">{card.icon}</div>
-          <h2 className="text-xl font-bold text-foreground mb-3">{card.title}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed px-4">
+        <motion.div 
+          className="text-center mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <motion.div 
+            className="text-4xl mb-4"
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 0.3, duration: 0.6, type: "spring" }}
+          >
+            {card.icon}
+          </motion.div>
+          <motion.h2 
+            className="text-xl font-bold text-foreground mb-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            {card.title}
+          </motion.h2>
+          <motion.p 
+            className="text-sm text-muted-foreground leading-relaxed px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
             {card.description}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Choices */}
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', marginTop: '8px', marginBottom: '8px' }}>
           {[card.leftChoice, card.rightChoice].map((option, index) => (
-            <button
+            <motion.button
               key={index}
               className={styles.choiceButton}
               style={{ maxWidth: '340px', width: '100%' }}
               onClick={() => handleChoice(index === 0 ? 'left' : 'right')}
+              initial={{ opacity: 0, x: index === 0 ? -50 : 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6 + (index * 0.1), duration: 0.4 }}
+              whileHover={{ 
+                scale: 1.02, 
+                y: -2,
+                boxShadow: "0 10px 25px rgba(0,0,0,0.15)"
+              }}
+              whileTap={{ scale: 0.98 }}
             >
               <span className={styles.choiceLabel}>
                 {`Opção ${index === 0 ? "A" : "B"}`}
@@ -119,7 +159,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
               <span className={styles.choiceText}>
                 {option.text}
               </span>
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -127,7 +167,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
           👈 Deslize ou clique para escolher 👉
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

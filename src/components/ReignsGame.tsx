@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 import { gameCards, INITIAL_METRICS, randomEvents, GAME_BADGES } from '../data/gameCards';
 import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../types/game';
@@ -14,8 +14,14 @@ import OnboardingModal from './OnboardingModal';
 import RandomEventModal from './RandomEventModal';
 import BadgeSystem from './BadgeSystem';
 import BadgeCompletionModal from './BadgeCompletionModal';
+import { useSound } from '../hooks/useSound';
+import { Volume2, VolumeX } from 'lucide-react';
+import MetricChangeEffects from './MetricChangeEffects';
 
 export default function ReignsGame() {
+  const { playSound, isMuted, toggleMute } = useSound();
+  const gameOverProcessed = useRef(false);
+  
   const [gameState, setGameState] = useState<GameState>({
     currentCard: 0,
     metrics: { ...INITIAL_METRICS },
@@ -28,7 +34,17 @@ export default function ReignsGame() {
     totalPoints: 0,
     badges: [],
     randomEventsTriggered: [],
-    choiceHistory: []
+    choiceHistory: [],
+    choiceCategories: {
+      strategic: 0,
+      organized: 0,
+      platform_user: 0,
+      data_driven: 0,
+      creative: 0,
+      relationship_focused: 0,
+      inclusive: 0,
+      proactive: 0
+    }
   });
 
   const [showLeadForm, setShowLeadForm] = useState(false);
@@ -37,24 +53,68 @@ export default function ReignsGame() {
   const [randomEvent, setRandomEvent] = useState<any>(null);
   const [showRandomEvent, setShowRandomEvent] = useState(false);
   const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
+  const [metricEffects, setMetricEffects] = useState<any[]>([]);
 
-  // Calculate badges based on performance
-  const calculateBadges = (metrics: GameMetricsType, totalPoints: number) => {
+  // Calculate badges based on performance and choices
+  const calculateBadges = (metrics: GameMetricsType, totalPoints: number, choiceCategories: any) => {
     const badges = [];
     
-    if (metrics.budget >= 70) badges.push('BUDGET_WIZARD');
-    if (metrics.audience >= 75) badges.push('CROWD_PLEASER');
-    if (metrics.satisfaction >= 70) badges.push('SATISFACTION_GURU');
-    if (metrics.technology >= 65) badges.push('TECH_MASTER');
-    if (totalPoints >= 250) badges.push('STRATEGIC_MIND');
+    // Platform adoption badge
+    if (choiceCategories.platform_user >= 1 || choiceCategories.organized >= 3) {
+      badges.push('PLATFORM_ADOPTER');
+    }
     
-    // Se não conseguiu nenhuma badge específica, dar uma badge baseada na métrica mais alta
+    // Strategic thinking badge
+    if (choiceCategories.strategic >= 2 || choiceCategories.data_driven >= 2) {
+      badges.push('STRATEGIC_MIND');
+    }
+    
+    // Relationship focused badge
+    if (choiceCategories.relationship_focused >= 2 || choiceCategories.proactive >= 2) {
+      badges.push('RELATIONSHIP_BUILDER');
+    }
+    
+    // Problem solving badge
+    if (choiceCategories.creative >= 1 || (metrics.satisfaction >= 70 && choiceCategories.inclusive >= 1)) {
+      badges.push('PROBLEM_SOLVER');
+    }
+    
+    // Data analysis badge
+    if (choiceCategories.data_driven >= 1 || metrics.technology >= 70) {
+      badges.push('DATA_MASTER');
+    }
+    
+    // Technology enthusiast badge
+    if (metrics.technology >= 70 || choiceCategories.platform_user >= 1) {
+      badges.push('TECH_ENTHUSIAST');
+    }
+    
+    // Budget conscious badge
+    if (metrics.budget >= 60) {
+      badges.push('BUDGET_CONSCIOUS');
+    }
+    
+    // People person badge
+    if (metrics.satisfaction >= 65 || choiceCategories.relationship_focused >= 2) {
+      badges.push('PEOPLE_PERSON');
+    }
+    
+    // Garantir que sempre tenha pelo menos uma badge educacional
     if (badges.length === 0) {
-      const maxMetric = Math.max(metrics.budget, metrics.audience, metrics.satisfaction, metrics.technology);
-      if (maxMetric === metrics.budget) badges.push('BUDGET_WIZARD');
-      else if (maxMetric === metrics.audience) badges.push('CROWD_PLEASER');
-      else if (maxMetric === metrics.satisfaction) badges.push('SATISFACTION_GURU');
-      else badges.push('TECH_MASTER');
+      // Dar badge baseada na categoria de escolha mais frequente
+      const maxCategory = Object.entries(choiceCategories).reduce((a, b) => 
+        choiceCategories[a[0]] > choiceCategories[b[0]] ? a : b
+      );
+      
+      if (maxCategory[0] === 'strategic' || maxCategory[0] === 'organized') {
+        badges.push('STRATEGIC_MIND');
+      } else if (maxCategory[0] === 'platform_user') {
+        badges.push('PLATFORM_ADOPTER');
+      } else if (maxCategory[0] === 'data_driven') {
+        badges.push('DATA_MASTER');
+      } else {
+        badges.push('PROBLEM_SOLVER');
+      }
     }
     
     return badges;
@@ -62,29 +122,44 @@ export default function ReignsGame() {
 
   // Check for game over conditions
   useEffect(() => {
-    const { metrics } = gameState;
+    const { metrics, isGameOver, currentCard } = gameState;
+    
+    // Prevent infinite loops by checking if game is already over or processed
+    if (isGameOver || gameOverProcessed.current) return;
+    
+    // Only check for game over after at least 2 cards have been played
+    // This prevents immediate game over when stats start at 0
+    if (currentCard < 2) return;
     
     if (metrics.budget <= 0) {
+      gameOverProcessed.current = true;
+      playSound('game-over');
       setGameState(prev => ({ 
         ...prev, 
         isGameOver: true, 
         gameOverReason: 'Seu orçamento acabou! Sem dinheiro, o evento não pode continuar.' 
       }));
-    } else if (metrics.audience <= 0) {
+    } else if (metrics.audience < 0) {
+      gameOverProcessed.current = true;
+      playSound('game-over');
       setGameState(prev => ({ 
         ...prev, 
         isGameOver: true, 
         gameOverReason: 'Ninguém quer ir ao seu evento! Você precisa de mais estratégias de marketing.' 
       }));
-    } else if (metrics.satisfaction <= 0) {
+    } else if (metrics.satisfaction < 0) {
+      gameOverProcessed.current = true;
+      playSound('game-over');
       setGameState(prev => ({ 
         ...prev, 
         isGameOver: true, 
         gameOverReason: 'Seu público está insatisfeito! A experiência do evento foi muito ruim.' 
       }));
-    } else if (gameState.currentCard >= gameCards.length) {
+    } else if (currentCard >= gameCards.length) {
+      gameOverProcessed.current = true;
       // Game completed successfully - calculate badges
-      const earnedBadges = calculateBadges(metrics, gameState.totalPoints);
+      const earnedBadges = calculateBadges(metrics, gameState.totalPoints, gameState.choiceCategories);
+      playSound('success');
       setGameState(prev => ({ 
         ...prev, 
         isGameOver: true, 
@@ -93,10 +168,29 @@ export default function ReignsGame() {
       }));
       // Show badge completion modal instead of game over modal
       setShowBadgeCompletion(true);
+      setTimeout(() => playSound('badge-unlock'), 500);
     }
-  }, [gameState.metrics, gameState.currentCard]);
+  }, [gameState.metrics.budget, gameState.metrics.audience, gameState.metrics.satisfaction, gameState.metrics.technology, gameState.currentCard, gameState.isGameOver, gameState.totalPoints, gameState.choiceCategories, playSound]);
 
   const applyMetricsEffects = (effects: Partial<GameMetricsType>) => {
+    // Create visual effects for metrics changes
+    const newEffects: any[] = [];
+    Object.entries(effects).forEach(([key, value]) => {
+      if (value && value !== 0) {
+        newEffects.push({
+          id: `${key}-${Date.now()}-${Math.random()}`,
+          type: key,
+          value: value,
+          x: Math.random() * 300 + 50,
+          y: Math.random() * 200 + 100,
+        });
+      }
+    });
+    
+    if (newEffects.length > 0) {
+      setMetricEffects(prev => [...prev, ...newEffects]);
+    }
+
     setGameState(prev => ({
       ...prev,
       metrics: {
@@ -108,10 +202,26 @@ export default function ReignsGame() {
     }));
   };
 
+  const handleEffectComplete = (id: string) => {
+    setMetricEffects(prev => prev.filter(effect => effect.id !== id));
+  };
+
   const handleChoice = (choice: 'left' | 'right', effects: Partial<GameMetricsType>, consequence: string) => {
     const currentCardId = gameCards[gameState.currentCard].id;
     const currentCard = gameCards[gameState.currentCard];
     const points = currentCard.points ? currentCard.points[choice] : 15;
+    const chosenOption = choice === 'left' ? currentCard.leftChoice : currentCard.rightChoice;
+    const category = chosenOption.category || 'general';
+    
+    // Play sound based on choice effects
+    const totalEffect = (effects.budget || 0) + (effects.audience || 0) + (effects.satisfaction || 0) + (effects.technology || 0);
+    if (totalEffect > 0) {
+      playSound('choice-positive');
+    } else if (totalEffect < 0) {
+      playSound('choice-negative');
+    } else {
+      playSound('button-click');
+    }
     
     setGameState(prev => ({
       ...prev,
@@ -120,7 +230,11 @@ export default function ReignsGame() {
       showingConsequence: true,
       completedCards: [...prev.completedCards, currentCardId],
       totalPoints: prev.totalPoints + points,
-      choiceHistory: [...prev.choiceHistory, { cardId: currentCardId, choice, points }]
+      choiceHistory: [...prev.choiceHistory, { cardId: currentCardId, choice, points, category }],
+      choiceCategories: {
+        ...prev.choiceCategories,
+        [category]: (prev.choiceCategories[category] || 0) + 1
+      }
     }));
 
     applyMetricsEffects(effects);
@@ -132,6 +246,7 @@ export default function ReignsGame() {
         const selectedEvent = availableEvents[Math.floor(Math.random() * availableEvents.length)];
         setRandomEvent(selectedEvent);
         setShowRandomEvent(true);
+        setTimeout(() => playSound('notification'), 800);
         setGameState(prev => ({
           ...prev,
           randomEventsTriggered: [...prev.randomEventsTriggered, selectedEvent.id]
@@ -141,6 +256,7 @@ export default function ReignsGame() {
   };
 
   const handleConsequenceContinue = () => {
+    playSound('card-flip');
     setGameState(prev => ({
       ...prev,
       showingConsequence: false,
@@ -151,6 +267,7 @@ export default function ReignsGame() {
   };
 
   const handleRestart = () => {
+    gameOverProcessed.current = false; // Reset the flag
     setGameState({
       currentCard: 0,
       metrics: { ...INITIAL_METRICS },
@@ -163,13 +280,28 @@ export default function ReignsGame() {
       totalPoints: 0,
       badges: [],
       randomEventsTriggered: [],
-      choiceHistory: []
+      choiceHistory: [],
+      choiceCategories: {
+        strategic: 0,
+        organized: 0,
+        platform_user: 0,
+        data_driven: 0,
+        creative: 0,
+        relationship_focused: 0,
+        inclusive: 0,
+        proactive: 0
+      }
     });
     setShowLeadForm(false);
     setShowSuccess(false);
   };
 
   const handleContinueToForm = () => {
+    setShowLeadForm(true);
+  };
+
+  const handleEbookClick = () => {
+    setShowBadgeCompletion(false);
     setShowLeadForm(true);
   };
 
@@ -196,52 +328,153 @@ export default function ReignsGame() {
   return (
     <div className="min-h-screen bg-gradient-warm">
       <div className="max-w-md mx-auto">
-        
-        {/* Hero Section */}
-          <div className="relative h-40 mb-4 overflow-hidden">
-          <img 
-            src={heroImage} 
-            alt="Event Production" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-          <div className="absolute bottom-3 left-3 right-3 text-center">
-            <div className="flex items-center justify-center mb-1">
-              <img 
-                src={logo} 
-                alt="Logo da empresa" 
-                className="w-8 h-8 mr-2"
-              />
-              <h1 className="text-xl font-bold text-foreground">
-                Produtor de Eventos
-              </h1>
+        {/* Sound Toggle Button */}
+        <motion.button
+          onClick={() => {
+            playSound('button-click');
+            toggleMute();
+          }}
+          className="fixed top-4 right-4 z-40 bg-black/20 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/30 transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          style={{ pointerEvents: 'auto' }}
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </motion.button>
+
+        {/* Hero Section - responsivo e bem encaixado no mobile */}
+        <motion.div 
+          className="w-full mt-2 mb-0"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          {/* Card hero: imagem de fundo com título e subtítulo sobrepostos */}
+          <div className="w-full max-w-md mx-auto h-80 sm:h-96 md:h-[420px] rounded-xl overflow-hidden relative">
+            <img 
+              src={heroImage}
+              alt="Event Production" 
+              className="w-full h-full object-cover"
+              style={{ 
+                objectPosition: '50% 50%',
+                transform: 'none',
+                position: 'static'
+              }}
+            />
+            {/* Overlay para contraste */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10" />
+            {/* Título e subtítulo centralizados */}
+            <div className="absolute inset-0 flex flex-col items-center justify-start z-20 px-4 pt-6">
+              <div className="flex items-center justify-center mb-2">
+                <img 
+                  src={logo}
+                  alt="Logo da empresa" 
+                  className="w-8 h-8 mr-2"
+                />
+                <h1 className="text-xl font-bold text-white drop-shadow-lg">
+                  Produtor de Eventos
+                </h1>
+              </div>
+              <p className="text-xs text-white mb-3 text-center drop-shadow-lg">
+                Tome decisões inteligentes e veja seu evento crescer!
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Tome decisões inteligentes e veja seu evento crescer!
-            </p>
+            {/* Status: na base da imagem, centralizados com barrinhas */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[95%] max-w-sm z-30 px-2">
+              <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 text-white text-[9px]">
+                {/* Orçamento */}
+                <div className="flex items-center gap-1 drop-shadow-lg bg-black/20 rounded-md px-1.5 py-1">
+                  <span className="text-yellow-400 text-xs flex-shrink-0">💰</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="font-medium text-[9px] leading-tight">Orçamento</span>
+                      <span className="font-bold text-yellow-400 text-[9px] leading-tight">{gameState.metrics.budget}%</span>
+                    </div>
+                    <div className="w-full bg-black/40 rounded-full h-1 overflow-hidden">
+                      <div 
+                        className="bg-yellow-400 h-1 rounded-full transition-all duration-300"
+                        style={{ width: `${gameState.metrics.budget}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Público */}
+                <div className="flex items-center gap-1 drop-shadow-lg bg-black/20 rounded-md px-1.5 py-1">
+                  <span className="text-orange-400 text-xs flex-shrink-0">👥</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="font-medium text-[9px] leading-tight">Público</span>
+                      <span className="font-bold text-orange-400 text-[9px] leading-tight">{gameState.metrics.audience}%</span>
+                    </div>
+                    <div className="w-full bg-black/40 rounded-full h-1 overflow-hidden">
+                      <div 
+                        className="bg-orange-400 h-1 rounded-full transition-all duration-300"
+                        style={{ width: `${gameState.metrics.audience}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Satisfação */}
+                <div className="flex items-center gap-1 drop-shadow-lg bg-black/20 rounded-md px-1.5 py-1">
+                  <span className="text-green-400 text-xs flex-shrink-0">😊</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="font-medium text-[9px] leading-tight">Satisfação</span>
+                      <span className="font-bold text-green-400 text-[9px] leading-tight">{gameState.metrics.satisfaction}%</span>
+                    </div>
+                    <div className="w-full bg-black/40 rounded-full h-1 overflow-hidden">
+                      <div 
+                        className="bg-green-400 h-1 rounded-full transition-all duration-300"
+                        style={{ width: `${gameState.metrics.satisfaction}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Tecnologia */}
+                <div className="flex items-center gap-1 drop-shadow-lg bg-black/20 rounded-md px-1.5 py-1">
+                  <span className="text-blue-400 text-xs flex-shrink-0">💻</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="font-medium text-[9px] leading-tight">Tecnologia</span>
+                      <span className="font-bold text-blue-400 text-[9px] leading-tight">{gameState.metrics.technology}%</span>
+                    </div>
+                    <div className="w-full bg-black/40 rounded-full h-1 overflow-hidden">
+                      <div 
+                        className="bg-blue-400 h-1 rounded-full transition-all duration-300"
+                        style={{ width: `${gameState.metrics.technology}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="px-4 pb-4 pt-2">
-
-        {/* Game Metrics */}
-        <GameMetrics metrics={gameState.metrics} />
+        {/* Game Metrics removido daqui, agora está sobre a imagem hero */}
         
         {/* Badge System - Hidden during game */}
 
         {/* Progress Indicator */}
-        <div className="mt-3 mb-4">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+        <motion.div 
+          className="mt-3 mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+        >
+          <div className="flex items-center justify-between text-xs text-gray-700 mb-2">
             <span>Progresso</span>
             <span>{gameState.currentCard + 1} / {gameCards.length}</span>
           </div>
-          <div className="w-full bg-secondary/30 rounded-full h-2">
-            <div 
-              className="bg-gradient-primary h-2 rounded-full transition-all duration-300"
-              style={{ width: `${((gameState.currentCard + 1) / gameCards.length) * 100}%` }}
+          <div className="w-full bg-orange-100 rounded-full h-2 overflow-hidden">
+            <motion.div 
+              className="bg-orange-400 h-2 rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${((gameState.currentCard + 1) / gameCards.length) * 100}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Game Card */}
         {currentCard && !gameState.isGameOver && (
@@ -311,9 +544,14 @@ export default function ReignsGame() {
           badges={gameState.badges}
           totalPoints={gameState.totalPoints}
           onClose={handleBadgeCompletionClose}
-          onEbookClick={handleContinueToForm}
+          onEbookClick={handleEbookClick}
         />
-        </div>
+
+        {/* Metric Change Effects */}
+        <MetricChangeEffects
+          changes={metricEffects}
+          onComplete={handleEffectComplete}
+        />
       </div>
     </div>
   );

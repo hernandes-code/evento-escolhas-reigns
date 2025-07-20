@@ -32,6 +32,15 @@
   word-break: break-word;
   white-space: normal;
   overflow-wrap: anywhere;
+  /* CSS fixes para problemas de clique */
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
 }
 
 .choiceLabel {
