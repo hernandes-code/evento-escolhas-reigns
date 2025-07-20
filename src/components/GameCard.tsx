@@ -92,7 +92,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
   }), [swipeDirection]);
 
   return (
-    <div className={`relative w-full max-w-sm mx-auto min-h-[340px] flex items-center justify-center ${className}`}>
+    <div className={`relative w-full max-w-sm mx-auto flex items-center justify-center ${className}`}>
       <motion.div 
         ref={cardRef}
         className="bg-card rounded-2xl shadow-card border border-border/20 p-3 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none w-full"
@@ -151,7 +151,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         </motion.div>
 
         {/* Choices - compacto */}
-        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', marginTop: '6px', marginBottom: '6px' }}>
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', marginTop: '8px', marginBottom: '8px' }}>
           {[card.leftChoice, card.rightChoice].map((option, index) => (
             <motion.button
               key={index}
@@ -183,7 +183,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         </div>
 
         {/* Swipe Hints */}
-        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
+        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
           Clique para escolher
         </div>
       </motion.div>

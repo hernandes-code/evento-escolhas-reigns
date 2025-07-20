@@ -39,6 +39,27 @@ button, a, input, textarea, select {
   position: absolute !important;
 }
 
+/* Mobile-specific fixes para modais */
+@media (max-width: 640px) {
+  [data-radix-dialog-content] {
+    margin: 1rem !important;
+    max-height: 90vh !important;
+    width: calc(100vw - 2rem) !important;
+    max-width: calc(100vw - 2rem) !important;
+  }
+  
+  /* Garantir que não há espaços desnecessários no mobile */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Otimizar layout para mobile - eliminar espaços em branco */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height para mobile */
+  }
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

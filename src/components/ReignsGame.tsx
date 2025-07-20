@@ -342,8 +342,8 @@ export default function ReignsGame() {
   const totalScore = gameState.metrics.budget + gameState.metrics.audience + gameState.metrics.satisfaction + gameState.metrics.technology;
 
   return (
-    <div className="min-h-screen bg-gradient-warm">
-      <div className="max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-warm flex flex-col">
+      <div className="max-w-md mx-auto flex-1 flex flex-col">
         {/* Sound Toggle Button */}
         <motion.button
           onClick={() => {
@@ -481,7 +481,7 @@ export default function ReignsGame() {
 
         {/* Progress Indicator - compacto */}
         <motion.div 
-          className="mt-2 mb-2"
+          className="mt-2 mb-4 px-4"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
@@ -502,19 +502,22 @@ export default function ReignsGame() {
 
         {/* Game Card */}
         {currentCard && !gameState.isGameOver && !gameState.showingConsequence && cardVisible && (
-          <motion.div
-            key={`${gameState.currentCard}-${cardKey}`}
-            initial={{ opacity: 0, x: 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -60 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-          >
-            <GameCard 
-              card={currentCard} 
-              onChoice={handleChoice}
-              className="mb-2"
-            />
-          </motion.div>
+          <div className="flex-1 flex items-center justify-center px-4 py-2">
+            <motion.div
+              key={`${gameState.currentCard}-${cardKey}`}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="w-full"
+            >
+              <GameCard 
+                card={currentCard} 
+                onChoice={handleChoice}
+                className=""
+              />
+            </motion.div>
+          </div>
         )}
 
         {/* Consequence Modal */}

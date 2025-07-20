@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Download, Image as ImageIcon } from 'lucide-react';
+import { Download, Image as ImageIcon, Trophy, Star, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 import logo from '../assets/logo.png';
 import badgeTechMaster from '../assets/badge-tech-master.png';
 import badgeBudgetWizard from '../assets/badge-budget-wizard.png';
@@ -32,60 +33,76 @@ export default function BadgeCompletionModal({
 
   const badgeDetails = {
     PLATFORM_ADOPTER: {
-      name: 'Usuário de Plataforma',
+      name: 'Nativo Digital',
       description: 'Reconheceu o valor de usar plataformas completas',
       icon: '🚀',
       message: 'Você entendeu que plataformas integradas multiplicam resultados!',
-      image: badgeStrategicMind
+      image: badgeDigitalNative,
+      style: 'Tech-Savvy Innovator',
+      phrase: 'Abraça a tecnologia como aliada estratégica'
     },
     STRATEGIC_MIND: {
       name: 'Mente Estratégica',
       description: 'Priorizou decisões estratégicas ao invés de soluções improvisadas',
       icon: '🧠',
       message: 'Sua visão estratégica se destacou! Produtores organizados criam eventos mais lucrativos.',
-      image: badgeStrategicMind
+      image: badgeStrategicMind,
+      style: 'Visionário Estratégico',
+      phrase: 'Pensa três passos à frente, sempre'
     },
     DATA_MASTER: {
-      name: 'Mestre dos Dados',
+      name: 'Mestre da Tecnologia',
       description: 'Valorizou coleta e análise de dados',
       icon: '📊',
       message: 'Dados são o combustível do sucesso! Continue usando analytics para otimizar.',
-      image: badgeDigitalNative
+      image: badgeTechMaster,
+      style: 'Analista de Performance',
+      phrase: 'Transforma números em insights valiosos'
     },
     RELATIONSHIP_BUILDER: {
-      name: 'Construtor de Relacionamentos',
+      name: 'Agrada Multidões',
       description: 'Priorizou relacionamentos duradouros',
       icon: '🤝',
       message: 'Relacionamentos sólidos são a base do sucesso! Ferramentas de CRM ajudam a escalar.',
-      image: badgeCrowdPleaser
+      image: badgeCrowdPleaser,
+      style: 'Construtor de Conexões',
+      phrase: 'Cultiva relacionamentos que duram além dos eventos'
     },
     PROBLEM_SOLVER: {
-      name: 'Solucionador Criativo',
+      name: 'Gestor de Crises',
       description: 'Transformou crises em oportunidades',
       icon: '💡',
       message: 'Sua criatividade impressiona! Sistemas de gestão dão mais tempo para focar na criatividade.',
-      image: badgeCrisisManager
+      image: badgeCrisisManager,
+      style: 'Solucionador Criativo',
+      phrase: 'Transforma desafios em oportunidades brilhantes'
     },
     TECH_ENTHUSIAST: {
-      name: 'Entusiasta Tech',
+      name: 'Arriscado Estratégico',
       description: 'Abraçou soluções tecnológicas',
       icon: '💻',
       message: 'Tecnologia é sua aliada! Continue explorando ferramentas que automatizam processos.',
-      image: badgeTechMaster
+      image: badgeRiskTaker,
+      style: 'Pioneiro Digital',
+      phrase: 'Sempre um passo à frente na inovação'
     },
     BUDGET_CONSCIOUS: {
-      name: 'Consciente Financeiro',
+      name: 'Mago do Orçamento',
       description: 'Manteve equilíbrio financeiro',
       icon: '💰',
       message: 'Controle financeiro é essencial! Plataformas com dashboard financeiro facilitam essa gestão.',
-      image: badgeBudgetWizard
+      image: badgeBudgetWizard,
+      style: 'Maestro Financeiro',
+      phrase: 'Maximiza resultados com precisão cirúrgica no orçamento'
     },
     PEOPLE_PERSON: {
-      name: 'Pessoa do Povo',
+      name: 'Guru da Satisfação',
       description: 'Focou na experiência e satisfação do público',
       icon: '👥',
       message: 'Foco no público é fundamental! Ferramentas de feedback automatizado ajudam a manter essa conexão.',
-      image: badgeSatisfactionGuru
+      image: badgeSatisfactionGuru,
+      style: 'Expert em Experiência',
+      phrase: 'Cria momentos inesquecíveis para cada participante'
     }
   };
 
@@ -272,35 +289,35 @@ export default function BadgeCompletionModal({
 
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent className="max-w-md mx-auto bg-background border-border">
-        <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold text-foreground">
+      <DialogContent className="max-w-sm mx-auto bg-background border-border max-h-[90vh] overflow-y-auto m-4 w-[calc(100vw-2rem)]">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="text-center text-lg font-bold text-foreground">
             🎉 Parabéns!
           </DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Badge principal */}
           {badges.length > 0 && (
             <div className="text-center">
-              <div className="mb-4">
+              <div className="mb-3">
                 <img 
                   src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
                   alt={badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
-                  className="w-32 h-32 mx-auto object-contain"
+                  className="w-24 h-24 mx-auto object-contain"
                 />
               </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">
+              <h3 className="text-base font-bold text-foreground mb-2">
                 {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
               </h3>
-              <p className="text-sm text-muted-foreground mb-3">
+              <p className="text-xs text-muted-foreground mb-3">
                 {badgeDetails[badges[0] as keyof typeof badgeDetails]?.message}
               </p>
               <div className="text-center">
-                <p className="text-lg font-semibold text-primary mb-2">
+                <p className="text-base font-semibold text-primary mb-1">
                   {totalPoints} pontos
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   Você consegue fazer um evento melhor?
                 </p>
               </div>
@@ -308,34 +325,34 @@ export default function BadgeCompletionModal({
           )}
 
           {/* Mensagem educacional para o eBook */}
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
-            <h4 className="font-semibold text-orange-800 mb-2">
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-center">
+            <h4 className="font-semibold text-orange-800 mb-2 text-sm">
               🚀 Quer multiplicar seus resultados?
             </h4>
-            <p className="text-sm text-orange-700 mb-3">
+            <p className="text-xs text-orange-700 mb-2">
               Durante o jogo, você viu como <strong>organização, ferramentas de bilheteria e marketing integrado</strong> fazem a diferença. 
               Nosso eBook ensina como implementar essas estratégias na prática!
             </p>
-            <p className="text-xs text-orange-600">
-              ✓ Checklists de produção  ✓ Ferramentas recomendadas  ✓ Casos de sucesso
+            <p className="text-[10px] text-orange-600">
+              ✓ Checklists de produção ✓ Ferramentas recomendadas ✓ Casos de sucesso
             </p>
           </div>
 
           {/* Botões */}
-          <div className="flex gap-3">
+          <div className="flex gap-2 pt-2">
             <Button
               onClick={handleShareImage}
               disabled={generatingImage}
-              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white"
+              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs py-2"
             >
               {generatingImage ? (
                 <>
-                  <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-3 h-3 mr-1 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   Gerando...
                 </>
               ) : (
                 <>
-                  <ImageIcon className="w-4 h-4 mr-2" />
+                  <ImageIcon className="w-3 h-3 mr-1" />
                   Compartilhar Badge
                 </>
               )}
@@ -344,9 +361,9 @@ export default function BadgeCompletionModal({
             <Button
               onClick={onEbookClick}
               variant="outline"
-              className="flex-1 border-orange-300 text-orange-600 hover:bg-orange-50"
+              className="flex-1 border-orange-300 text-orange-600 hover:bg-orange-50 text-xs py-2"
             >
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="w-3 h-3 mr-1" />
               Baixar eBook Grátis
             </Button>
           </div>
