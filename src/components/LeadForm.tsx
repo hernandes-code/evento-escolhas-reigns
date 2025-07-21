@@ -215,7 +215,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
             </div>
             <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
               <motion.div
-                className="h-2 bg-gradient-to-r from-orange-400 to-amber-400 rounded-full"
+                className="h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
                 initial={{ width: "0%" }}
                 animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -236,12 +236,12 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="w-16 h-16 mx-auto bg-gradient-to-r from-orange-400 to-amber-400 rounded-full flex items-center justify-center"
+                    className="w-16 h-16 mx-auto bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full flex items-center justify-center"
                   >
                     <Gift className="w-8 h-8 text-slate-900" />
                   </motion.div>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2">
                   🎉 PARABÉNS, PRODUTOR!
                 </h2>
                 <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400/30 rounded-lg p-3 mb-4">
@@ -256,7 +256,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, type: "spring" }}
-                  className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-400/30 rounded-lg p-4 mb-4"
+                  className="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-400/30 rounded-lg p-4 mb-4"
                 >
                   <div className="flex items-center justify-center gap-3 mb-2">
                     <Zap className="w-5 h-5 text-yellow-400" />
@@ -580,7 +580,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
               Seus dados estão 100% seguros. Enviamos apenas conteúdo valioso!
             </div>
             
-            <div className="bg-gradient-to-r from-orange-500/5 to-amber-500/5 border border-orange-400/20 rounded-lg p-3">
+            <div className="bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 border border-emerald-400/20 rounded-lg p-3">
               <div className="grid grid-cols-2 gap-3 text-xs text-orange-200/80">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>

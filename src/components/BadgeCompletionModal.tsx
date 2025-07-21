@@ -307,7 +307,7 @@ export default function BadgeCompletionModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto"
+          className="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto"
           onClick={onClose}
         >
           <motion.div
@@ -315,7 +315,7 @@ export default function BadgeCompletionModal({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.5, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-sm sm:max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900 border border-orange-400/30 rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden my-4 max-h-[95vh] overflow-y-auto"
+            className="relative w-full max-w-sm sm:max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 border border-emerald-400/30 rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden my-4 max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Partículas flutuando para cima - efeito carta lendária */}
@@ -323,7 +323,7 @@ export default function BadgeCompletionModal({
               {[...Array(25)].map((_, i) => (
                 <motion.div
                   key={`particle-${i}`}
-                  className="absolute w-2 h-2 bg-gradient-to-r from-orange-400 to-amber-400 rounded-full shadow-lg"
+                  className="absolute w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full shadow-lg"
                   initial={{ 
                     x: Math.random() * 400 - 50,
                     y: 600,
@@ -395,7 +395,7 @@ export default function BadgeCompletionModal({
 
             {/* Efeitos de fundo com cores do site */}
             <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-0 left-0 w-32 h-32 bg-orange-400 rounded-full blur-3xl"></div>
+              <div className="absolute top-0 left-0 w-32 h-32 bg-emerald-400 rounded-full blur-3xl"></div>
               <div className="absolute top-1/2 right-0 w-24 h-24 bg-amber-400 rounded-full blur-2xl"></div>
               <div className="absolute bottom-0 left-1/3 w-28 h-28 bg-orange-500 rounded-full blur-3xl"></div>
             </div>
@@ -419,7 +419,7 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0, y: -30 }}
                 animate={{ scale: 1, y: 0 }}
                 transition={{ delay: 1.8, type: "spring", damping: 10 }}
-                className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-1"
+                className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-1"
               >
                 🏆 BADGE CONQUISTADA!
               </motion.h1>
@@ -460,7 +460,7 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 1.0, duration: 0.8 }}
-                className="absolute inset-0 bg-gradient-to-r from-orange-400/40 to-amber-400/40 rounded-full blur-2xl scale-150"
+                className="absolute inset-0 bg-gradient-to-r from-emerald-400/40 to-cyan-400/40 rounded-full blur-2xl scale-150"
               ></motion.div>
               
               {/* Badge com efeito RESPIRAR ao invés de girar */}
@@ -493,7 +493,7 @@ export default function BadgeCompletionModal({
                 
                 {/* Anel pulsante ao invés de rotativo */}
                 <motion.div 
-                  className="absolute inset-0 border-4 border-orange-400 rounded-full opacity-60"
+                  className="absolute inset-0 border-4 border-emerald-400 rounded-full opacity-60"
                   animate={{ 
                     scale: [1, 1.1, 1],
                     opacity: [0.6, 0.9, 0.6]
@@ -551,7 +551,7 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 2.8 }}
-                className="bg-slate-700/30 rounded-lg p-2 border border-orange-400/20"
+                className="bg-slate-700/30 rounded-lg p-2 border border-emerald-400/20"
               >
                 <p className="text-orange-300 font-semibold text-base sm:text-lg">
                   {totalPoints} pontos conquistados
@@ -583,7 +583,7 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 3.4 }}
-                className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-400/30 rounded-lg p-3 mb-2"
+                className="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-400/30 rounded-lg p-3 mb-2"
               >
                 <div className="flex items-start gap-2">
                   <span className="text-lg">💡</span>
@@ -641,7 +641,7 @@ export default function BadgeCompletionModal({
                   whileTap={{ scale: 0.97 }}
                   onClick={handleShareImage}
                   disabled={generatingImage}
-                  className="w-full bg-gradient-to-r from-orange-500/80 to-red-600/80 hover:from-orange-600/90 hover:to-red-700/90 text-white px-4 py-3 rounded-lg font-semibold transition-all shadow-md text-sm border border-orange-400/30"
+                  className="w-full bg-gradient-to-r from-emerald-500/80 to-cyan-600/80 hover:from-emerald-600/90 hover:to-cyan-700/90 text-white px-4 py-3 rounded-lg font-semibold transition-all shadow-md text-sm border border-emerald-400/30"
                 >
                   {generatingImage ? (
                     <div className="flex items-center justify-center gap-2">
@@ -663,7 +663,7 @@ export default function BadgeCompletionModal({
               initial={{ scale: 0, rotate: -180, x: 50, y: -50 }}
               animate={{ scale: 1, rotate: 0, x: 0, y: 0 }}
               transition={{ delay: 4.2, type: "spring", damping: 15 }}
-              className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-orange-400 to-yellow-400 text-slate-900 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg border border-orange-300 z-30"
+              className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-900 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg border border-emerald-300 z-30"
             >
               LENDÁRIO ✨
             </motion.div>

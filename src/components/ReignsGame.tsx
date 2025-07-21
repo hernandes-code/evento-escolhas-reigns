@@ -494,15 +494,15 @@ export default function ReignsGame() {
                 </div>
                 {/* Público */}
                 <div className="flex items-center gap-1 drop-shadow-lg bg-black/20 rounded-md px-1.5 py-1">
-                  <span className="text-orange-400 text-xs flex-shrink-0">👥</span>
+                  <span className="text-emerald-400 text-xs flex-shrink-0">👥</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-0.5">
                       <span className="font-medium text-[9px] leading-tight">Público</span>
-                      <span className="font-bold text-orange-400 text-[9px] leading-tight">{gameState.metrics.audience}%</span>
+                      <span className="font-bold text-emerald-400 text-[9px] leading-tight">{gameState.metrics.audience}%</span>
                     </div>
                     <div className="w-full bg-black/40 rounded-full h-1 overflow-hidden">
                       <div 
-                        className="bg-orange-400 h-1 rounded-full transition-all duration-300"
+                        className="bg-emerald-400 h-1 rounded-full transition-all duration-300"
                         style={{ width: `${gameState.metrics.audience}%` }}
                       />
                     </div>
@@ -560,9 +560,9 @@ export default function ReignsGame() {
             <span className="font-medium">Progresso</span>
             <span className="font-bold">{gameState.currentCard + 1} / {gameCards.length}</span>
           </div>
-          <div className="w-full bg-orange-100 rounded-full h-2.5 overflow-hidden shadow-sm">
+          <div className="w-full bg-emerald-100 rounded-full h-2.5 overflow-hidden shadow-sm">
             <motion.div 
-              className="bg-orange-400 h-2.5 rounded-full shadow-sm"
+              className="bg-emerald-400 h-2.5 rounded-full shadow-sm"
               initial={{ width: 0 }}
               animate={{ width: `${((gameState.currentCard + 1) / gameCards.length) * 100}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
