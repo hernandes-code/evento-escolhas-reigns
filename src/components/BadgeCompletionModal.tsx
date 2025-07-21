@@ -151,58 +151,124 @@ export default function BadgeCompletionModal({
     
     return new Promise<string>((resolve) => {
       badgeImg.onload = () => {
-        // Texto "CARD RARO" épico no topo
+        // Background gradient metálico com paleta do site
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, '#0f172a'); // slate-900
+        gradient.addColorStop(0.3, '#1e293b'); // slate-800
+        gradient.addColorStop(0.7, '#ea580c'); // orange-600 do site
+        gradient.addColorStop(1, '#0f172a'); // slate-900
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Efeitos de partículas douradas com cores do site
+        ctx.fillStyle = '#fb923c'; // orange-400
+        for (let i = 0; i < 60; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const size = Math.random() * 4 + 1;
+          ctx.beginPath();
+          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        
+        // Estrelas menores para efeito metálico
+        ctx.fillStyle = '#fbbf24'; // amber-400
+        for (let i = 0; i < 20; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const size = Math.random() * 2 + 1;
+          ctx.beginPath();
+          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        
+        // Texto "CARD LENDÁRIO" épico no topo
         ctx.textAlign = 'center';
         ctx.font = 'bold 80px Arial';
-        ctx.fillStyle = '#fbbf24';
-        ctx.strokeStyle = '#92400e';
+        ctx.fillStyle = '#fb923c'; // orange-400
+        ctx.strokeStyle = '#ea580c'; // orange-600
         ctx.lineWidth = 4;
-        ctx.strokeText('⭐ CARD RARO ⭐', canvas.width / 2, 200);
-        ctx.fillText('⭐ CARD RARO ⭐', canvas.width / 2, 200);
+        ctx.strokeText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 200);
+        ctx.fillText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 200);
         
-        // Badge centralizada com glow effect
-        const badgeSize = 500;
-        const badgeX = (canvas.width - badgeSize) / 2;
-        const badgeY = (canvas.height - badgeSize) / 2 - 150;
+        // Badge centralizada SEM distorção - mantém proporção original
+        const maxBadgeSize = 400;
+        const badgeRatio = badgeImg.width / badgeImg.height;
+        let badgeWidth, badgeHeight;
         
-        // Múltiplos glows para efeito holográfico
-        for (let i = 0; i < 3; i++) {
-          ctx.shadowColor = '#fbbf24';
-          ctx.shadowBlur = 80 - (i * 20);
+        if (badgeRatio > 1) {
+          // Imagem mais larga que alta
+          badgeWidth = maxBadgeSize;
+          badgeHeight = maxBadgeSize / badgeRatio;
+        } else {
+          // Imagem mais alta que larga
+          badgeHeight = maxBadgeSize;
+          badgeWidth = maxBadgeSize * badgeRatio;
+        }
+        
+        const badgeX = (canvas.width - badgeWidth) / 2;
+        const badgeY = (canvas.height - badgeHeight) / 2 - 100;
+        
+        // Múltiplos glows para efeito metálico
+        for (let i = 0; i < 4; i++) {
+          ctx.shadowColor = '#fb923c'; // orange-400
+          ctx.shadowBlur = 100 - (i * 20);
           ctx.shadowOffsetX = 0;
           ctx.shadowOffsetY = 0;
-          ctx.drawImage(badgeImg, badgeX, badgeY, badgeSize, badgeSize);
+          ctx.drawImage(badgeImg, badgeX, badgeY, badgeWidth, badgeHeight);
         }
         
         // Reset shadow
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
         
-        // Nome da badge com efeito épico
+        // Nome da badge com efeito metálico
         ctx.font = 'bold 72px Arial';
         ctx.fillStyle = '#ffffff';
-        ctx.strokeStyle = '#1e1b4b';
+        ctx.strokeStyle = '#0f172a'; // slate-900
         ctx.lineWidth = 3;
-        ctx.strokeText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeSize + 100);
-        ctx.fillText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeSize + 100);
+        ctx.strokeText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeHeight + 100);
+        ctx.fillText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeHeight + 100);
         
-        // Subtitle épico
+        // Subtitle "CONQUISTADA!"
         ctx.font = 'bold 48px Arial';
-        ctx.fillStyle = '#fbbf24';
-        ctx.fillText('CONQUISTADA!', canvas.width / 2, badgeY + badgeSize + 160);
+        ctx.fillStyle = '#fbbf24'; // amber-400
+        ctx.fillText('CONQUISTADA!', canvas.width / 2, badgeY + badgeHeight + 160);
         
         // Pontos em destaque
         ctx.font = 'bold 64px Arial';
         ctx.fillStyle = '#ffffff';
-        ctx.strokeStyle = '#7c3aed';
+        ctx.strokeStyle = '#ea580c'; // orange-600
         ctx.lineWidth = 2;
-        ctx.strokeText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeSize + 240);
-        ctx.fillText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeSize + 240);
+        ctx.strokeText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeHeight + 240);
+        ctx.fillText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeHeight + 240);
         
-        // Footer minimalista
-        ctx.font = 'bold 42px Arial';
-        ctx.fillStyle = '#e5e7eb';
-        ctx.fillText('Desafio do Produtor de Eventos', canvas.width / 2, canvas.height - 150);
+        // Separador metálico
+        const lineY = badgeY + badgeHeight + 280;
+        const lineGradient = ctx.createLinearGradient(canvas.width / 2 - 200, lineY, canvas.width / 2 + 200, lineY);
+        lineGradient.addColorStop(0, 'transparent');
+        lineGradient.addColorStop(0.2, '#fb923c');
+        lineGradient.addColorStop(0.5, '#fbbf24');
+        lineGradient.addColorStop(0.8, '#fb923c');
+        lineGradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = lineGradient;
+        ctx.fillRect(canvas.width / 2 - 200, lineY, 400, 8);
+        
+        // Frase de desafio épica
+        ctx.font = 'bold 56px Arial';
+        ctx.fillStyle = '#fb923c'; // orange-400
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+        ctx.strokeText('Você, produtor,', canvas.width / 2, lineY + 80);
+        ctx.fillText('Você, produtor,', canvas.width / 2, lineY + 80);
+        
+        ctx.strokeText('consegue mais pontos?', canvas.width / 2, lineY + 150);
+        ctx.fillText('consegue mais pontos?', canvas.width / 2, lineY + 150);
+        
+        // Footer elegante
+        ctx.font = 'bold 36px Arial';
+        ctx.fillStyle = '#e2e8f0'; // slate-200
+        ctx.fillText('Desafio do Produtor de Eventos', canvas.width / 2, canvas.height - 100);
         
         setGeneratingImage(false);
         resolve(canvas.toDataURL('image/png'));
@@ -265,27 +331,30 @@ export default function BadgeCompletionModal({
               stiffness: 100,
               duration: 0.8 
             }}
-            className="relative w-full max-w-md mx-auto"
+            className="relative w-full max-w-sm sm:max-w-md mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Card épico com gradiente holográfico */}
-            <div className="relative bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900 rounded-3xl p-8 text-center shadow-2xl border-4 border-yellow-400 overflow-hidden">
-              {/* Efeito de brilho animado */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+            {/* Card épico com gradiente metálico e paleta do site */}
+            <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-center shadow-2xl border-4 border-orange-400 overflow-hidden">
+              {/* Efeito de brilho metálico animado */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-200/30 to-transparent -skew-x-12 animate-pulse"></div>
+              
+              {/* Textura metálica sutil */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-transparent to-orange-600/10 opacity-50"></div>
               
               {/* Partículas douradas flutuantes */}
               <div className="absolute inset-0 overflow-hidden">
-                {[...Array(20)].map((_, i) => (
+                {[...Array(15)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                    className="absolute w-1 h-1 sm:w-2 sm:h-2 bg-orange-400 rounded-full"
                     initial={{ 
-                      x: Math.random() * 400,
-                      y: Math.random() * 600,
+                      x: Math.random() * (window.innerWidth < 640 ? 250 : 350),
+                      y: Math.random() * (window.innerWidth < 640 ? 400 : 500),
                       opacity: 0
                     }}
                     animate={{ 
-                      y: [Math.random() * 600, -50],
+                      y: [Math.random() * (window.innerWidth < 640 ? 400 : 500), -50],
                       opacity: [0, 1, 0],
                       scale: [0, 1, 0]
                     }}
@@ -305,26 +374,26 @@ export default function BadgeCompletionModal({
                 transition={{ delay: 0.3 }}
                 className="relative z-10"
               >
-                <h2 className="text-4xl font-bold text-yellow-400 mb-2 drop-shadow-lg">
-                  ⭐ CARD RARO ⭐
+                <h2 className="text-2xl sm:text-4xl font-bold text-orange-400 mb-2 drop-shadow-lg">
+                  ⭐ CARD LENDÁRIO ⭐
                 </h2>
-                <div className="text-xl text-yellow-200 font-semibold">
+                <div className="text-lg sm:text-xl text-orange-200 font-semibold">
                   CONQUISTADO!
                 </div>
               </motion.div>
 
-              {/* Badge com efeito holográfico */}
+              {/* Badge com efeito holográfico metálico */}
               <motion.div
                 initial={{ scale: 0, rotateZ: 360 }}
                 animate={{ scale: 1, rotateZ: 0 }}
                 transition={{ delay: 0.5, type: "spring", damping: 10 }}
-                className="my-8 relative"
+                className="my-6 sm:my-8 relative"
               >
-                <div className="relative w-48 h-48 mx-auto">
-                  {/* Múltiplos glows para efeito holográfico */}
-                  <div className="absolute inset-0 bg-yellow-400 rounded-full blur-xl opacity-30 animate-pulse"></div>
-                  <div className="absolute inset-2 bg-purple-400 rounded-full blur-lg opacity-20 animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                  <div className="absolute inset-4 bg-blue-400 rounded-full blur-md opacity-15 animate-pulse" style={{animationDelay: '1s'}}></div>
+                <div className="relative w-32 h-32 sm:w-48 sm:h-48 mx-auto">
+                  {/* Múltiplos glows para efeito metálico */}
+                  <div className="absolute inset-0 bg-orange-400 rounded-full blur-xl opacity-40 animate-pulse"></div>
+                  <div className="absolute inset-1 sm:inset-2 bg-orange-500 rounded-full blur-lg opacity-25 animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <div className="absolute inset-2 sm:inset-4 bg-yellow-400 rounded-full blur-md opacity-20 animate-pulse" style={{animationDelay: '1s'}}></div>
                   
                   <img 
                     src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
@@ -341,20 +410,20 @@ export default function BadgeCompletionModal({
                 transition={{ delay: 0.7 }}
                 className="relative z-10"
               >
-                <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                <h3 className="text-lg sm:text-2xl font-bold text-white mb-2 drop-shadow-lg">
                   {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
                 </h3>
-                <p className="text-yellow-200 font-semibold text-lg">
+                <p className="text-orange-300 font-semibold text-base sm:text-lg">
                   {totalPoints} PONTOS
                 </p>
               </motion.div>
 
-              {/* Separador épico */}
+              {/* Separador épico metálico */}
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.9 }}
-                className="w-32 h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 mx-auto my-6 rounded-full"
+                className="w-24 sm:w-32 h-1 bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-400 mx-auto my-4 sm:my-6 rounded-full shadow-lg"
               ></motion.div>
 
               {/* Call to action épico */}
@@ -364,15 +433,15 @@ export default function BadgeCompletionModal({
                 transition={{ delay: 1.1 }}
                 className="relative z-10 text-center"
               >
-                <p className="text-yellow-100 font-bold mb-4">
+                <p className="text-orange-100 font-bold mb-4 text-sm sm:text-base">
                   Compartilhe seu card épico!
                 </p>
                 
-                <div className="flex gap-2 justify-center">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
                   <button
                     onClick={handleShareImage}
                     disabled={generatingImage}
-                    className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all transform hover:scale-105 disabled:opacity-50 shadow-lg"
+                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all transform hover:scale-105 disabled:opacity-50 shadow-lg text-sm sm:text-base"
                   >
                     {generatingImage ? (
                       <div className="flex items-center gap-2">
@@ -380,27 +449,27 @@ export default function BadgeCompletionModal({
                         Gerando...
                       </div>
                     ) : (
-                      '📸 Stories'
+                      '� Compartilhe e desafie um produtor!'
                     )}
                   </button>
                   
                   <button
                     onClick={onEbookClick}
-                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
+                    className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base border border-orange-400/30"
                   >
-                    📖 eBook
+                    📖 Receba o eBook e acesso à comunidade!
                   </button>
                 </div>
               </motion.div>
 
-              {/* Badge do canto */}
+              {/* Badge do canto com design metálico */}
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 1.3, type: "spring" }}
-                className="absolute top-4 right-4 bg-yellow-400 text-purple-900 px-3 py-1 rounded-full text-sm font-bold"
+                className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-gradient-to-r from-orange-400 to-yellow-400 text-slate-900 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg border border-orange-300"
               >
-                RARO ✨
+                LENDÁRIO ✨
               </motion.div>
             </div>
             
