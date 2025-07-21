@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import logo from '../assets/logo.png';
 import badgeTechMaster from '../assets/badge-tech-master.png';
 import badgeBudgetWizard from '../assets/badge-budget-wizard.png';
-import badgeCrowdPleaser from '../assets/badge-crowd-pleaser.png';
 import badgeSatisfactionGuru from '../assets/badge-satisfaction-guru.png';
 import badgeRiskTaker from '../assets/badge-risk-taker.png';
 import badgeStrategicMind from '../assets/badge-strategic-mind.png';
@@ -64,7 +63,7 @@ export default function BadgeCompletionModal({
       description: 'Priorizou relacionamentos duradouros',
       icon: '🤝',
       message: 'Relacionamentos sólidos são a base do sucesso! Ferramentas de CRM ajudam a escalar.',
-      image: badgeCrowdPleaser,
+      image: badgeSatisfactionGuru,
       style: 'Construtor de Conexões',
       phrase: 'Cultiva relacionamentos que duram além dos eventos'
     },
@@ -94,15 +93,6 @@ export default function BadgeCompletionModal({
       image: badgeBudgetWizard,
       style: 'Maestro Financeiro',
       phrase: 'Maximiza resultados com precisão cirúrgica no orçamento'
-    },
-    PEOPLE_PERSON: {
-      name: 'Guru da Satisfação',
-      description: 'Focou na experiência e satisfação do público',
-      icon: '👥',
-      message: 'Foco no público é fundamental! Ferramentas de feedback automatizado ajudam a manter essa conexão.',
-      image: badgeSatisfactionGuru,
-      style: 'Expert em Experiência',
-      phrase: 'Cria momentos inesquecíveis para cada participante'
     }
   };
 

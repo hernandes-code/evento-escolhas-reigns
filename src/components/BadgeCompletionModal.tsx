@@ -1,12 +1,7 @@
 import { useState, useRef } from 'react';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Download, Image as ImageIcon, Trophy, Star, Zap } from 'lucide-react';
-import { motion } from 'framer-motion';
-import logo from '../assets/logo.png';
+import { motion, AnimatePresence } from 'framer-motion';
 import badgeTechMaster from '../assets/badge-tech-master.png';
 import badgeBudgetWizard from '../assets/badge-budget-wizard.png';
-import badgeCrowdPleaser from '../assets/badge-crowd-pleaser.png';
 import badgeSatisfactionGuru from '../assets/badge-satisfaction-guru.png';
 import badgeRiskTaker from '../assets/badge-risk-taker.png';
 import badgeStrategicMind from '../assets/badge-strategic-mind.png';
@@ -64,7 +59,7 @@ export default function BadgeCompletionModal({
       description: 'Priorizou relacionamentos duradouros',
       icon: '🤝',
       message: 'Relacionamentos sólidos são a base do sucesso! Ferramentas de CRM ajudam a escalar.',
-      image: badgeCrowdPleaser,
+      image: badgeSatisfactionGuru,
       style: 'Construtor de Conexões',
       phrase: 'Cultiva relacionamentos que duram além dos eventos'
     },
@@ -94,15 +89,6 @@ export default function BadgeCompletionModal({
       image: badgeBudgetWizard,
       style: 'Maestro Financeiro',
       phrase: 'Maximiza resultados com precisão cirúrgica no orçamento'
-    },
-    PEOPLE_PERSON: {
-      name: 'Guru da Satisfação',
-      description: 'Focou na experiência e satisfação do público',
-      icon: '👥',
-      message: 'Foco no público é fundamental! Ferramentas de feedback automatizado ajudam a manter essa conexão.',
-      image: badgeSatisfactionGuru,
-      style: 'Expert em Experiência',
-      phrase: 'Cria momentos inesquecíveis para cada participante'
     }
   };
 
@@ -125,126 +111,98 @@ export default function BadgeCompletionModal({
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
     
-    // Definir tamanho do canvas para story/post
+    // Formato Instagram Story (9:16)
     canvas.width = 1080;
-    canvas.height = 1080;
+    canvas.height = 1920;
     
-    // Fundo branco sólido
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Gradiente sutil de fundo
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, 'rgba(255, 107, 53, 0.05)');
-    gradient.addColorStop(1, 'rgba(247, 147, 30, 0.05)');
+    // Background gradient épico
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#1e1b4b');
+    gradient.addColorStop(0.3, '#312e81');
+    gradient.addColorStop(0.7, '#7c3aed');
+    gradient.addColorStop(1, '#1e1b4b');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Container principal com sombra elegante
-    const containerY = 100;
-    const containerHeight = 880;
-    const containerX = 60;
-    const containerWidth = canvas.width - 120;
-    const radius = 30;
+    // Efeitos de partículas douradas
+    ctx.fillStyle = '#fbbf24';
+    for (let i = 0; i < 80; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const size = Math.random() * 6 + 2;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
     
-    // Sombra do container
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-    ctx.shadowBlur = 20;
-    ctx.shadowOffsetY = 10;
-    
+    // Estrelas brilhantes
     ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.moveTo(containerX + radius, containerY);
-    ctx.lineTo(containerX + containerWidth - radius, containerY);
-    ctx.quadraticCurveTo(containerX + containerWidth, containerY, containerX + containerWidth, containerY + radius);
-    ctx.lineTo(containerX + containerWidth, containerY + containerHeight - radius);
-    ctx.quadraticCurveTo(containerX + containerWidth, containerY + containerHeight, containerX + containerWidth - radius, containerY + containerHeight);
-    ctx.lineTo(containerX + radius, containerY + containerHeight);
-    ctx.quadraticCurveTo(containerX, containerY + containerHeight, containerX, containerY + containerHeight - radius);
-    ctx.lineTo(containerX, containerY + radius);
-    ctx.quadraticCurveTo(containerX, containerY, containerX + radius, containerY);
-    ctx.closePath();
-    ctx.fill();
-    
-    // Reset shadow
-    ctx.shadowColor = 'transparent';
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetY = 0;
+    for (let i = 0; i < 30; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const size = Math.random() * 3 + 1;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
     
     const badgeImg = new Image();
     const mainBadge = badgeDetails[badges[0] as keyof typeof badgeDetails];
     
     return new Promise<string>((resolve) => {
       badgeImg.onload = () => {
-        // Header "PARABÉNS!"
-        ctx.fillStyle = '#1f2937';
-        ctx.font = 'bold 72px Arial';
+        // Texto "CARD RARO" épico no topo
         ctx.textAlign = 'center';
-        ctx.fillText('🎉 PARABÉNS! 🎉', canvas.width / 2, containerY + 100);
+        ctx.font = 'bold 80px Arial';
+        ctx.fillStyle = '#fbbf24';
+        ctx.strokeStyle = '#92400e';
+        ctx.lineWidth = 4;
+        ctx.strokeText('⭐ CARD RARO ⭐', canvas.width / 2, 200);
+        ctx.fillText('⭐ CARD RARO ⭐', canvas.width / 2, 200);
         
-        // Badge image - maior e centralizada
-        const imgSize = 380;
-        const imgX = (canvas.width - imgSize) / 2;
-        const imgY = containerY + 150;
+        // Badge centralizada com glow effect
+        const badgeSize = 500;
+        const badgeX = (canvas.width - badgeSize) / 2;
+        const badgeY = (canvas.height - badgeSize) / 2 - 150;
         
-        // Fundo branco para a badge caso tenha transparência
+        // Múltiplos glows para efeito holográfico
+        for (let i = 0; i < 3; i++) {
+          ctx.shadowColor = '#fbbf24';
+          ctx.shadowBlur = 80 - (i * 20);
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 0;
+          ctx.drawImage(badgeImg, badgeX, badgeY, badgeSize, badgeSize);
+        }
+        
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        
+        // Nome da badge com efeito épico
+        ctx.font = 'bold 72px Arial';
         ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(imgX + imgSize/2, imgY + imgSize/2, imgSize/2 + 10, 0, 2 * Math.PI);
-        ctx.fill();
+        ctx.strokeStyle = '#1e1b4b';
+        ctx.lineWidth = 3;
+        ctx.strokeText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeSize + 100);
+        ctx.fillText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeSize + 100);
         
-        ctx.drawImage(badgeImg, imgX, imgY, imgSize, imgSize);
-        
-        // Badge name com destaque
-        ctx.fillStyle = '#1f2937';
-        ctx.font = 'bold 56px Arial';
-        ctx.fillText(mainBadge?.name || '', canvas.width / 2, imgY + imgSize + 80);
-        
-        // Texto elogioso personalizado
-        const compliments = [
-          'Você tem talento excepcional!',
-          'Sua visão estratégica impressiona!',
-          'Parabéns pelo resultado incrível!',
-          'Você domina a arte dos eventos!',
-          'Que performance fantástica!'
-        ];
-        const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
-        
-        ctx.font = 'bold 38px Arial';
-        ctx.fillStyle = '#ea580c';
-        ctx.fillText(randomCompliment, canvas.width / 2, imgY + imgSize + 140);
-        
-        // Points com destaque
+        // Subtitle épico
         ctx.font = 'bold 48px Arial';
-        ctx.fillStyle = '#1f2937';
-        ctx.fillText(`${totalPoints} PONTOS`, canvas.width / 2, imgY + imgSize + 200);
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText('CONQUISTADA!', canvas.width / 2, badgeY + badgeSize + 160);
         
-        // Separador elegante
-        ctx.strokeStyle = '#e5e7eb';
+        // Pontos em destaque
+        ctx.font = 'bold 64px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#7c3aed';
         ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(canvas.width / 2 - 150, imgY + imgSize + 230);
-        ctx.lineTo(canvas.width / 2 + 150, imgY + imgSize + 230);
-        ctx.stroke();
+        ctx.strokeText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeSize + 240);
+        ctx.fillText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeSize + 240);
         
-        // Challenge text mais impactante
-        ctx.font = 'bold 44px Arial';
-        ctx.fillStyle = '#7c3aed';
-        ctx.fillText('Você trabalha com eventos?', canvas.width / 2, imgY + imgSize + 280);
-        
-        ctx.font = 'bold 48px Arial';
-        ctx.fillStyle = '#dc2626';
-        ctx.fillText('DUVIDO FAZER MAIS PONTOS!', canvas.width / 2, imgY + imgSize + 340);
-        
-        // Call to action
-        ctx.font = '32px Arial';
-        ctx.fillStyle = '#6b7280';
-        ctx.fillText('Aceita o desafio? Teste agora!', canvas.width / 2, imgY + imgSize + 390);
-        
-        // Footer elegante
-        ctx.font = 'bold 28px Arial';
-        ctx.fillStyle = '#1f2937';
-        ctx.fillText('Desafio do Produtor de Eventos', canvas.width / 2, imgY + imgSize + 450);
+        // Footer minimalista
+        ctx.font = 'bold 42px Arial';
+        ctx.fillStyle = '#e5e7eb';
+        ctx.fillText('Desafio do Produtor de Eventos', canvas.width / 2, canvas.height - 150);
         
         setGeneratingImage(false);
         resolve(canvas.toDataURL('image/png'));
@@ -288,90 +246,169 @@ export default function BadgeCompletionModal({
   };
 
   return (
-    <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent className="max-w-sm mx-auto bg-background border-border max-h-[95vh] overflow-y-auto m-2 w-[calc(100vw-1rem)] sm:m-4 sm:w-[calc(100vw-2rem)]">
-        <DialogHeader className="pb-1">
-          <DialogTitle className="text-center text-base font-bold text-foreground">
-            🎉 Parabéns!
-          </DialogTitle>
-        </DialogHeader>
-        
-        <div className="space-y-3">
-          {/* Badge principal */}
-          {badges.length > 0 && (
-            <div className="text-center">
-              <div className="mb-2">
-                <img 
-                  src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
-                  alt={badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
-                  className="w-20 h-20 mx-auto object-contain"
-                />
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+          onClick={() => onClose()}
+        >
+          <motion.div
+            initial={{ scale: 0.3, rotateY: 180, opacity: 0 }}
+            animate={{ scale: 1, rotateY: 0, opacity: 1 }}
+            exit={{ scale: 0.3, rotateY: -180, opacity: 0 }}
+            transition={{ 
+              type: "spring", 
+              damping: 15, 
+              stiffness: 100,
+              duration: 0.8 
+            }}
+            className="relative w-full max-w-md mx-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Card épico com gradiente holográfico */}
+            <div className="relative bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900 rounded-3xl p-8 text-center shadow-2xl border-4 border-yellow-400 overflow-hidden">
+              {/* Efeito de brilho animado */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+              
+              {/* Partículas douradas flutuantes */}
+              <div className="absolute inset-0 overflow-hidden">
+                {[...Array(20)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                    initial={{ 
+                      x: Math.random() * 400,
+                      y: Math.random() * 600,
+                      opacity: 0
+                    }}
+                    animate={{ 
+                      y: [Math.random() * 600, -50],
+                      opacity: [0, 1, 0],
+                      scale: [0, 1, 0]
+                    }}
+                    transition={{ 
+                      duration: 3 + Math.random() * 2,
+                      repeat: Infinity,
+                      delay: Math.random() * 2
+                    }}
+                  />
+                ))}
               </div>
-              <h3 className="text-sm font-bold text-foreground mb-1">
-                {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
-              </h3>
-              <p className="text-xs text-muted-foreground mb-2">
-                {badgeDetails[badges[0] as keyof typeof badgeDetails]?.message}
-              </p>
-              <div className="text-center">
-                <p className="text-sm font-semibold text-primary mb-1">
-                  {totalPoints} pontos
+              
+              {/* Header épico */}
+              <motion.div
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="relative z-10"
+              >
+                <h2 className="text-4xl font-bold text-yellow-400 mb-2 drop-shadow-lg">
+                  ⭐ CARD RARO ⭐
+                </h2>
+                <div className="text-xl text-yellow-200 font-semibold">
+                  CONQUISTADO!
+                </div>
+              </motion.div>
+
+              {/* Badge com efeito holográfico */}
+              <motion.div
+                initial={{ scale: 0, rotateZ: 360 }}
+                animate={{ scale: 1, rotateZ: 0 }}
+                transition={{ delay: 0.5, type: "spring", damping: 10 }}
+                className="my-8 relative"
+              >
+                <div className="relative w-48 h-48 mx-auto">
+                  {/* Múltiplos glows para efeito holográfico */}
+                  <div className="absolute inset-0 bg-yellow-400 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                  <div className="absolute inset-2 bg-purple-400 rounded-full blur-lg opacity-20 animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <div className="absolute inset-4 bg-blue-400 rounded-full blur-md opacity-15 animate-pulse" style={{animationDelay: '1s'}}></div>
+                  
+                  <img 
+                    src={badgeDetails[badges[0] as keyof typeof badgeDetails]?.image} 
+                    alt="Badge"
+                    className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Nome da badge */}
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="relative z-10"
+              >
+                <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                  {badgeDetails[badges[0] as keyof typeof badgeDetails]?.name}
+                </h3>
+                <p className="text-yellow-200 font-semibold text-lg">
+                  {totalPoints} PONTOS
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Você consegue fazer um evento melhor?
+              </motion.div>
+
+              {/* Separador épico */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.9 }}
+                className="w-32 h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 mx-auto my-6 rounded-full"
+              ></motion.div>
+
+              {/* Call to action épico */}
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1.1 }}
+                className="relative z-10 text-center"
+              >
+                <p className="text-yellow-100 font-bold mb-4">
+                  Compartilhe seu card épico!
                 </p>
-              </div>
+                
+                <div className="flex gap-2 justify-center">
+                  <button
+                    onClick={handleShareImage}
+                    disabled={generatingImage}
+                    className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all transform hover:scale-105 disabled:opacity-50 shadow-lg"
+                  >
+                    {generatingImage ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Gerando...
+                      </div>
+                    ) : (
+                      '📸 Stories'
+                    )}
+                  </button>
+                  
+                  <button
+                    onClick={onEbookClick}
+                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    📖 eBook
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Badge do canto */}
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 1.3, type: "spring" }}
+                className="absolute top-4 right-4 bg-yellow-400 text-purple-900 px-3 py-1 rounded-full text-sm font-bold"
+              >
+                RARO ✨
+              </motion.div>
             </div>
-          )}
-
-          {/* Mensagem educacional para o eBook */}
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-2.5 text-center">
-            <h4 className="font-semibold text-orange-800 mb-1.5 text-sm">
-              🚀 Quer multiplicar seus resultados?
-            </h4>
-            <p className="text-xs text-orange-700 mb-1.5">
-              Durante o jogo, você viu como <strong>organização, ferramentas de bilheteria e marketing integrado</strong> fazem a diferença. 
-              Nosso eBook ensina como implementar essas estratégias na prática!
-            </p>
-            <p className="text-[10px] text-orange-600">
-              ✓ Checklists de produção ✓ Ferramentas recomendadas ✓ Casos de sucesso
-            </p>
-          </div>
-
-          {/* Botões */}
-          <div className="flex gap-2 pt-1">
-            <Button
-              onClick={handleShareImage}
-              disabled={generatingImage}
-              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs py-2"
-            >
-              {generatingImage ? (
-                <>
-                  <div className="w-3 h-3 mr-1 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Gerando...
-                </>
-              ) : (
-                <>
-                  <ImageIcon className="w-3 h-3 mr-1" />
-                  Compartilhar Badge
-                </>
-              )}
-            </Button>
             
-            <Button
-              onClick={onEbookClick}
-              variant="outline"
-              className="flex-1 border-orange-300 text-orange-600 hover:bg-orange-50 text-xs py-2"
-            >
-              <Download className="w-3 h-3 mr-1" />
-              Receber eBook Grátis
-            </Button>
-          </div>
-          
-          {/* Canvas hidden para gerar a imagem */}
-          <canvas ref={canvasRef} style={{ display: 'none' }} />
-        </div>
-      </DialogContent>
-    </Dialog>
+            {/* Canvas invisível para geração da imagem */}
+            <canvas ref={canvasRef} className="hidden" />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

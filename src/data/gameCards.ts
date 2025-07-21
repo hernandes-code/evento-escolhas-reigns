@@ -400,7 +400,7 @@ export const GAME_BADGES = {
     name: 'Agrada Multidões',
     description: 'Priorizou relacionamentos duradouros',
     icon: '🤝',
-    image: 'badge-crowd-pleaser.png',
+    image: 'badge-satisfaction-guru.png',
     requirement: 'relationship_choices >= 3',
     educationalMessage: 'Relacionamentos sólidos são a base do sucesso! Ferramentas de CRM ajudam a escalar essa habilidade.'
   },
@@ -427,13 +427,5 @@ export const GAME_BADGES = {
     image: 'badge-budget-wizard.png',
     requirement: 'budget >= 80',
     educationalMessage: 'Controle financeiro é essencial! Plataformas com dashboard financeiro facilitam essa gestão.'
-  },
-  PEOPLE_PERSON: {
-    name: 'Produtor Inteligente',
-    description: 'Focou na experiência e satisfação do público',
-    icon: '👥',
-    image: 'badge-satisfaction-guru.png',
-    requirement: 'satisfaction >= 80',
-    educationalMessage: 'Foco no público é fundamental! Ferramentas de feedback automatizado ajudam a manter essa conexão.'
   }
 };

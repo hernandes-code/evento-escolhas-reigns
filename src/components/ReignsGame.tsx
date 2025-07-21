@@ -98,11 +98,6 @@ export default function ReignsGame() {
       badges.push('BUDGET_CONSCIOUS');
     }
     
-    // 8. PEOPLE_PERSON - Foco nas pessoas (threshold aumentado)
-    if (metrics.satisfaction >= 80 || (choiceCategories.relationship_focused >= 1 && choiceCategories.proactive >= 1 && metrics.satisfaction >= 70)) {
-      badges.push('PEOPLE_PERSON');
-    }
-    
     // Sistema de fallback educacional mais específico
     if (badges.length === 0) {
       const categoryEntries = Object.entries(choiceCategories).filter(([k, v]) => (v as number) > 0);
@@ -131,14 +126,13 @@ export default function ReignsGame() {
             badges.push('DATA_MASTER');
             break;
           case 'balanced':
-            if (metrics.satisfaction >= 70) badges.push('PEOPLE_PERSON');
-            else badges.push('PROBLEM_SOLVER');
+            badges.push('PROBLEM_SOLVER');
             break;
           default:
             // Badge baseada nas métricas finais como último recurso
             if (metrics.technology >= 50) badges.push('TECH_ENTHUSIAST');
             else if (metrics.budget >= 60) badges.push('BUDGET_CONSCIOUS');
-            else if (metrics.satisfaction >= 70) badges.push('PEOPLE_PERSON');
+            else if (metrics.satisfaction >= 70) badges.push('RELATIONSHIP_BUILDER');
             else badges.push('PROBLEM_SOLVER'); // Fallback final
         }
       } else {
