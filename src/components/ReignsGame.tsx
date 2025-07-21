@@ -57,65 +57,92 @@ export default function ReignsGame() {
   const [cardKey, setCardKey] = useState(0); // Para forçar re-render da carta
   const [cardVisible, setCardVisible] = useState(true); // Controla visibilidade da carta
 
-  // Calculate badges based on performance and choices
+  // Calculate badges based on performance and choices - SISTEMA EQUILIBRADO v2
   const calculateBadges = (metrics: GameMetricsType, totalPoints: number, choiceCategories: any) => {
     const badges = [];
     
-    // Platform adoption badge
-    if (choiceCategories.platform_user >= 1 || choiceCategories.organized >= 3) {
+    // Sistema rebalanceado para distribuição uniforme de todas as badges
+    
+    // 1. PLATFORM_ADOPTER - Foco em adoção de plataformas
+    if (choiceCategories.platform_user >= 1 || (choiceCategories.organized >= 2 && metrics.technology >= 50)) {
       badges.push('PLATFORM_ADOPTER');
     }
     
-    // Strategic thinking badge
-    if (choiceCategories.strategic >= 2 || choiceCategories.data_driven >= 2) {
+    // 2. STRATEGIC_MIND - Pensamento estratégico (balanceado)
+    if (choiceCategories.strategic >= 2 || (choiceCategories.data_driven >= 1 && choiceCategories.organized >= 1) || (choiceCategories.strategic >= 1 && metrics.budget >= 65)) {
       badges.push('STRATEGIC_MIND');
     }
     
-    // Relationship focused badge
-    if (choiceCategories.relationship_focused >= 2 || choiceCategories.proactive >= 2) {
+    // 3. RELATIONSHIP_BUILDER - Relacionamentos (mais acessível)
+    if (choiceCategories.relationship_focused >= 1 || choiceCategories.proactive >= 1 || (choiceCategories.inclusive >= 1 && metrics.satisfaction >= 65)) {
       badges.push('RELATIONSHIP_BUILDER');
     }
     
-    // Problem solving badge
-    if (choiceCategories.creative >= 1 || (metrics.satisfaction >= 70 && choiceCategories.inclusive >= 1)) {
+    // 4. PROBLEM_SOLVER - Resolução criativa de problemas (moderado)
+    if (choiceCategories.creative >= 1 || (choiceCategories.inclusive >= 1 && choiceCategories.balanced >= 1) || (metrics.satisfaction >= 75 && choiceCategories.proactive >= 1)) {
       badges.push('PROBLEM_SOLVER');
     }
     
-    // Data analysis badge
-    if (choiceCategories.data_driven >= 1 || metrics.technology >= 70) {
+    // 5. DATA_MASTER - Análise de dados (requer mais foco)
+    if ((choiceCategories.data_driven >= 1 && choiceCategories.data_focused >= 1) || (choiceCategories.data_driven >= 1 && metrics.technology >= 60) || choiceCategories.data_focused >= 1) {
       badges.push('DATA_MASTER');
     }
     
-    // Technology enthusiast badge
-    if (metrics.technology >= 70 || choiceCategories.platform_user >= 1) {
+    // 6. TECH_ENTHUSIAST - Entusiasta de tecnologia (threshold mais exigente)
+    if (metrics.technology >= 65 || (choiceCategories.platform_user >= 1 && metrics.technology >= 55 && choiceCategories.data_driven >= 1)) {
       badges.push('TECH_ENTHUSIAST');
     }
     
-    // Budget conscious badge
-    if (metrics.budget >= 60) {
+    // 7. BUDGET_CONSCIOUS - Consciência orçamentária (mais exigente)
+    if (metrics.budget >= 70 || (choiceCategories.strategic >= 2 && metrics.budget >= 60) || (choiceCategories.money_focused >= 1 && metrics.budget >= 55)) {
       badges.push('BUDGET_CONSCIOUS');
     }
     
-    // People person badge
-    if (metrics.satisfaction >= 65 || choiceCategories.relationship_focused >= 2) {
+    // 8. PEOPLE_PERSON - Foco nas pessoas (threshold aumentado)
+    if (metrics.satisfaction >= 80 || (choiceCategories.relationship_focused >= 1 && choiceCategories.proactive >= 1 && metrics.satisfaction >= 70)) {
       badges.push('PEOPLE_PERSON');
     }
     
-    // Garantir que sempre tenha pelo menos uma badge educacional
+    // Sistema de fallback educacional mais específico
     if (badges.length === 0) {
-      // Dar badge baseada na categoria de escolha mais frequente
-      const maxCategory = Object.entries(choiceCategories).reduce((a, b) => 
-        choiceCategories[a[0]] > choiceCategories[b[0]] ? a : b
-      );
-      
-      if (maxCategory[0] === 'strategic' || maxCategory[0] === 'organized') {
-        badges.push('STRATEGIC_MIND');
-      } else if (maxCategory[0] === 'platform_user') {
-        badges.push('PLATFORM_ADOPTER');
-      } else if (maxCategory[0] === 'data_driven') {
-        badges.push('DATA_MASTER');
+      const categoryEntries = Object.entries(choiceCategories).filter(([k, v]) => (v as number) > 0);
+      if (categoryEntries.length > 0) {
+        const maxCategory = categoryEntries.reduce((a, b) => (a[1] as number) > (b[1] as number) ? a : b);
+        
+        // Fallback específico baseado na categoria dominante
+        switch (maxCategory[0]) {
+          case 'strategic':
+          case 'organized':
+            badges.push('STRATEGIC_MIND');
+            break;
+          case 'platform_user':
+            badges.push('PLATFORM_ADOPTER');
+            break;
+          case 'relationship_focused':
+          case 'proactive':
+            badges.push('RELATIONSHIP_BUILDER');
+            break;
+          case 'creative':
+          case 'inclusive':
+            badges.push('PROBLEM_SOLVER');
+            break;
+          case 'data_driven':
+          case 'data_focused':
+            badges.push('DATA_MASTER');
+            break;
+          case 'balanced':
+            if (metrics.satisfaction >= 70) badges.push('PEOPLE_PERSON');
+            else badges.push('PROBLEM_SOLVER');
+            break;
+          default:
+            // Badge baseada nas métricas finais como último recurso
+            if (metrics.technology >= 50) badges.push('TECH_ENTHUSIAST');
+            else if (metrics.budget >= 60) badges.push('BUDGET_CONSCIOUS');
+            else if (metrics.satisfaction >= 70) badges.push('PEOPLE_PERSON');
+            else badges.push('PROBLEM_SOLVER'); // Fallback final
+        }
       } else {
-        badges.push('PROBLEM_SOLVER');
+        badges.push('PROBLEM_SOLVER'); // Fallback absoluto
       }
     }
     
@@ -129,9 +156,9 @@ export default function ReignsGame() {
     // Prevent infinite loops by checking if game is already over or processed
     if (isGameOver || gameOverProcessed.current) return;
     
-    // Only check for game over after at least 2 cards have been played
+    // Only check for game over after at least 1 card has been played
     // This prevents immediate game over when stats start at 0
-    if (currentCard < 2) return;
+    if (currentCard < 1) return;
     
     if (metrics.budget <= 0) {
       gameOverProcessed.current = true;
@@ -141,7 +168,7 @@ export default function ReignsGame() {
         isGameOver: true, 
         gameOverReason: 'Seu orçamento acabou! Sem dinheiro, o evento não pode continuar.' 
       }));
-    } else if (metrics.audience < 0) {
+    } else if (metrics.audience <= 0) {
       gameOverProcessed.current = true;
       playSound('game-over');
       setGameState(prev => ({ 
@@ -149,7 +176,7 @@ export default function ReignsGame() {
         isGameOver: true, 
         gameOverReason: 'Ninguém quer ir ao seu evento! Você precisa de mais estratégias de marketing.' 
       }));
-    } else if (metrics.satisfaction < 0) {
+    } else if (metrics.satisfaction <= 0) {
       gameOverProcessed.current = true;
       playSound('game-over');
       setGameState(prev => ({ 

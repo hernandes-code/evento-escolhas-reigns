@@ -84,11 +84,13 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
       rotateY: 0,
       x: swipeDirection === 'left' ? -1000 : swipeDirection === 'right' ? 1000 : 0,
       rotate: swipeDirection === 'left' ? -30 : swipeDirection === 'right' ? 30 : 0
-    },
-    transition: { 
-      duration: swipeDirection ? 0.2 : 0.4, // Reduzido para mais responsividade
-      ease: swipeDirection ? "easeIn" : "easeOut"
     }
+  }), [swipeDirection]);
+
+  const cardTransition = useMemo(() => ({ 
+    duration: swipeDirection ? 0.2 : 0.4,
+    type: "tween" as const,
+    ease: swipeDirection ? "easeIn" as const : "easeOut" as const
   }), [swipeDirection]);
 
   return (
@@ -102,7 +104,7 @@ export default function GameCard({ card, onChoice, className = '' }: GameCardPro
         variants={cardVariants}
         initial="initial"
         animate="animate"
-        transition={cardVariants.transition}
+        transition={cardTransition}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
