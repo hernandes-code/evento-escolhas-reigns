@@ -192,7 +192,7 @@ export default function BadgeCompletionModal({
         ctx.fillText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 180);
         
         // Badge centralizada SEM distorção - MUITO MAIOR para ser o ponto focal
-        const maxBadgeSize = 600; // Aumentado de 400 para 600
+        const maxBadgeSize = 1200; // Dobrado de 600 para 1200 para maior destaque
         const badgeRatio = badgeImg.width / badgeImg.height;
         let badgeWidth, badgeHeight;
         
@@ -207,7 +207,7 @@ export default function BadgeCompletionModal({
         }
         
         const badgeX = (canvas.width - badgeWidth) / 2;
-        const badgeY = (canvas.height - badgeHeight) / 2 - 50; // Menos offset para centralizar melhor
+        const badgeY = (canvas.height - badgeHeight) / 2 - 150; // Ajustado para acomodar a carta maior
         
         // Múltiplos glows para efeito metálico MAIS INTENSO
         for (let i = 0; i < 5; i++) {
@@ -449,7 +449,7 @@ export default function BadgeCompletionModal({
                         Gerando...
                       </div>
                     ) : (
-                      '� Compartilhe e desafie um produtor!'
+                      '📱 Compartilhe e desafie um produtor!'
                     )}
                   </button>
                   
