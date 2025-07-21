@@ -182,17 +182,17 @@ export default function BadgeCompletionModal({
           ctx.fill();
         }
         
-        // Texto "CARD LENDÁRIO" épico no topo
+        // Texto "CARD LENDÁRIO" épico no topo - posição ajustada
         ctx.textAlign = 'center';
-        ctx.font = 'bold 80px Arial';
+        ctx.font = 'bold 70px Arial'; // Reduzido um pouco para dar mais espaço
         ctx.fillStyle = '#fb923c'; // orange-400
         ctx.strokeStyle = '#ea580c'; // orange-600
         ctx.lineWidth = 4;
-        ctx.strokeText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 200);
-        ctx.fillText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 200);
+        ctx.strokeText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 180); // Movido mais para cima
+        ctx.fillText('⭐ CARD LENDÁRIO ⭐', canvas.width / 2, 180);
         
-        // Badge centralizada SEM distorção - mantém proporção original
-        const maxBadgeSize = 400;
+        // Badge centralizada SEM distorção - MUITO MAIOR para ser o ponto focal
+        const maxBadgeSize = 600; // Aumentado de 400 para 600
         const badgeRatio = badgeImg.width / badgeImg.height;
         let badgeWidth, badgeHeight;
         
@@ -207,12 +207,12 @@ export default function BadgeCompletionModal({
         }
         
         const badgeX = (canvas.width - badgeWidth) / 2;
-        const badgeY = (canvas.height - badgeHeight) / 2 - 100;
+        const badgeY = (canvas.height - badgeHeight) / 2 - 50; // Menos offset para centralizar melhor
         
-        // Múltiplos glows para efeito metálico
-        for (let i = 0; i < 4; i++) {
+        // Múltiplos glows para efeito metálico MAIS INTENSO
+        for (let i = 0; i < 5; i++) {
           ctx.shadowColor = '#fb923c'; // orange-400
-          ctx.shadowBlur = 100 - (i * 20);
+          ctx.shadowBlur = 120 - (i * 20); // Aumentado o blur
           ctx.shadowOffsetX = 0;
           ctx.shadowOffsetY = 0;
           ctx.drawImage(badgeImg, badgeX, badgeY, badgeWidth, badgeHeight);
@@ -222,29 +222,29 @@ export default function BadgeCompletionModal({
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
         
-        // Nome da badge com efeito metálico
-        ctx.font = 'bold 72px Arial';
+        // Nome da badge com efeito metálico - posição ajustada
+        ctx.font = 'bold 68px Arial'; // Ligeiramente menor
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = '#0f172a'; // slate-900
         ctx.lineWidth = 3;
-        ctx.strokeText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeHeight + 100);
-        ctx.fillText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeHeight + 100);
+        ctx.strokeText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeHeight + 80); // Ajustado
+        ctx.fillText(mainBadge?.name || '', canvas.width / 2, badgeY + badgeHeight + 80);
         
         // Subtitle "CONQUISTADA!"
-        ctx.font = 'bold 48px Arial';
+        ctx.font = 'bold 44px Arial'; // Ligeiramente menor
         ctx.fillStyle = '#fbbf24'; // amber-400
-        ctx.fillText('CONQUISTADA!', canvas.width / 2, badgeY + badgeHeight + 160);
+        ctx.fillText('CONQUISTADA!', canvas.width / 2, badgeY + badgeHeight + 130); // Ajustado
         
         // Pontos em destaque
-        ctx.font = 'bold 64px Arial';
+        ctx.font = 'bold 60px Arial'; // Ligeiramente menor
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = '#ea580c'; // orange-600
         ctx.lineWidth = 2;
-        ctx.strokeText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeHeight + 240);
-        ctx.fillText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeHeight + 240);
+        ctx.strokeText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeHeight + 190); // Ajustado
+        ctx.fillText(`${totalPoints} PONTOS`, canvas.width / 2, badgeY + badgeHeight + 190);
         
-        // Separador metálico
-        const lineY = badgeY + badgeHeight + 280;
+        // Separador metálico - posição ajustada
+        const lineY = badgeY + badgeHeight + 220; // Ajustado
         const lineGradient = ctx.createLinearGradient(canvas.width / 2 - 200, lineY, canvas.width / 2 + 200, lineY);
         lineGradient.addColorStop(0, 'transparent');
         lineGradient.addColorStop(0.2, '#fb923c');
@@ -254,21 +254,21 @@ export default function BadgeCompletionModal({
         ctx.fillStyle = lineGradient;
         ctx.fillRect(canvas.width / 2 - 200, lineY, 400, 8);
         
-        // Frase de desafio épica
-        ctx.font = 'bold 56px Arial';
+        // Frase de desafio épica - posição ajustada
+        ctx.font = 'bold 50px Arial'; // Ligeiramente menor
         ctx.fillStyle = '#fb923c'; // orange-400
         ctx.strokeStyle = '#0f172a';
         ctx.lineWidth = 2;
-        ctx.strokeText('Você, produtor,', canvas.width / 2, lineY + 80);
-        ctx.fillText('Você, produtor,', canvas.width / 2, lineY + 80);
+        ctx.strokeText('Você, produtor,', canvas.width / 2, lineY + 70); // Ajustado
+        ctx.fillText('Você, produtor,', canvas.width / 2, lineY + 70);
         
-        ctx.strokeText('consegue mais pontos?', canvas.width / 2, lineY + 150);
-        ctx.fillText('consegue mais pontos?', canvas.width / 2, lineY + 150);
+        ctx.strokeText('consegue mais pontos?', canvas.width / 2, lineY + 130); // Ajustado
+        ctx.fillText('consegue mais pontos?', canvas.width / 2, lineY + 130);
         
-        // Footer elegante
-        ctx.font = 'bold 36px Arial';
+        // Footer elegante - posição ajustada
+        ctx.font = 'bold 32px Arial'; // Ligeiramente menor
         ctx.fillStyle = '#e2e8f0'; // slate-200
-        ctx.fillText('Desafio do Produtor de Eventos', canvas.width / 2, canvas.height - 100);
+        ctx.fillText('Desafio do Produtor de Eventos', canvas.width / 2, canvas.height - 80); // Movido mais para cima
         
         setGeneratingImage(false);
         resolve(canvas.toDataURL('image/png'));
@@ -437,11 +437,11 @@ export default function BadgeCompletionModal({
                   Compartilhe seu card épico!
                 </p>
                 
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
+                <div className="flex flex-col gap-3 justify-center">
                   <button
                     onClick={handleShareImage}
                     disabled={generatingImage}
-                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all transform hover:scale-105 disabled:opacity-50 shadow-lg text-sm sm:text-base"
+                    className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-3 rounded-xl font-bold transition-all transform hover:scale-105 disabled:opacity-50 shadow-lg text-sm"
                   >
                     {generatingImage ? (
                       <div className="flex items-center gap-2">
@@ -455,19 +455,19 @@ export default function BadgeCompletionModal({
                   
                   <button
                     onClick={onEbookClick}
-                    className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base border border-orange-400/30"
+                    className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg text-sm border border-orange-400/30"
                   >
                     📖 Receba o eBook e acesso à comunidade!
                   </button>
                 </div>
               </motion.div>
 
-              {/* Badge do canto com design metálico */}
+              {/* Badge do canto com design metálico - posicionamento ajustado */}
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 1.3, type: "spring" }}
-                className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-gradient-to-r from-orange-400 to-yellow-400 text-slate-900 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg border border-orange-300"
+                className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-orange-400 to-yellow-400 text-slate-900 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg border border-orange-300 z-30"
               >
                 LENDÁRIO ✨
               </motion.div>
