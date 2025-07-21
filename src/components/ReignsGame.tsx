@@ -187,7 +187,8 @@ export default function ReignsGame() {
         ...prev, 
         isGameOver: true, 
         gameOverReason: 'Você completou todos os desafios! O evento foi um sucesso.',
-        badges: earnedBadges
+        badges: earnedBadges,
+        currentCard: gameCards.length // Garantir que não passe do limite
       }));
       // Show badge completion modal instead of game over modal
       setShowBadgeCompletion(true);

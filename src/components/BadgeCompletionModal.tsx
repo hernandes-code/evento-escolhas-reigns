@@ -130,27 +130,42 @@ export default function BadgeCompletionModal({
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Efeitos de partículas douradas com cores do site
+        // Efeitos de partículas douradas SUBINDO com movimento
         ctx.fillStyle = '#fb923c'; // orange-400
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 80; i++) {
           const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const size = Math.random() * 4 + 1;
+          const baseY = Math.random() * canvas.height;
+          // Partículas subindo - distribuição vertical com movimento ascendente
+          const y = baseY - (i * 8) % (canvas.height * 0.3);
+          const size = Math.random() * 5 + 2;
+          
+          // Efeito de brilho nas partículas
+          ctx.shadowColor = '#fb923c';
+          ctx.shadowBlur = 8;
           ctx.beginPath();
           ctx.arc(x, y, size, 0, Math.PI * 2);
           ctx.fill();
         }
         
-        // Estrelas menores para efeito metálico
+        // Estrelas menores SUBINDO para efeito metálico épico
         ctx.fillStyle = '#fbbf24'; // amber-400
-        for (let i = 0; i < 20; i++) {
+        ctx.shadowColor = '#fbbf24';
+        ctx.shadowBlur = 12;
+        for (let i = 0; i < 40; i++) {
           const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const size = Math.random() * 2 + 1;
+          const baseY = Math.random() * canvas.height;
+          // Movimento ascendente mais pronunciado
+          const y = baseY - (i * 12) % (canvas.height * 0.4);
+          const size = Math.random() * 3 + 1;
+          
           ctx.beginPath();
           ctx.arc(x, y, size, 0, Math.PI * 2);
           ctx.fill();
         }
+        
+        // Reset shadow após partículas
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
         
         // Texto "CARD LENDÁRIO" épico no topo - posição ajustada
         ctx.textAlign = 'center';
@@ -303,6 +318,81 @@ export default function BadgeCompletionModal({
             className="relative w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900 border border-orange-400/30 rounded-2xl p-6 shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Partículas flutuando para cima - efeito carta lendária */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(25)].map((_, i) => (
+                <motion.div
+                  key={`particle-${i}`}
+                  className="absolute w-2 h-2 bg-gradient-to-r from-orange-400 to-amber-400 rounded-full shadow-lg"
+                  initial={{ 
+                    x: Math.random() * 400 - 50,
+                    y: 600,
+                    opacity: 0,
+                    scale: Math.random() * 0.8 + 0.4
+                  }}
+                  animate={{ 
+                    y: -100,
+                    opacity: [0, 1, 1, 0],
+                    scale: [0.4, 1, 0.8, 0]
+                  }}
+                  transition={{ 
+                    duration: Math.random() * 3 + 2,
+                    delay: Math.random() * 4,
+                    repeat: Infinity,
+                    ease: "easeOut"
+                  }}
+                />
+              ))}
+              
+              {/* Partículas maiores mais esparsas */}
+              {[...Array(12)].map((_, i) => (
+                <motion.div
+                  key={`large-particle-${i}`}
+                  className="absolute w-1 h-1 bg-yellow-300 rounded-full opacity-80"
+                  initial={{ 
+                    x: Math.random() * 350,
+                    y: 500,
+                    opacity: 0
+                  }}
+                  animate={{ 
+                    y: -80,
+                    x: Math.random() * 350,
+                    opacity: [0, 0.8, 0.8, 0]
+                  }}
+                  transition={{ 
+                    duration: Math.random() * 4 + 3,
+                    delay: Math.random() * 5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+              ))}
+              
+              {/* Estrelas cintilantes */}
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={`star-${i}`}
+                  className="absolute text-yellow-300 text-xs"
+                  style={{ 
+                    left: `${Math.random() * 90}%`,
+                    top: `${Math.random() * 80 + 10}%`
+                  }}
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{ 
+                    duration: 1.5,
+                    delay: Math.random() * 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ✨
+                </motion.div>
+              ))}
+            </div>
+
             {/* Efeitos de fundo com cores do site */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-32 h-32 bg-orange-400 rounded-full blur-3xl"></div>
@@ -324,90 +414,197 @@ export default function BadgeCompletionModal({
               transition={{ delay: 0.2 }}
               className="relative z-10 text-center mb-6"
             >
-              <h1 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-2">
+              {/* Título com efeito de aparição dramático */}
+              <motion.h1 
+                initial={{ scale: 0, y: -30 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ delay: 1.8, type: "spring", damping: 10 }}
+                className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-2"
+              >
                 🏆 BADGE CONQUISTADA!
-              </h1>
-              <p className="text-orange-200/80 text-sm">
+              </motion.h1>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.0 }}
+                className="text-orange-200/80 text-sm"
+              >
                 Parabéns! Você demonstrou excelência em produção de eventos!
-              </p>
+              </motion.p>
             </motion.div>
 
-            {/* Badge principal com animação épica */}
+            {/* Badge principal com animação ÉPICA estilo Pokémon */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.4, type: "spring", damping: 15 }}
+              initial={{ scale: 0, y: -200, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              transition={{ 
+                delay: 0.4, 
+                type: "spring", 
+                damping: 12,
+                stiffness: 200,
+                duration: 1.2
+              }}
               className="relative z-10 flex flex-col items-center mb-8"
             >
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400/30 to-amber-400/30 rounded-full blur-xl scale-150"></div>
-              
+              {/* Explosão de luz de fundo - efeito Pokémon */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [0, 2, 1.5], opacity: [0, 0.8, 0.3] }}
+                transition={{ delay: 0.8, duration: 1.5, ease: "easeOut" }}
+                className="absolute inset-0 bg-gradient-radial from-yellow-200/60 via-orange-300/40 to-transparent rounded-full blur-3xl scale-[300%]"
+              ></motion.div>
+              
+              {/* Glow effect mais intenso */}
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.8 }}
+                className="absolute inset-0 bg-gradient-to-r from-orange-400/40 to-amber-400/40 rounded-full blur-2xl scale-150"
+              ></motion.div>
+              
+              {/* Badge com efeito RESPIRAR ao invés de girar */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ 
+                  scale: [0, 1.3, 1],
+                }}
+                transition={{ 
+                  delay: 1.2,
+                  duration: 0.8,
+                  ease: "backOut"
+                }}
                 className="relative mb-4"
               >
-                <img 
+                <motion.img 
                   src={mainBadge.image}
                   alt={mainBadge.name}
                   className="w-40 h-40 sm:w-48 sm:h-48 object-contain relative z-10 drop-shadow-2xl"
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    filter: ["brightness(1)", "brightness(1.1)", "brightness(1)"]
+                  }}
+                  transition={{ 
+                    duration: 2.5, 
+                    repeat: Infinity, 
+                    ease: "easeInOut"
+                  }}
                 />
-                {/* Anel rotativo */}
-                <div className="absolute inset-0 border-4 border-gradient-to-r from-orange-400 to-amber-400 rounded-full opacity-50"></div>
+                
+                {/* Anel pulsante ao invés de rotativo */}
+                <motion.div 
+                  className="absolute inset-0 border-4 border-orange-400 rounded-full opacity-60"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    opacity: [0.6, 0.9, 0.6]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    ease: "easeInOut"
+                  }}
+                ></motion.div>
+                
+                {/* Anel externo com pulso diferente */}
+                <motion.div 
+                  className="absolute inset-0 border-2 border-amber-300 rounded-full opacity-40 scale-110"
+                  animate={{ 
+                    scale: [1.1, 1.2, 1.1],
+                    opacity: [0.4, 0.7, 0.4]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity, 
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                ></motion.div>
               </motion.div>
             </motion.div>
 
-            {/* Informações da badge */}
+            {/* Informações da badge com entrada sequencial */}
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 2.2 }}
               className="relative z-10 text-center mb-6"
             >
-              <h2 className="text-xl sm:text-2xl font-bold text-orange-100 mb-2">
+              <motion.h2 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 2.4 }}
+                className="text-xl sm:text-2xl font-bold text-orange-100 mb-2"
+              >
                 {mainBadge.name}
-              </h2>
-              <p className="text-orange-200/80 text-sm mb-3">
+              </motion.h2>
+              
+              <motion.p 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 2.6 }}
+                className="text-orange-200/80 text-sm mb-3"
+              >
                 {mainBadge.message}
-              </p>
-              <div className="bg-slate-700/30 rounded-lg p-3 border border-orange-400/20">
+              </motion.p>
+              
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 2.8 }}
+                className="bg-slate-700/30 rounded-lg p-3 border border-orange-400/20"
+              >
                 <p className="text-orange-300 font-semibold text-lg">
                   {totalPoints} pontos conquistados
                 </p>
                 <p className="text-orange-200/60 text-xs mt-1">
                   Estilo: {mainBadge.style}
                 </p>
-              </div>
+              </motion.div>
             </motion.div>
 
-            {/* Frase motivacional */}
+            {/* Frase motivacional com entrada elegante */}
             <motion.div
-              initial={{ y: 50, opacity: 0 }}
+              initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 3.0 }}
               className="relative z-10 text-center mb-6"
             >
-              <p className="text-amber-300 font-medium text-sm italic">
+              <motion.p 
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 3.2, type: "spring" }}
+                className="text-amber-300 font-medium text-sm italic"
+              >
                 "{mainBadge.phrase}"
-              </p>
+              </motion.p>
             </motion.div>
 
-            {/* Botões de ação */}
+            {/* Botões de ação com entrada final */}
             <motion.div
-              initial={{ y: 50, opacity: 0 }}
+              initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.1 }}
+              transition={{ delay: 3.4 }}
               className="relative z-10 text-center"
             >
-              <p className="text-orange-100 font-bold mb-4 text-sm sm:text-base">
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 3.6 }}
+                className="text-orange-100 font-bold mb-4 text-sm sm:text-base"
+              >
                 Compartilhe seu card épico!
-              </p>
+              </motion.p>
               
               <div className="flex flex-col gap-3 justify-center">
-                <button
+                <motion.button
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 3.8 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleShareImage}
                   disabled={generatingImage}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-3 rounded-xl font-bold transition-all transform hover:scale-105 disabled:opacity-50 shadow-lg text-sm"
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-3 rounded-xl font-bold transition-all shadow-lg text-sm"
                 >
                   {generatingImage ? (
                     <div className="flex items-center gap-2">
@@ -417,22 +614,27 @@ export default function BadgeCompletionModal({
                   ) : (
                     '📱 Compartilhe e desafie um produtor!'
                   )}
-                </button>
+                </motion.button>
                 
-                <button
+                <motion.button
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 4.0 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={onEbookClick}
-                  className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg text-sm border border-orange-400/30"
+                  className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 py-3 rounded-xl font-bold transition-all shadow-lg text-sm border border-orange-400/30"
                 >
                   📖 Receba o eBook e acesso à comunidade!
-                </button>
+                </motion.button>
               </div>
             </motion.div>
 
-            {/* Badge do canto com design metálico - posicionamento ajustado */}
+            {/* Badge do canto com entrada espetacular */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 1.3, type: "spring" }}
+              initial={{ scale: 0, rotate: -180, x: 50, y: -50 }}
+              animate={{ scale: 1, rotate: 0, x: 0, y: 0 }}
+              transition={{ delay: 4.2, type: "spring", damping: 15 }}
               className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-orange-400 to-yellow-400 text-slate-900 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg border border-orange-300 z-30"
             >
               LENDÁRIO ✨
