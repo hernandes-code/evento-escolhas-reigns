@@ -11,6 +11,7 @@ import GameOverModal from './GameOverModal';
 import LeadForm from './LeadForm';
 import SuccessModal from './SuccessModal';
 import OnboardingModal from './OnboardingModal';
+import LandingPage from './LandingPage';
 import RandomEventModal from './RandomEventModal';
 import BadgeSystem from './BadgeSystem';
 import BadgeCompletionModal from './BadgeCompletionModal';
@@ -49,7 +50,8 @@ export default function ReignsGame() {
 
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false); // Desabilitado para usar landing page
+  const [showLandingPage, setShowLandingPage] = useState(true);
   const [randomEvent, setRandomEvent] = useState<any>(null);
   const [showRandomEvent, setShowRandomEvent] = useState(false);
   const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
@@ -385,6 +387,11 @@ export default function ReignsGame() {
     setShowLeadForm(true);
   }, []);
 
+  const handleStartGameFromLanding = useCallback(() => {
+    setShowLandingPage(false);
+    // O jogo já está pronto para iniciar com gameState padrão
+  }, []);
+
   const getCurrentCard = () => {
     if (gameState.currentCard >= gameCards.length) return null;
     return gameCards[gameState.currentCard];
@@ -392,6 +399,11 @@ export default function ReignsGame() {
 
   const currentCard = getCurrentCard();
   const totalScore = gameState.metrics.budget + gameState.metrics.audience + gameState.metrics.satisfaction + gameState.metrics.technology;
+
+  // Se deve mostrar a landing page, renderizar apenas ela
+  if (showLandingPage) {
+    return <LandingPage onStartGame={handleStartGameFromLanding} />;
+  }
 
   return (
     <div className="min-h-screen min-h-[100dvh] bg-gradient-warm flex flex-col overflow-hidden game-container" style={{ position: 'relative' }}>

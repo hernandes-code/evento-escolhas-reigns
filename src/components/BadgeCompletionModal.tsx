@@ -307,7 +307,7 @@ export default function BadgeCompletionModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto"
           onClick={onClose}
         >
           <motion.div
@@ -315,7 +315,7 @@ export default function BadgeCompletionModal({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.5, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900 border border-orange-400/30 rounded-2xl p-6 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-sm sm:max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900 border border-orange-400/30 rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden my-4 max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Partículas flutuando para cima - efeito carta lendária */}
@@ -412,14 +412,14 @@ export default function BadgeCompletionModal({
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="relative z-10 text-center mb-6"
+              className="relative z-10 text-center mb-4"
             >
               {/* Título com efeito de aparição dramático */}
               <motion.h1 
                 initial={{ scale: 0, y: -30 }}
                 animate={{ scale: 1, y: 0 }}
                 transition={{ delay: 1.8, type: "spring", damping: 10 }}
-                className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-2"
+                className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-1"
               >
                 🏆 BADGE CONQUISTADA!
               </motion.h1>
@@ -428,7 +428,7 @@ export default function BadgeCompletionModal({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 2.0 }}
-                className="text-orange-200/80 text-sm"
+                className="text-orange-200/80 text-xs sm:text-sm"
               >
                 Parabéns! Você demonstrou excelência em produção de eventos!
               </motion.p>
@@ -445,7 +445,7 @@ export default function BadgeCompletionModal({
                 stiffness: 200,
                 duration: 1.2
               }}
-              className="relative z-10 flex flex-col items-center mb-8"
+              className="relative z-10 flex flex-col items-center mb-4"
             >
               {/* Explosão de luz de fundo - efeito Pokémon */}
               <motion.div
@@ -474,12 +474,12 @@ export default function BadgeCompletionModal({
                   duration: 0.8,
                   ease: "backOut"
                 }}
-                className="relative mb-4"
+                className="relative mb-2"
               >
                 <motion.img 
                   src={mainBadge.image}
                   alt={mainBadge.name}
-                  className="w-40 h-40 sm:w-48 sm:h-48 object-contain relative z-10 drop-shadow-2xl"
+                  className="w-32 h-32 sm:w-36 sm:h-36 object-contain relative z-10 drop-shadow-2xl"
                   animate={{ 
                     scale: [1, 1.05, 1],
                     filter: ["brightness(1)", "brightness(1.1)", "brightness(1)"]
@@ -527,13 +527,13 @@ export default function BadgeCompletionModal({
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 2.2 }}
-              className="relative z-10 text-center mb-6"
+              className="relative z-10 text-center mb-4"
             >
               <motion.h2 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 2.4 }}
-                className="text-xl sm:text-2xl font-bold text-orange-100 mb-2"
+                className="text-lg sm:text-xl font-bold text-orange-100 mb-1"
               >
                 {mainBadge.name}
               </motion.h2>
@@ -542,7 +542,7 @@ export default function BadgeCompletionModal({
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 2.6 }}
-                className="text-orange-200/80 text-sm mb-3"
+                className="text-orange-200/80 text-xs sm:text-sm mb-2"
               >
                 {mainBadge.message}
               </motion.p>
@@ -551,9 +551,9 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 2.8 }}
-                className="bg-slate-700/30 rounded-lg p-3 border border-orange-400/20"
+                className="bg-slate-700/30 rounded-lg p-2 border border-orange-400/20"
               >
-                <p className="text-orange-300 font-semibold text-lg">
+                <p className="text-orange-300 font-semibold text-base sm:text-lg">
                   {totalPoints} pontos conquistados
                 </p>
                 <p className="text-orange-200/60 text-xs mt-1">
@@ -567,13 +567,13 @@ export default function BadgeCompletionModal({
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 3.0 }}
-              className="relative z-10 text-center mb-6"
+              className="relative z-10 text-center mb-4"
             >
               <motion.p 
                 initial={{ scale: 0.95 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 3.2, type: "spring" }}
-                className="text-amber-300 font-medium text-sm italic mb-4"
+                className="text-amber-300 font-medium text-xs sm:text-sm italic mb-2"
               >
                 "{mainBadge.phrase}"
               </motion.p>
@@ -583,12 +583,12 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 3.4 }}
-                className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-400/30 rounded-lg p-4 mb-2"
+                className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-400/30 rounded-lg p-3 mb-2"
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">💡</span>
+                <div className="flex items-start gap-2">
+                  <span className="text-lg">💡</span>
                   <div className="text-left">
-                    <h3 className="text-orange-200 font-bold text-sm mb-1">
+                    <h3 className="text-orange-200 font-bold text-xs sm:text-sm mb-1">
                       Lição do Produtor Experiente:
                     </h3>
                     <p className="text-orange-100/90 text-xs leading-relaxed">
@@ -615,7 +615,7 @@ export default function BadgeCompletionModal({
                   whileHover={{ scale: 1.06 }}
                   whileTap={{ scale: 0.94 }}
                   onClick={onEbookClick}
-                  className="relative w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-4 rounded-xl font-bold transition-all shadow-xl text-sm border-2 border-green-400/50 overflow-hidden"
+                  className="relative w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-3 rounded-xl font-bold transition-all shadow-xl text-sm border-2 border-green-400/50 overflow-hidden"
                 >
                   {/* Efeito de brilho animado */}
                   <motion.div
@@ -626,7 +626,7 @@ export default function BadgeCompletionModal({
                   <div className="relative flex items-center justify-center gap-2">
                     <span className="text-lg">🚀</span>
                     <div className="text-center">
-                      <div className="font-black text-base">RECEBA O EBOOK GRATUITO</div>
+                      <div className="font-black text-sm sm:text-base">RECEBA O EBOOK GRATUITO</div>
                       <div className="text-xs opacity-90">+ Acesso à Comunidade Exclusiva</div>
                     </div>
                   </div>
