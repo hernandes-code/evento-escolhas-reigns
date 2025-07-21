@@ -573,59 +573,87 @@ export default function BadgeCompletionModal({
                 initial={{ scale: 0.95 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 3.2, type: "spring" }}
-                className="text-amber-300 font-medium text-sm italic"
+                className="text-amber-300 font-medium text-sm italic mb-4"
               >
                 "{mainBadge.phrase}"
               </motion.p>
+              
+              {/* Lição educativa com CTA */}
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 3.4 }}
+                className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-400/30 rounded-lg p-4 mb-2"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">💡</span>
+                  <div className="text-left">
+                    <h3 className="text-orange-200 font-bold text-sm mb-1">
+                      Lição do Produtor Experiente:
+                    </h3>
+                    <p className="text-orange-100/90 text-xs leading-relaxed">
+                      Produtores que <strong>saem da estrada tradicional</strong> e usam plataformas completas <strong>vendem 3x mais ingressos</strong> e economizam <strong>15 horas por semana</strong>. Hora de abrir seu próprio caminho!
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
 
             {/* Botões de ação com entrada final */}
             <motion.div
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 3.4 }}
+              transition={{ delay: 3.6 }}
               className="relative z-10 text-center"
             >
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 3.6 }}
-                className="text-orange-100 font-bold mb-4 text-sm sm:text-base"
-              >
-                Compartilhe seu card épico!
-              </motion.p>
-              
               <div className="flex flex-col gap-3 justify-center">
+                {/* Botão principal - eBook (destaque) */}
                 <motion.button
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 3.8 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleShareImage}
-                  disabled={generatingImage}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-3 rounded-xl font-bold transition-all shadow-lg text-sm"
+                  whileHover={{ scale: 1.06 }}
+                  whileTap={{ scale: 0.94 }}
+                  onClick={onEbookClick}
+                  className="relative w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-4 rounded-xl font-bold transition-all shadow-xl text-sm border-2 border-green-400/50 overflow-hidden"
                 >
-                  {generatingImage ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Gerando...
+                  {/* Efeito de brilho animado */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    animate={{ x: ['-100%', '100%'] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  />
+                  <div className="relative flex items-center justify-center gap-2">
+                    <span className="text-lg">🚀</span>
+                    <div className="text-center">
+                      <div className="font-black text-base">RECEBA O EBOOK GRATUITO</div>
+                      <div className="text-xs opacity-90">+ Acesso à Comunidade Exclusiva</div>
                     </div>
-                  ) : (
-                    '📱 Compartilhe e desafie um produtor!'
-                  )}
+                  </div>
                 </motion.button>
                 
+                {/* Botão secundário - Compartilhar */}
                 <motion.button
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 4.0 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onEbookClick}
-                  className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 py-3 rounded-xl font-bold transition-all shadow-lg text-sm border border-orange-400/30"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={handleShareImage}
+                  disabled={generatingImage}
+                  className="w-full bg-gradient-to-r from-orange-500/80 to-red-600/80 hover:from-orange-600/90 hover:to-red-700/90 text-white px-4 py-3 rounded-lg font-semibold transition-all shadow-md text-sm border border-orange-400/30"
                 >
-                  📖 Receba o eBook e acesso à comunidade!
+                  {generatingImage ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Gerando...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-2">
+                      <span>📱</span>
+                      <span>Compartilhar e desafiar amigos</span>
+                    </div>
+                  )}
                 </motion.button>
               </div>
             </motion.div>

@@ -178,23 +178,9 @@ export default function ReignsGame() {
         isGameOver: true, 
         gameOverReason: 'Seu público está insatisfeito! A experiência do evento foi muito ruim.' 
       }));
-    } else if (currentCard >= gameCards.length) {
-      gameOverProcessed.current = true;
-      // Game completed successfully - calculate badges
-      const earnedBadges = calculateBadges(metrics, gameState.totalPoints, gameState.choiceCategories);
-      playSound('success');
-      setGameState(prev => ({ 
-        ...prev, 
-        isGameOver: true, 
-        gameOverReason: 'Você completou todos os desafios! O evento foi um sucesso.',
-        badges: earnedBadges,
-        currentCard: gameCards.length // Garantir que não passe do limite
-      }));
-      // Show badge completion modal instead of game over modal
-      setShowBadgeCompletion(true);
-      setTimeout(() => playSound('badge-unlock'), 500);
     }
-  }, [gameState.metrics.budget, gameState.metrics.audience, gameState.metrics.satisfaction, gameState.metrics.technology, gameState.currentCard, gameState.isGameOver, gameState.totalPoints, gameState.choiceCategories, playSound]);
+    // Note: Removed the game completion logic from useEffect as it's now handled in handleConsequenceContinue
+  }, [gameState.metrics.budget, gameState.metrics.audience, gameState.metrics.satisfaction, gameState.metrics.technology, gameState.currentCard, gameState.isGameOver, playSound]);
 
   const applyMetricsEffects = (effects: Partial<GameMetricsType>) => {
     // Create visual effects for metrics changes
@@ -231,6 +217,9 @@ export default function ReignsGame() {
   };
 
   const handleChoice = useCallback((choice: 'left' | 'right', effects: Partial<GameMetricsType>, consequence: string) => {
+    // Check bounds before accessing the array
+    if (gameState.currentCard >= gameCards.length) return;
+    
     const currentCardId = gameCards[gameState.currentCard].id;
     const currentCard = gameCards[gameState.currentCard];
     const points = currentCard.points ? currentCard.points[choice] : 15;
@@ -287,20 +276,61 @@ export default function ReignsGame() {
 
   const handleConsequenceContinue = useCallback(() => {
     playSound('card-flip');
-    setGameState(prev => ({
-      ...prev,
-      showingConsequence: false,
-      currentCard: prev.currentCard + 1,
-      lastChoice: null,
-      lastConsequence: ''
-    }));
+    setGameState(prev => {
+      const nextCard = prev.currentCard + 1;
+      
+      // If we've reached the last card, directly trigger game completion
+      if (nextCard >= gameCards.length) {
+        // Don't increment currentCard beyond the limit
+        // Calculate badges immediately
+        const earnedBadges = calculateBadges(prev.metrics, prev.totalPoints, prev.choiceCategories);
+        
+        // Set game completion state directly
+        setTimeout(() => {
+          setGameState(prevState => ({
+            ...prevState,
+            isGameOver: true,
+            gameOverReason: 'Você completou todos os desafios! O evento foi um sucesso.',
+            badges: earnedBadges,
+            currentCard: gameCards.length, // Keep it at the limit
+            showingConsequence: false,
+            lastChoice: null,
+            lastConsequence: ''
+          }));
+          setShowBadgeCompletion(true);
+          playSound('success');
+          setTimeout(() => playSound('badge-unlock'), 500);
+        }, 100);
+        
+        // Return state without incrementing currentCard
+        return {
+          ...prev,
+          showingConsequence: false,
+          lastChoice: null,
+          lastConsequence: ''
+          // Don't increment currentCard here
+        };
+      }
+      
+      // Normal case: increment currentCard for the next card
+      return {
+        ...prev,
+        showingConsequence: false,
+        currentCard: nextCard,
+        lastChoice: null,
+        lastConsequence: ''
+      };
+    });
     
-    // Mostrar a nova carta com uma pequena pausa para melhor UX
-    setTimeout(() => {
-      setCardVisible(true);
-      setCardKey(prev => prev + 1); // Força re-render
-    }, 100);
-  }, [playSound]);
+    // Only show the new card if we're not at the end of the game
+    const isGameEnding = gameState.currentCard + 1 >= gameCards.length;
+    if (!isGameEnding) {
+      setTimeout(() => {
+        setCardVisible(true);
+        setCardKey(prev => prev + 1); // Força re-render
+      }, 100);
+    }
+  }, [playSound, gameState.currentCard]);
 
   const handleRestart = useCallback(() => {
     gameOverProcessed.current = false; // Reset the flag
