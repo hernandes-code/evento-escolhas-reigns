@@ -30,7 +30,7 @@ export default function BadgeCompletionModal({
     PLATFORM_ADOPTER: {
       name: 'Nativo Digital',
       description: 'Reconheceu o valor de usar plataformas completas',
-      icon: '�',
+      icon: '🚀',
       message: 'Você entendeu que plataformas integradas multiplicam resultados!',
       image: badgeDigitalNative,
       style: 'Tech-Savvy Innovator',
@@ -48,7 +48,7 @@ export default function BadgeCompletionModal({
     DATA_MASTER: {
       name: 'Mestre da Tecnologia',
       description: 'Valorizou coleta e análise de dados',
-      icon: '�',
+      icon: '📊',
       message: 'Dados são seus aliados! Você entende que métricas orientam decisões vencedoras.',
       image: badgeTechMaster,
       style: 'Data-Driven Genius',
@@ -92,7 +92,7 @@ export default function BadgeCompletionModal({
     }
   };
 
-  const shareText = `� ACABEI DE CONQUISTAR A BADGE ${badges.length > 0 ? badgeDetails[badges[0] as keyof typeof badgeDetails]?.name.toUpperCase() : 'NO DESAFIO DO PRODUTOR DE EVENTOS'}!
+  const shareText = `🏆 ACABEI DE CONQUISTAR A BADGE ${badges.length > 0 ? badgeDetails[badges[0] as keyof typeof badgeDetails]?.name.toUpperCase() : 'NO DESAFIO DO PRODUTOR DE EVENTOS'}!
 
 💪 Perfil: ${badgeDetails[badges[0] as keyof typeof badgeDetails]?.style}
 ✨ ${badgeDetails[badges[0] as keyof typeof badgeDetails]?.phrase}
@@ -445,5 +445,4 @@ export default function BadgeCompletionModal({
       )}
     </AnimatePresence>
   );
-}
 }
