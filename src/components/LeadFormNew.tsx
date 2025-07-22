@@ -178,7 +178,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 z-50"
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50"
       >
         <motion.div
           ref={formRef}
@@ -186,48 +186,40 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="bg-gradient-to-br from-white via-gray-50/95 to-white border-2 border-gray-200/50 rounded-3xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.25)] backdrop-blur-sm p-6 sm:p-8 max-w-lg w-full max-h-[95vh] overflow-y-auto relative overflow-hidden"
+          className="bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900 border border-orange-400/30 rounded-2xl shadow-2xl p-4 sm:p-6 max-w-lg w-full max-h-[95vh] overflow-y-auto relative"
         >
           
-          {/* Efeito de glassmorphism sutil */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-50/30 via-transparent to-rose-50/20 rounded-3xl"></div>
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-200/50 to-transparent"></div>
-          
-          {/* Timer de urgência premium */}
+          {/* Timer de urgência */}
           {timeLeft > 0 && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute top-6 right-6 bg-gradient-to-r from-orange-500/90 to-red-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-2xl shadow-lg border border-orange-300/30"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="absolute top-4 right-4 bg-red-500/20 border border-red-400/50 rounded-lg px-3 py-1 flex items-center gap-2 text-xs"
             >
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <Clock className="w-4 h-4 animate-pulse" />
-                <span className="font-mono tracking-wider">
-                  {formatTime(timeLeft)}
-                </span>
-              </div>
+              <Clock className="w-3 h-3 text-red-400" />
+              <span className="text-red-300 font-mono font-bold">
+                {formatTime(timeLeft)}
+              </span>
             </motion.div>
           )}
 
-          {/* Progress Bar Premium */}
-          <div className="relative mb-8">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-sm font-semibold text-slate-700">
+          {/* Progress Bar */}
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-orange-200">
                 Etapa {currentStep} de 2
               </span>
-              <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
+              <span className="text-xs text-orange-300">
                 {Math.round((currentStep / 2) * 100)}% completo
               </span>
             </div>
-            <div className="relative w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner">
+            <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 rounded-full shadow-sm relative overflow-hidden"
+                className="h-2 bg-gradient-to-r from-orange-400 to-amber-400 rounded-full"
                 initial={{ width: "0%" }}
                 animate={{ width: `${(currentStep / 2) * 100}%` }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent animate-pulse"></div>
-              </motion.div>
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              />
             </div>
           </div>
 
@@ -236,28 +228,27 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
             key={currentStep}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-center mb-8 relative z-10"
+            className="text-center mb-6"
           >
             {currentStep === 1 ? (
               <>
-                <div className="mb-6">
+                <div className="mb-4">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="w-20 h-20 mx-auto bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-[0_8px_32px_rgba(251,146,60,0.3)] relative"
+                    className="w-16 h-16 mx-auto bg-gradient-to-r from-orange-400 to-amber-400 rounded-full flex items-center justify-center"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
-                    <Gift className="w-10 h-10 text-white relative z-10" />
+                    <Gift className="w-8 h-8 text-slate-900" />
                   </motion.div>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 via-slate-700 to-slate-600 mb-4 leading-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-2">
                   🎉 PARABÉNS, PRODUTOR!
                 </h2>
-                <div className="bg-gradient-to-r from-orange-50/80 to-red-50/80 backdrop-blur-sm border border-orange-200/50 rounded-2xl p-6 mb-6 shadow-sm">
-                  <p className="text-slate-800 font-bold text-lg mb-1">
+                <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400/30 rounded-lg p-3 mb-4">
+                  <p className="text-green-300 font-bold text-sm">
                     Pontuação: {finalScore}/400 pontos
                   </p>
-                  <p className="text-slate-600 text-sm">
+                  <p className="text-green-200/80 text-xs">
                     Você está entre os TOP produtores! 🏆
                   </p>
                 </div>
@@ -265,46 +256,44 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, type: "spring" }}
-                  className="bg-gradient-to-br from-white/80 via-orange-50/50 to-white/80 backdrop-blur-sm border border-orange-200/30 rounded-2xl p-6 mb-4 shadow-lg relative overflow-hidden"
+                  className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-400/30 rounded-lg p-4 mb-4"
                 >
-                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-300/50 to-transparent"></div>
-                  <div className="flex items-center justify-center gap-3 mb-4">
-                    <Zap className="w-6 h-6 text-orange-500" />
-                    <span className="font-bold text-slate-800 text-lg">OFERTA EXCLUSIVA</span>
-                    <Zap className="w-6 h-6 text-orange-500" />
+                  <div className="flex items-center justify-center gap-3 mb-2">
+                    <Zap className="w-5 h-5 text-yellow-400" />
+                    <span className="font-bold text-orange-200">OFERTA EXCLUSIVA</span>
+                    <Zap className="w-5 h-5 text-yellow-400" />
                   </div>
-                  <p className="text-slate-700 leading-relaxed mb-4">
-                    Receba GRATUITAMENTE o <strong className="text-slate-800">E-book "Bilheteria Digital Máster"</strong> + 
-                    acesso à <strong className="text-slate-800">Comunidade Exclusiva</strong> de produtores TOP!
+                  <p className="text-sm text-orange-100 leading-relaxed">
+                    Receba GRATUITAMENTE o <strong>E-book "Bilheteria Digital Máster"</strong> + 
+                    acesso à <strong>Comunidade Exclusiva</strong> de produtores TOP!
                   </p>
-                  <div className="flex items-center justify-center gap-6 text-sm text-slate-600">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-orange-500" />
-                      <span className="font-medium">3x mais vendas</span>
+                  <div className="flex items-center justify-center gap-4 mt-3 text-xs text-amber-300">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="w-3 h-3" />
+                      <span>3x mais vendas</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-orange-500" />
-                      <span className="font-medium">+500 produtores</span>
+                    <div className="flex items-center gap-1">
+                      <Users className="w-3 h-3" />
+                      <span>+500 produtores</span>
                     </div>
                   </div>
                 </motion.div>
               </>
             ) : (
               <>
-                <div className="mb-6">
+                <div className="mb-4">
                   <motion.div
-                    animate={{ scale: [1, 1.05, 1] }}
+                    animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
-                    className="w-20 h-20 mx-auto bg-gradient-to-br from-green-400 via-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-[0_8px_32px_rgba(34,197,94,0.3)] relative"
+                    className="w-16 h-16 mx-auto bg-gradient-to-r from-green-400 to-emerald-400 rounded-full flex items-center justify-center"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
-                    <CheckCircle className="w-10 h-10 text-white relative z-10" />
+                    <CheckCircle className="w-8 h-8 text-slate-900" />
                   </motion.div>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
+                <h2 className="text-xl sm:text-2xl font-bold text-green-300 mb-2">
                   Quase lá! 🎯
                 </h2>
-                <p className="text-slate-600 leading-relaxed">
+                <p className="text-sm text-orange-200/80">
                   Últimos detalhes para personalizar seu e-book
                 </p>
               </>
@@ -323,9 +312,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   className="space-y-4"
                 >
                   {/* Nome */}
-                  <div className="space-y-3">
-                    <Label htmlFor="name" className="text-sm font-semibold text-slate-800 flex items-center gap-2">
-                      <Users className="w-4 h-4 text-orange-500" />
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm font-medium text-orange-200 flex items-center gap-2">
+                      <Users className="w-4 h-4" />
                       Nome completo
                     </Label>
                     <Input
@@ -334,11 +323,11 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Como devemos te chamar?"
-                      className={`bg-white/80 backdrop-blur-sm border-2 border-gray-200/60 text-slate-800 placeholder:text-slate-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 rounded-xl px-4 py-3 text-base transition-all duration-200 shadow-sm hover:shadow-md hover:border-orange-300 ${
+                      className={`bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-orange-400 focus:ring-orange-400/20 ${
                         touchedFields.has('name') && validationErrors.name
-                          ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                          ? 'border-red-500 focus:border-red-500'
                           : touchedFields.has('name') && !validationErrors.name
-                          ? 'border-green-400 focus:border-green-400 focus:ring-green-100'
+                          ? 'border-green-500'
                           : ''
                       }`}
                       required
@@ -349,9 +338,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="flex items-center gap-2 text-red-600 text-sm bg-red-50 px-3 py-2 rounded-lg"
+                          className="flex items-center gap-2 text-red-400 text-xs"
                         >
-                          <AlertCircle className="w-4 h-4" />
+                          <AlertCircle className="w-3 h-3" />
                           {validationErrors.name}
                         </motion.div>
                       )}
@@ -359,9 +348,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
-                          className="flex items-center gap-2 text-green-600 text-sm bg-green-50 px-3 py-2 rounded-lg"
+                          className="flex items-center gap-2 text-green-400 text-xs"
                         >
-                          <CheckCircle className="w-4 h-4" />
+                          <CheckCircle className="w-3 h-3" />
                           Perfeito!
                         </motion.div>
                       )}
@@ -369,10 +358,10 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   </div>
 
                   {/* WhatsApp */}
-                  <div className="space-y-3">
-                    <Label htmlFor="whatsapp" className="text-sm font-semibold text-slate-800 flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-orange-500" />
-                      WhatsApp <span className="text-xs font-medium text-orange-600 bg-orange-50 px-2 py-1 rounded-full">(para receber o e-book)</span>
+                  <div className="space-y-2">
+                    <Label htmlFor="whatsapp" className="text-sm font-medium text-orange-200 flex items-center gap-2">
+                      <Phone className="w-4 h-4" />
+                      WhatsApp <span className="text-xs text-amber-300">(para receber o e-book)</span>
                     </Label>
                     <Input
                       id="whatsapp"
@@ -380,11 +369,11 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                       value={formData.whatsapp}
                       onChange={(e) => handleInputChange('whatsapp', e.target.value)}
                       placeholder="(11) 99999-9999"
-                      className={`bg-white/80 backdrop-blur-sm border-2 border-gray-200/60 text-slate-800 placeholder:text-slate-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 rounded-xl px-4 py-3 text-base transition-all duration-200 shadow-sm hover:shadow-md hover:border-orange-300 ${
+                      className={`bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-orange-400 focus:ring-orange-400/20 ${
                         touchedFields.has('whatsapp') && validationErrors.whatsapp
-                          ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                          ? 'border-red-500 focus:border-red-500'
                           : touchedFields.has('whatsapp') && !validationErrors.whatsapp
-                          ? 'border-green-400 focus:border-green-400 focus:ring-green-100'
+                          ? 'border-green-500'
                           : ''
                       }`}
                       required
@@ -395,9 +384,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="flex items-center gap-2 text-red-600 text-sm bg-red-50 px-3 py-2 rounded-lg"
+                          className="flex items-center gap-2 text-red-400 text-xs"
                         >
-                          <AlertCircle className="w-4 h-4" />
+                          <AlertCircle className="w-3 h-3" />
                           {validationErrors.whatsapp}
                         </motion.div>
                       )}
@@ -405,9 +394,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
-                          className="flex items-center gap-2 text-green-600 text-sm bg-green-50 px-3 py-2 rounded-lg"
+                          className="flex items-center gap-2 text-green-400 text-xs"
                         >
-                          <CheckCircle className="w-4 h-4" />
+                          <CheckCircle className="w-3 h-3" />
                           Vamos te enviar por aqui!
                         </motion.div>
                       )}
@@ -415,9 +404,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   </div>
 
                   {/* Instagram */}
-                  <div className="space-y-3">
-                    <Label htmlFor="instagram" className="text-sm font-semibold text-slate-800 flex items-center gap-2">
-                      <AtSign className="w-4 h-4 text-orange-500" />
+                  <div className="space-y-2">
+                    <Label htmlFor="instagram" className="text-sm font-medium text-orange-200 flex items-center gap-2">
+                      <AtSign className="w-4 h-4" />
                       Instagram do seu evento
                     </Label>
                     <Input
@@ -426,11 +415,11 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                       value={formData.instagram}
                       onChange={(e) => handleInputChange('instagram', e.target.value)}
                       placeholder="@seueventoaqui"
-                      className={`bg-white/80 backdrop-blur-sm border-2 border-gray-200/60 text-slate-800 placeholder:text-slate-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 rounded-xl px-4 py-3 text-base transition-all duration-200 shadow-sm hover:shadow-md hover:border-orange-300 ${
+                      className={`bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-orange-400 focus:ring-orange-400/20 ${
                         touchedFields.has('instagram') && validationErrors.instagram
-                          ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                          ? 'border-red-500 focus:border-red-500'
                           : touchedFields.has('instagram') && !validationErrors.instagram
-                          ? 'border-green-400 focus:border-green-400 focus:ring-green-100'
+                          ? 'border-green-500'
                           : ''
                       }`}
                       required
@@ -441,9 +430,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="flex items-center gap-2 text-red-600 text-sm bg-red-50 px-3 py-2 rounded-lg"
+                          className="flex items-center gap-2 text-red-400 text-xs"
                         >
-                          <AlertCircle className="w-4 h-4" />
+                          <AlertCircle className="w-3 h-3" />
                           {validationErrors.instagram}
                         </motion.div>
                       )}
@@ -451,9 +440,9 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
-                          className="flex items-center gap-2 text-green-600 text-sm bg-green-50 px-3 py-2 rounded-lg"
+                          className="flex items-center gap-2 text-green-400 text-xs"
                         >
-                          <CheckCircle className="w-4 h-4" />
+                          <CheckCircle className="w-3 h-3" />
                           Vamos seguir vocês!
                         </motion.div>
                       )}
@@ -464,22 +453,15 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                     type="button"
                     onClick={handleNextStep}
                     disabled={!isStep1Valid()}
-                    whileHover={{ scale: isStep1Valid() ? 1.02 : 1 }}
-                    whileTap={{ scale: isStep1Valid() ? 0.98 : 1 }}
-                    className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all duration-200 relative overflow-hidden ${
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full py-4 rounded-xl font-bold transition-all text-base ${
                       isStep1Valid()
-                        ? 'bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 hover:from-orange-600 hover:via-orange-700 hover:to-red-600 text-white shadow-[0_8px_32px_rgba(251,146,60,0.3)] hover:shadow-[0_12px_40px_rgba(251,146,60,0.4)] border-2 border-orange-400/50'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed border-2 border-gray-200'
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-xl'
+                        : 'bg-slate-600/50 text-slate-400 cursor-not-allowed'
                     }`}
                   >
-                    {isStep1Valid() && (
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                        animate={{ x: ['-100%', '100%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-                    )}
-                    <div className="relative flex items-center justify-center gap-3">
+                    <div className="flex items-center justify-center gap-2">
                       <span>Continuar</span>
                       <Zap className="w-5 h-5" />
                     </div>
@@ -495,55 +477,55 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   className="space-y-4"
                 >
                   {/* Tipo de evento */}
-                  <div className="space-y-3">
-                    <Label htmlFor="eventType" className="text-sm font-semibold text-slate-800 flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-orange-500" />
+                  <div className="space-y-2">
+                    <Label htmlFor="eventType" className="text-sm font-medium text-orange-200 flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
                       Que tipo de evento você produz?
                     </Label>
                     <Select value={formData.eventType} onValueChange={(value) => handleInputChange('eventType', value)}>
-                      <SelectTrigger className="bg-white/80 backdrop-blur-sm border-2 border-gray-200/60 text-slate-800 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 rounded-xl px-4 py-3 text-base transition-all duration-200 shadow-sm hover:shadow-md hover:border-orange-300">
+                      <SelectTrigger className="bg-slate-700/50 border-slate-600 text-white focus:border-orange-400">
                         <SelectValue placeholder="Selecione o tipo de evento" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white/95 backdrop-blur-sm border-2 border-gray-200/60 rounded-xl shadow-xl">
-                        <SelectItem value="show" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Shows/Concertos</SelectItem>
-                        <SelectItem value="festa" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Festas</SelectItem>
-                        <SelectItem value="festival" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Festivais</SelectItem>
-                        <SelectItem value="bar" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Bares</SelectItem>
-                        <SelectItem value="balada" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Baladas</SelectItem>
-                        <SelectItem value="outros" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Outros</SelectItem>
+                      <SelectContent className="bg-slate-800 border-slate-600">
+                        <SelectItem value="show" className="text-white hover:bg-slate-700">Shows/Concertos</SelectItem>
+                        <SelectItem value="festa" className="text-white hover:bg-slate-700">Festas</SelectItem>
+                        <SelectItem value="festival" className="text-white hover:bg-slate-700">Festivais</SelectItem>
+                        <SelectItem value="bar" className="text-white hover:bg-slate-700">Bares</SelectItem>
+                        <SelectItem value="balada" className="text-white hover:bg-slate-700">Baladas</SelectItem>
+                        <SelectItem value="outros" className="text-white hover:bg-slate-700">Outros</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* Maior desafio */}
-                  <div className="space-y-3">
-                    <Label htmlFor="mainChallenge" className="text-sm font-semibold text-slate-800 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-orange-500" />
+                  <div className="space-y-2">
+                    <Label htmlFor="mainChallenge" className="text-sm font-medium text-orange-200 flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4" />
                       Qual seu maior desafio atual?
                     </Label>
                     <Select value={formData.mainChallenge} onValueChange={(value) => handleInputChange('mainChallenge', value)}>
-                      <SelectTrigger className="bg-white/80 backdrop-blur-sm border-2 border-gray-200/60 text-slate-800 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 rounded-xl px-4 py-3 text-base transition-all duration-200 shadow-sm hover:shadow-md hover:border-orange-300">
+                      <SelectTrigger className="bg-slate-700/50 border-slate-600 text-white focus:border-orange-400">
                         <SelectValue placeholder="Selecione o maior desafio" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white/95 backdrop-blur-sm border-2 border-gray-200/60 rounded-xl shadow-xl">
-                        <SelectItem value="vendas" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Aumentar vendas de ingressos</SelectItem>
-                        <SelectItem value="marketing" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Marketing e divulgação</SelectItem>
-                        <SelectItem value="tecnologia" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Soluções tecnológicas</SelectItem>
-                        <SelectItem value="organizacao" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Organização e gestão</SelectItem>
-                        <SelectItem value="custos" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Controle de custos</SelectItem>
-                        <SelectItem value="publico" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Atrair mais público</SelectItem>
-                        <SelectItem value="outros" className="text-slate-800 hover:bg-orange-50 focus:bg-orange-50 rounded-lg">Outros</SelectItem>
+                      <SelectContent className="bg-slate-800 border-slate-600">
+                        <SelectItem value="vendas" className="text-white hover:bg-slate-700">Aumentar vendas de ingressos</SelectItem>
+                        <SelectItem value="marketing" className="text-white hover:bg-slate-700">Marketing e divulgação</SelectItem>
+                        <SelectItem value="tecnologia" className="text-white hover:bg-slate-700">Soluções tecnológicas</SelectItem>
+                        <SelectItem value="organizacao" className="text-white hover:bg-slate-700">Organização e gestão</SelectItem>
+                        <SelectItem value="custos" className="text-white hover:bg-slate-700">Controle de custos</SelectItem>
+                        <SelectItem value="publico" className="text-white hover:bg-slate-700">Atrair mais público</SelectItem>
+                        <SelectItem value="outros" className="text-white hover:bg-slate-700">Outros</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
-                  <div className="flex gap-4 mt-6">
+                  <div className="flex gap-3">
                     <motion.button
                       type="button"
                       onClick={handlePrevStep}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="flex-1 py-3 px-4 bg-white/80 backdrop-blur-sm hover:bg-gray-50 text-slate-700 border-2 border-gray-200 hover:border-gray-300 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+                      className="flex-1 py-3 bg-slate-600/50 hover:bg-slate-600/70 text-white rounded-xl font-medium transition-all"
                     >
                       Voltar
                     </motion.button>
@@ -551,22 +533,22 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                     <motion.button
                       type="submit"
                       disabled={!isFormComplete() || isSubmitting}
-                      whileHover={{ scale: isFormComplete() && !isSubmitting ? 1.02 : 1 }}
-                      whileTap={{ scale: isFormComplete() && !isSubmitting ? 0.98 : 1 }}
-                      className={`flex-[2] py-4 px-6 rounded-xl font-bold text-base transition-all duration-200 relative overflow-hidden ${
+                      whileHover={{ scale: isFormComplete() ? 1.02 : 1 }}
+                      whileTap={{ scale: isFormComplete() ? 0.98 : 1 }}
+                      className={`flex-[2] py-4 rounded-xl font-bold text-base transition-all ${
                         isFormComplete() && !isSubmitting
-                          ? 'bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 hover:from-orange-600 hover:via-orange-700 hover:to-red-600 text-white shadow-[0_8px_32px_rgba(251,146,60,0.3)] hover:shadow-[0_12px_40px_rgba(251,146,60,0.4)] border-2 border-orange-400/50'
-                          : 'bg-gray-200 text-gray-400 cursor-not-allowed border-2 border-gray-200'
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-xl relative overflow-hidden'
+                          : 'bg-slate-600/50 text-slate-400 cursor-not-allowed'
                       }`}
                     >
-                      {(isFormComplete() && !isSubmitting) && (
+                      {isFormComplete() && !isSubmitting && (
                         <motion.div
                           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                           animate={{ x: ['-100%', '100%'] }}
                           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                         />
                       )}
-                      <div className="relative flex items-center justify-center gap-3">
+                      <div className="relative flex items-center justify-center gap-2">
                         {isSubmitting ? (
                           <>
                             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -586,35 +568,35 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
             </AnimatePresence>
           </form>
 
-          {/* Segurança e benefícios premium */}
+          {/* Segurança e benefícios */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mt-8 space-y-4 relative z-10"
+            className="mt-6 space-y-3"
           >
-            <div className="text-center text-sm text-slate-600 flex items-center justify-center gap-2 bg-green-50/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-green-200/50">
-              <span className="text-green-500">🔒</span>
-              <span className="font-medium">Seus dados estão 100% seguros. Enviamos apenas conteúdo valioso!</span>
+            <div className="text-center text-xs text-slate-400 flex items-center justify-center gap-2">
+              <span className="text-green-400">🔒</span>
+              Seus dados estão 100% seguros. Enviamos apenas conteúdo valioso!
             </div>
             
-            <div className="bg-gradient-to-br from-orange-50/80 via-white/50 to-orange-50/80 backdrop-blur-sm border border-orange-200/30 rounded-2xl p-4 shadow-sm">
-              <div className="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">E-book exclusivo</span>
+            <div className="bg-gradient-to-r from-orange-500/5 to-amber-500/5 border border-orange-400/20 rounded-lg p-3">
+              <div className="grid grid-cols-2 gap-3 text-xs text-orange-200/80">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span>E-book exclusivo</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">Comunidade VIP</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span>Comunidade VIP</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">Dicas semanais</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span>Dicas semanais</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">Suporte direto</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span>Suporte direto</span>
                 </div>
               </div>
             </div>

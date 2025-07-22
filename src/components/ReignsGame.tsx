@@ -11,7 +11,7 @@ import GameOverModal from './GameOverModal';
 import LeadForm from './LeadForm';
 import SuccessModal from './SuccessModal';
 import OnboardingModal from './OnboardingModal';
-import LandingPage from './LandingPage';
+import LandingPagePremium from './LandingPagePremium';
 import RandomEventModal from './RandomEventModal';
 import BadgeSystem from './BadgeSystem';
 import BadgeCompletionModal from './BadgeCompletionModal';
@@ -402,7 +402,7 @@ export default function ReignsGame() {
 
   // Se deve mostrar a landing page, renderizar apenas ela
   if (showLandingPage) {
-    return <LandingPage onStartGame={handleStartGameFromLanding} />;
+    return <LandingPagePremium onStartGame={handleStartGameFromLanding} />;
   }
 
   return (

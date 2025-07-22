@@ -11,7 +11,7 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-rose-50 text-slate-800 overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center">
         {/* Background with overlay */}
@@ -19,23 +19,23 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
           <img
             src={heroEvents}
             alt="Eventos Background"
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover opacity-10"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-emerald-950/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-slate-50/90 to-rose-50/80"></div>
           
           {/* Animated particles */}
           <div className="absolute inset-0 overflow-hidden">
             {[...Array(30)].map((_, i) => (
               <motion.div
                 key={`particle-${i}`}
-                className="absolute w-1 h-1 bg-emerald-400/40 rounded-full"
+                className="absolute w-1 h-1 bg-rose-400/60 rounded-full"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
                 }}
                 animate={{
                   y: [0, -30, 0],
-                  opacity: [0.2, 0.8, 0.2],
+                  opacity: [0.3, 0.8, 0.3],
                   scale: [0.5, 1.2, 0.5],
                 }}
                 transition={{
@@ -67,8 +67,8 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl md:text-7xl font-black mb-6 leading-tight"
           >
-            <span className="text-white">ABRA CAMINHO PARA</span><br/>
-            <span className="bg-gradient-to-r from-emerald-400 to-cyan-300 bg-clip-text text-transparent">
+            <span className="text-slate-800">ABRA CAMINHO PARA</span><br/>
+            <span className="bg-gradient-to-r from-rose-500 to-pink-400 bg-clip-text text-transparent">
               EVENTOS ÚNICOS
             </span>
           </motion.h1>
@@ -80,12 +80,12 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-8"
           >
-            <h2 className="text-lg md:text-2xl font-bold text-emerald-400 mb-4 tracking-wider">
+            <h2 className="text-lg md:text-2xl font-bold text-rose-500 mb-4 tracking-wider">
               ANTI-IMPROVISO • ANTI-AMADORISMO • PRO-RESULTADOS
             </h2>
-            <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
               Nunca quisemos saber do "sempre foi assim". Vamos para fora da estrada tradicional se for preciso, 
-              mesmo cortando caminho, e levamos você à frente para <span className="text-emerald-400 font-semibold">
+              mesmo cortando caminho, e levamos você à frente para <span className="text-rose-500 font-semibold">
               criar eventos que realmente importam</span>.
             </p>
           </motion.div>
@@ -101,7 +101,7 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
               onClick={onStartGame}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="relative group bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 px-12 py-5 rounded-xl font-black text-lg shadow-2xl border border-emerald-400/50 overflow-hidden"
+              className="relative group bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white px-12 py-5 rounded-xl font-black text-lg shadow-2xl border border-rose-400/50 overflow-hidden"
             >
               {/* Efeito de brilho animado */}
               <motion.div
@@ -129,7 +129,7 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="text-emerald-400 text-2xl"
+              className="text-rose-500 text-2xl"
             >
               ↓
             </motion.div>
@@ -138,7 +138,7 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
       </section>
 
       {/* What You'll Get Section */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20 bg-slate-50">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -148,12 +148,12 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-black mb-6">
-              <span className="text-emerald-400">O QUE VOCÊ VAI</span><br/>
-              <span className="text-white">CONQUISTAR</span>
+              <span className="text-rose-500">O QUE VOCÊ VAI</span><br/>
+              <span className="text-slate-800">CONQUISTAR</span>
             </h2>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Porque o melhor caminho não é sempre o mais óbvio. Descubra ferramentas que 
-              <span className="text-emerald-400 font-semibold"> multiplicam seus resultados</span>.
+              <span className="text-rose-500 font-semibold"> multiplicam seus resultados</span>.
             </p>
           </motion.div>
 
@@ -185,18 +185,18 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-gradient-to-br from-slate-800 to-slate-700 border border-emerald-500/20 rounded-xl p-8 text-center group hover:border-emerald-400/40 transition-all duration-300"
+                className="bg-gradient-to-br from-white to-slate-50 border border-rose-200/50 rounded-xl p-8 text-center group hover:border-rose-300/70 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-800 mb-2">
                   {item.title}
                 </h3>
-                <p className="text-emerald-400 font-semibold mb-4 text-sm">
+                <p className="text-rose-500 font-semibold mb-4 text-sm">
                   {item.subtitle}
                 </p>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-slate-600 leading-relaxed">
                   {item.description}
                 </p>
               </motion.div>
