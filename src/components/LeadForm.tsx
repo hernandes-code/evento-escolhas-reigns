@@ -15,6 +15,18 @@ interface LeadFormProps {
   onSubmit: (data: LeadData) => void;
   isVisible: boolean;
   finalScore: number;
+  neuralResults?: {
+    profile: {
+      name: string;
+      title: string;
+      description: string;
+      color: string;
+      personality: string;
+    };
+    insights: any[];
+    metrics: any;
+    achievements?: string[];
+  };
 }
 
 interface ValidationErrors {
@@ -23,7 +35,7 @@ interface ValidationErrors {
   instagram?: string;
 }
 
-export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormProps) {
+export default function LeadForm({ onSubmit, isVisible, finalScore, neuralResults }: LeadFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<LeadData>({
     name: '',
@@ -242,41 +254,123 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
               <>
                 <div className="mb-6">
                   <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="w-20 h-20 mx-auto bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-[0_8px_32px_rgba(251,146,60,0.3)] relative"
+                    animate={{ 
+                      rotate: [0, 360],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="w-24 h-24 mx-auto bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-[0_16px_64px_rgba(251,146,60,0.4)] relative overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
-                    <Gift className="w-10 h-10 text-white relative z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-full"></div>
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      🧠
+                    </motion.div>
                   </motion.div>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 via-slate-700 to-slate-600 mb-4 leading-tight">
-                  🎉 PARABÉNS, PRODUTOR!
-                </h2>
-                <div className="bg-gradient-to-r from-orange-50/80 to-red-50/80 backdrop-blur-sm border border-orange-200/50 rounded-2xl p-6 mb-6 shadow-sm">
-                  <p className="text-slate-800 font-bold text-lg mb-1">
-                    Pontuação: {finalScore}/400 pontos
-                  </p>
-                  <p className="text-slate-600 text-sm">
-                    Você está entre os TOP produtores! 🏆
-                  </p>
-                </div>
+                
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 via-orange-600 to-red-600 mb-4 leading-tight"
+                >
+                  🎉 ANÁLISE NEURAL<br />FINALIZADA!
+                </motion.h1>
+
+                {/* Neural Profile Display */}
+                {neuralResults?.profile && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-gradient-to-br from-white/90 via-orange-50/80 to-white/90 backdrop-blur-sm border border-orange-200/50 rounded-2xl p-6 mb-6 shadow-lg relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent"></div>
+                    
+                    <div className="text-center mb-4">
+                      <div className={`inline-block px-4 py-2 rounded-full text-white font-bold text-lg bg-gradient-to-r ${neuralResults.profile.color} shadow-lg mb-3`}>
+                        {neuralResults.profile.title}
+                      </div>
+                      <p className="text-slate-700 font-medium mb-2">{neuralResults.profile.description}</p>
+                      <p className="text-sm text-slate-600">
+                        <strong>Personalidade:</strong> {neuralResults.profile.personality}
+                      </p>
+                    </div>
+
+                    {/* Quick insights preview */}
+                    {neuralResults.insights && neuralResults.insights.length > 0 && (
+                      <div className="bg-gradient-to-r from-green-50/80 to-emerald-50/80 backdrop-blur-sm border border-green-200/30 rounded-xl p-4 mb-4">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <span className="text-green-600 text-sm font-bold uppercase tracking-wide">
+                            💡 {neuralResults.insights[0].category}
+                          </span>
+                        </div>
+                        <p className="text-slate-700 font-medium text-center text-sm">
+                          {neuralResults.insights[0].icon} {neuralResults.insights[0].text}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Metrics visualization */}
+                    {neuralResults.metrics && (
+                      <div className="grid grid-cols-4 gap-2 mb-4">
+                        {Object.entries(neuralResults.metrics).map(([key, value]: [string, any]) => (
+                          <div key={key} className="text-center">
+                            <div className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md ${
+                              value >= 70 ? 'bg-gradient-to-br from-green-400 to-green-600' :
+                              value >= 50 ? 'bg-gradient-to-br from-orange-400 to-orange-600' :
+                              'bg-gradient-to-br from-gray-400 to-gray-600'
+                            }`}>
+                              {Math.round(value)}%
+                            </div>
+                            <p className="text-xs text-slate-600 mt-1 capitalize">{key}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 0.3, type: "spring" }}
+                  transition={{ delay: 0.5, type: "spring" }}
                   className="bg-gradient-to-br from-white/80 via-orange-50/50 to-white/80 backdrop-blur-sm border border-orange-200/30 rounded-2xl p-6 mb-4 shadow-lg relative overflow-hidden"
                 >
                   <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-300/50 to-transparent"></div>
                   <div className="flex items-center justify-center gap-3 mb-4">
                     <Zap className="w-6 h-6 text-orange-500" />
-                    <span className="font-bold text-slate-800 text-lg">OFERTA EXCLUSIVA</span>
+                    <span className="font-bold text-slate-800 text-xl">RECOMPENSA DESBLOQUEADA</span>
                     <Zap className="w-6 h-6 text-orange-500" />
                   </div>
-                  <p className="text-slate-700 leading-relaxed mb-4">
-                    Receba GRATUITAMENTE o <strong className="text-slate-800">E-book "Bilheteria Digital Máster"</strong> + 
-                    acesso à <strong className="text-slate-800">Comunidade Exclusiva</strong> de produtores TOP!
+                  <p className="text-slate-700 leading-relaxed mb-4 text-lg">
+                    Sua análise neural qualificou você para receber <strong className="text-slate-800">GRATUITAMENTE</strong>:
                   </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div className="flex items-center gap-3 bg-white/60 rounded-xl p-3 border border-orange-200/30">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center shadow-md text-xl">
+                        📚
+                      </div>
+                      <div>
+                        <p className="font-bold text-slate-800 text-sm">E-book "Bilheteria Digital Master"</p>
+                        <p className="text-xs text-slate-600">Personalizado para {neuralResults?.profile?.name || 'seu perfil'}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 bg-white/60 rounded-xl p-3 border border-orange-200/30">
+                      <div className="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-xl flex items-center justify-center shadow-md text-xl">
+                        👥
+                      </div>
+                      <div>
+                        <p className="font-bold text-slate-800 text-sm">Comunidade Exclusiva VIP</p>
+                        <p className="text-xs text-slate-600">+500 produtores conectados</p>
+                      </div>
+                    </div>
+                  </div>
                   <div className="flex items-center justify-center gap-6 text-sm text-slate-600">
                     <div className="flex items-center gap-2">
                       <TrendingUp className="w-4 h-4 text-orange-500" />
@@ -284,9 +378,31 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                     </div>
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4 text-orange-500" />
-                      <span className="font-medium">+500 produtores</span>
+                      <span className="font-medium">Suporte 24/7</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Gift className="w-4 h-4 text-orange-500" />
+                      <span className="font-medium">100% gratuito</span>
                     </div>
                   </div>
+                </motion.div>
+
+                {/* Urgency amplifier */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  className="bg-gradient-to-r from-red-500/10 to-orange-500/10 backdrop-blur-sm border border-red-300/30 rounded-xl p-4 mb-4"
+                >
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Clock className="w-5 h-5 text-red-600" />
+                    <span className="font-bold text-red-700 text-sm uppercase tracking-wide">
+                      OFERTA POR TEMPO LIMITADO
+                    </span>
+                  </div>
+                  <p className="text-slate-700 text-center text-sm">
+                    Esta análise neural personalizada + recompensas ficam disponíveis apenas por <strong className="text-red-600">{formatTime(timeLeft)}</strong>
+                  </p>
                 </motion.div>
               </>
             ) : (
@@ -302,11 +418,25 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                   </motion.div>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
-                  Quase lá! 🎯
+                  Última etapa! 🎯
                 </h2>
-                <p className="text-slate-600 leading-relaxed">
-                  Últimos detalhes para personalizar seu e-book
+                <p className="text-slate-600 leading-relaxed mb-4">
+                  Personalize seu e-book com base na sua análise neural
                 </p>
+
+                {/* Current profile reminder */}
+                {neuralResults?.profile && (
+                  <div className="bg-gradient-to-r from-green-50/80 to-emerald-50/80 backdrop-blur-sm border border-green-200/30 rounded-xl p-4 mb-4">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <span className="text-green-600 text-sm font-bold">
+                        📋 Personalizando para: {neuralResults.profile.name}
+                      </span>
+                    </div>
+                    <p className="text-slate-700 text-center text-sm">
+                      Conteúdo específico para {neuralResults.profile.personality.toLowerCase()}
+                    </p>
+                  </div>
+                )}
               </>
             )}
           </motion.div>
@@ -570,12 +700,12 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
                         {isSubmitting ? (
                           <>
                             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                            Enviando...
+                            Processando Neural...
                           </>
                         ) : (
                           <>
                             <Gift className="w-5 h-5" />
-                            RECEBER E-BOOK GRÁTIS
+                            {neuralResults?.profile ? `RECEBER RECOMPENSAS DE ${neuralResults.profile.name.toUpperCase()}` : 'RECEBER E-BOOK GRÁTIS'}
                           </>
                         )}
                       </div>
@@ -586,7 +716,7 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
             </AnimatePresence>
           </form>
 
-          {/* Segurança e benefícios premium */}
+          {/* Segurança e benefícios premium com insights neurais */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -595,29 +725,97 @@ export default function LeadForm({ onSubmit, isVisible, finalScore }: LeadFormPr
           >
             <div className="text-center text-sm text-slate-600 flex items-center justify-center gap-2 bg-green-50/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-green-200/50">
               <span className="text-green-500">🔒</span>
-              <span className="font-medium">Seus dados estão 100% seguros. Enviamos apenas conteúdo valioso!</span>
+              <span className="font-medium">Seus dados estão 100% seguros. Enviamos apenas conteúdo neural personalizado!</span>
             </div>
             
+            {/* Neural-based benefits */}
             <div className="bg-gradient-to-br from-orange-50/80 via-white/50 to-orange-50/80 backdrop-blur-sm border border-orange-200/30 rounded-2xl p-4 shadow-sm">
-              <div className="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">E-book exclusivo</span>
+              {neuralResults?.profile ? (
+                <>
+                  <div className="text-center mb-4">
+                    <span className="inline-block px-3 py-1 bg-gradient-to-r from-orange-400 to-orange-600 text-white text-xs font-bold rounded-full shadow-sm mb-2">
+                      CONTEÚDO NEURAL PERSONALIZADO
+                    </span>
+                    <p className="text-slate-700 text-sm font-medium">
+                      Baseado na sua análise como <strong>{neuralResults.profile.name}</strong>
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-sm text-slate-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                      <span className="font-medium">Estratégias para {neuralResults.profile.name.split(' ')[0]}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                      <span className="font-medium">Insights neurais exclusivos</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                      <span className="font-medium">Comunidade do seu perfil</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                      <span className="font-medium">Mentoria especializada</span>
+                    </div>
+                  </div>
+                  
+                  {/* Quick insight preview */}
+                  {neuralResults.insights && neuralResults.insights.length > 1 && (
+                    <div className="mt-4 bg-gradient-to-r from-purple-50/80 to-blue-50/80 backdrop-blur-sm border border-purple-200/30 rounded-xl p-3">
+                      <div className="text-center">
+                        <p className="text-xs font-bold text-purple-700 uppercase tracking-wide mb-1">
+                          💡 Prévia do seu conteúdo neural
+                        </p>
+                        <p className="text-slate-700 text-sm font-medium">
+                          {neuralResults.insights[1].icon} {neuralResults.insights[1].text}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="grid grid-cols-2 gap-4 text-sm text-slate-700">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                    <span className="font-medium">E-book exclusivo</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                    <span className="font-medium">Comunidade VIP</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                    <span className="font-medium">Dicas semanais</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
+                    <span className="font-medium">Suporte direto</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">Comunidade VIP</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">Dicas semanais</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-sm"></div>
-                  <span className="font-medium">Suporte direto</span>
-                </div>
-              </div>
+              )}
             </div>
+
+            {/* Achievement teaser */}
+            {neuralResults?.achievements && neuralResults.achievements.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8 }}
+                className="bg-gradient-to-r from-purple-50/80 to-indigo-50/80 backdrop-blur-sm border border-purple-200/30 rounded-xl p-3"
+              >
+                <div className="text-center">
+                  <p className="text-xs font-bold text-purple-700 uppercase tracking-wide mb-1">
+                    🏆 Conquista desbloqueada
+                  </p>
+                  <p className="text-slate-700 text-sm font-medium">
+                    Você desbloqueou <strong>{neuralResults.achievements.length}</strong> conquista{neuralResults.achievements.length > 1 ? 's' : ''} especial{neuralResults.achievements.length > 1 ? 'is' : ''}!
+                  </p>
+                  <p className="text-xs text-slate-600 mt-1">
+                    Acesse todo o conteúdo exclusivo no e-book
+                  </p>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         </motion.div>
       </motion.div>

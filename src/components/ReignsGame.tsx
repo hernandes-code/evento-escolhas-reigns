@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 import { gameCards, INITIAL_METRICS, randomEvents, GAME_BADGES } from '../data/gameCards';
+import { NEURAL_PRODUCER_PROFILES } from '../data/neuralGameSystem';
 import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../types/game';
 import GameCard from './GameCard';
 import GameMetrics from './GameMetrics';
@@ -9,7 +10,8 @@ import logo from '../assets/logo.png';
 import ConsequenceModal from './ConsequenceModal';
 import GameOverModal from './GameOverModal';
 import LeadForm from './LeadForm';
-import SuccessModal from './SuccessModal';
+import SuccessModal from './SuccessModalPremium';
+import ThankYouModal from './ThankYouModal';
 import OnboardingModal from './OnboardingModal';
 import LandingPagePremium from './LandingPagePremium';
 import RandomEventModal from './RandomEventModal';
@@ -17,6 +19,7 @@ import BadgeSystem from './BadgeSystem';
 import BadgeCompletionModal from './BadgeCompletionModal';
 import { useSound } from '../hooks/useSound';
 import { Volume2, VolumeX } from 'lucide-react';
+import NeuralGame from './NeuralGame';
 import MetricChangeEffects from './MetricChangeEffects';
 
 export default function ReignsGame() {
@@ -50,8 +53,12 @@ export default function ReignsGame() {
 
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [userData, setUserData] = useState<LeadData | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false); // Desabilitado para usar landing page
   const [showLandingPage, setShowLandingPage] = useState(true);
+  const [showNeuralGame, setShowNeuralGame] = useState(false);
+  const [neuralGameResults, setNeuralGameResults] = useState<any>(null);
   const [randomEvent, setRandomEvent] = useState<any>(null);
   const [showRandomEvent, setShowRandomEvent] = useState(false);
   const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
@@ -377,9 +384,10 @@ export default function ReignsGame() {
 
   const handleFormSubmit = useCallback((data: LeadData) => {
     console.log('Lead data submitted:', data);
+    setUserData(data);
     // Here you would typically send the data to your backend
     setShowLeadForm(false);
-    setShowSuccess(true);
+    setShowThankYou(true);
   }, []);
 
   const handleBadgeCompletionClose = useCallback(() => {
@@ -389,7 +397,32 @@ export default function ReignsGame() {
 
   const handleStartGameFromLanding = useCallback(() => {
     setShowLandingPage(false);
-    // O jogo já está pronto para iniciar com gameState padrão
+    setShowNeuralGame(true); // Iniciar com o novo jogo neural
+  }, []);
+
+  const handleNeuralGameComplete = useCallback((profileKey: string, insights: any[], metrics: GameMetricsType, achievements: string[]) => {
+    const fullProfile = NEURAL_PRODUCER_PROFILES[profileKey as keyof typeof NEURAL_PRODUCER_PROFILES];
+    console.log('Neural game complete:', { profileKey, fullProfile, insights, metrics, achievements });
+    setNeuralGameResults({ profile: fullProfile, insights, metrics, achievements });
+    setShowNeuralGame(false);
+    setShowLeadForm(true); // Ir direto para o formulário de lead
+  }, []);
+
+  const handleShowLeadFormFromNeural = useCallback(() => {
+    setShowNeuralGame(false);
+    setShowLeadForm(true);
+  }, []);
+
+  const handleShowSuccessModalFromNeural = useCallback(() => {
+    setShowNeuralGame(false);
+    // Ir direto para o formulário ao invés do SuccessModal
+    setShowLeadForm(true);
+  }, []);
+
+  const handleThankYouClose = useCallback(() => {
+    setShowThankYou(false);
+    // Reiniciar para landing page ou mostrar outro conteúdo
+    setShowLandingPage(true);
   }, []);
 
   const getCurrentCard = () => {
@@ -403,6 +436,17 @@ export default function ReignsGame() {
   // Se deve mostrar a landing page, renderizar apenas ela
   if (showLandingPage) {
     return <LandingPagePremium onStartGame={handleStartGameFromLanding} />;
+  }
+
+  // Se deve mostrar o jogo neural, renderizar apenas ele
+  if (showNeuralGame) {
+    return (
+      <NeuralGame 
+        onGameComplete={handleNeuralGameComplete} 
+        onShowLeadForm={handleShowLeadFormFromNeural}
+        onShowSuccessModal={handleShowSuccessModalFromNeural}
+      />
+    );
   }
 
   return (
@@ -611,13 +655,28 @@ export default function ReignsGame() {
         <LeadForm
           onSubmit={handleFormSubmit}
           isVisible={showLeadForm}
-          finalScore={totalScore}
+          finalScore={neuralGameResults?.metrics ? 
+            (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
+            totalScore
+          }
+          neuralResults={neuralGameResults}
         />
 
         {/* Success Modal */}
         <SuccessModal
-          onRestart={handleRestart}
-          isVisible={showSuccess}
+          isOpen={showSuccess}
+          onClose={() => setShowSuccess(false)}
+          onShowLeadForm={() => {
+            setShowSuccess(false);
+            setShowLeadForm(true);
+          }}
+          profile={neuralGameResults?.profile}
+          insights={neuralGameResults?.insights || []}
+          finalScore={neuralGameResults?.metrics ? 
+            (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
+            0
+          }
+          achievements={neuralGameResults?.achievements || []}
         />
 
         {/* Onboarding Modal */}
@@ -644,6 +703,20 @@ export default function ReignsGame() {
           totalPoints={gameState.totalPoints}
           onClose={handleBadgeCompletionClose}
           onEbookClick={handleEbookClick}
+        />
+
+        {/* Thank You Modal */}
+        <ThankYouModal
+          isOpen={showThankYou}
+          onClose={handleThankYouClose}
+          userName={userData?.name || ''}
+          userWhatsapp={userData?.whatsapp || ''}
+          neuralProfile={neuralGameResults?.profile}
+          insights={neuralGameResults?.insights || []}
+          finalScore={neuralGameResults?.metrics ? 
+            (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
+            0
+          }
         />
 
         {/* Metric Change Effects */}

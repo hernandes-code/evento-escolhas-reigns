@@ -20,10 +20,10 @@ export default function LandingPage({ onStartGame }: LandingPageProps) {
   const solutionRef = useRef(null);
   const gameRef = useRef(null);
   
-  const heroInView = useInView(heroRef, { threshold: 0.3 });
-  const problemInView = useInView(problemRef, { threshold: 0.3 });
-  const solutionInView = useInView(solutionRef, { threshold: 0.3 });
-  const gameInView = useInView(gameRef, { threshold: 0.3 });
+  const heroInView = useInView(heroRef, { amount: 0.3 });
+  const problemInView = useInView(problemRef, { amount: 0.3 });
+  const solutionInView = useInView(solutionRef, { amount: 0.3 });
+  const gameInView = useInView(gameRef, { amount: 0.3 });
   
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
