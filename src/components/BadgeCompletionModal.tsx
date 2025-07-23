@@ -13,15 +13,13 @@ interface BadgeCompletionModalProps {
   badges: string[];
   totalPoints: number;
   onClose: () => void;
-  onEbookClick: () => void;
 }
 
 export default function BadgeCompletionModal({ 
   isVisible, 
   badges, 
   totalPoints, 
-  onClose,
-  onEbookClick
+  onClose
 }: BadgeCompletionModalProps) {
   const [generatingImage, setGeneratingImage] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -494,13 +492,6 @@ export default function BadgeCompletionModal({
                     ) : (
                       '� Compartilhe e desafie um produtor!'
                     )}
-                  </button>
-                  
-                  <button
-                    onClick={onEbookClick}
-                    className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg text-sm border border-orange-400/30"
-                  >
-                    📖 Receba o eBook e acesso à comunidade!
                   </button>
                 </div>
               </motion.div>

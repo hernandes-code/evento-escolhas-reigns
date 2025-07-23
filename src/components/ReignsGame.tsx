@@ -2,21 +2,19 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 import { gameCards, INITIAL_METRICS, randomEvents, GAME_BADGES } from '../data/gameCards';
 import { NEURAL_PRODUCER_PROFILES } from '../data/neuralGameSystem';
-import type { GameState, GameMetrics as GameMetricsType, LeadData } from '../types/game';
+import type { GameState, GameMetrics as GameMetricsType } from '../types/game';
 import GameCard from './GameCard';
 import GameMetrics from './GameMetrics';
 import heroImage from '../assets/hero-events.jpg';
 import logo from '../assets/logo.png';
 import ConsequenceModal from './ConsequenceModal';
 import GameOverModal from './GameOverModal';
-import LeadForm from './LeadForm';
-import SuccessModal from './SuccessModalPremium';
-import ThankYouModal from './ThankYouModal';
 import OnboardingModal from './OnboardingModal';
 import LandingPagePremium from './LandingPagePremium';
 import RandomEventModal from './RandomEventModal';
 import BadgeSystem from './BadgeSystem';
 import BadgeCompletionModal from './BadgeCompletionModal';
+import EbookOfferModal from './EbookOfferModal';
 import { useSound } from '../hooks/useSound';
 import { Volume2, VolumeX } from 'lucide-react';
 import NeuralGame from './NeuralGame';
@@ -51,13 +49,11 @@ export default function ReignsGame() {
     }
   });
 
-  const [showLeadForm, setShowLeadForm] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
-  const [userData, setUserData] = useState<LeadData | null>(null);
+
   const [showOnboarding, setShowOnboarding] = useState(false); // Desabilitado para usar landing page
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [showNeuralGame, setShowNeuralGame] = useState(false);
+  const [showEbookOffer, setShowEbookOffer] = useState(false);
   const [neuralGameResults, setNeuralGameResults] = useState<any>(null);
   const [randomEvent, setRandomEvent] = useState<any>(null);
   const [showRandomEvent, setShowRandomEvent] = useState(false);
@@ -368,32 +364,10 @@ export default function ReignsGame() {
         proactive: 0
       }
     });
-    setShowLeadForm(false);
-    setShowSuccess(false);
     setCardKey(0); // Reset card key
   }, []);
 
-  const handleContinueToForm = useCallback(() => {
-    setShowLeadForm(true);
-  }, []);
 
-  const handleEbookClick = useCallback(() => {
-    setShowBadgeCompletion(false);
-    setShowLeadForm(true);
-  }, []);
-
-  const handleFormSubmit = useCallback((data: LeadData) => {
-    console.log('Lead data submitted:', data);
-    setUserData(data);
-    // Here you would typically send the data to your backend
-    setShowLeadForm(false);
-    setShowThankYou(true);
-  }, []);
-
-  const handleBadgeCompletionClose = useCallback(() => {
-    setShowBadgeCompletion(false);
-    setShowLeadForm(true);
-  }, []);
 
   const handleStartGameFromLanding = useCallback(() => {
     setShowLandingPage(false);
@@ -405,25 +379,24 @@ export default function ReignsGame() {
     console.log('Neural game complete:', { profileKey, fullProfile, insights, metrics, achievements });
     setNeuralGameResults({ profile: fullProfile, insights, metrics, achievements });
     setShowNeuralGame(false);
-    setShowLeadForm(true); // Ir direto para o formulário de lead
+    // Mostrar oferta do eBook imediatamente após completar o jogo
+    setShowEbookOffer(true);
   }, []);
 
-  const handleShowLeadFormFromNeural = useCallback(() => {
-    setShowNeuralGame(false);
-    setShowLeadForm(true);
+  const handleEbookPurchase = useCallback(() => {
+    // Aqui você integrará com a ferramenta de pagamento (Hotmart, etc.)
+    console.log('Redirecionando para pagamento do eBook...');
+    // window.open('LINK_DO_HOTMART', '_blank');
+    alert('Redirecionando para o pagamento... (implementar com Hotmart)');
   }, []);
 
-  const handleShowSuccessModalFromNeural = useCallback(() => {
-    setShowNeuralGame(false);
-    // Ir direto para o formulário ao invés do SuccessModal
-    setShowLeadForm(true);
-  }, []);
-
-  const handleThankYouClose = useCallback(() => {
-    setShowThankYou(false);
-    // Reiniciar para landing page ou mostrar outro conteúdo
+  const handleEbookOfferClose = useCallback(() => {
+    setShowEbookOffer(false);
+    // Opcionalmente voltar para landing page
     setShowLandingPage(true);
   }, []);
+
+
 
   const getCurrentCard = () => {
     if (gameState.currentCard >= gameCards.length) return null;
@@ -442,9 +415,7 @@ export default function ReignsGame() {
   if (showNeuralGame) {
     return (
       <NeuralGame 
-        onGameComplete={handleNeuralGameComplete} 
-        onShowLeadForm={handleShowLeadFormFromNeural}
-        onShowSuccessModal={handleShowSuccessModalFromNeural}
+        onGameComplete={handleNeuralGameComplete}
       />
     );
   }
@@ -647,36 +618,7 @@ export default function ReignsGame() {
           metrics={gameState.metrics}
           reason={gameState.gameOverReason}
           onRestart={handleRestart}
-          onContinueToForm={handleContinueToForm}
-          isVisible={gameState.isGameOver && !showLeadForm && !showSuccess && !showBadgeCompletion}
-        />
-
-        {/* Lead Form */}
-        <LeadForm
-          onSubmit={handleFormSubmit}
-          isVisible={showLeadForm}
-          finalScore={neuralGameResults?.metrics ? 
-            (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
-            totalScore
-          }
-          neuralResults={neuralGameResults}
-        />
-
-        {/* Success Modal */}
-        <SuccessModal
-          isOpen={showSuccess}
-          onClose={() => setShowSuccess(false)}
-          onShowLeadForm={() => {
-            setShowSuccess(false);
-            setShowLeadForm(true);
-          }}
-          profile={neuralGameResults?.profile}
-          insights={neuralGameResults?.insights || []}
-          finalScore={neuralGameResults?.metrics ? 
-            (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
-            0
-          }
-          achievements={neuralGameResults?.achievements || []}
+          isVisible={gameState.isGameOver}
         />
 
         {/* Onboarding Modal */}
@@ -701,22 +643,20 @@ export default function ReignsGame() {
           isVisible={showBadgeCompletion}
           badges={gameState.badges}
           totalPoints={gameState.totalPoints}
-          onClose={handleBadgeCompletionClose}
-          onEbookClick={handleEbookClick}
+          onClose={() => setShowBadgeCompletion(false)}
         />
 
-        {/* Thank You Modal */}
-        <ThankYouModal
-          isOpen={showThankYou}
-          onClose={handleThankYouClose}
-          userName={userData?.name || ''}
-          userWhatsapp={userData?.whatsapp || ''}
-          neuralProfile={neuralGameResults?.profile}
-          insights={neuralGameResults?.insights || []}
-          finalScore={neuralGameResults?.metrics ? 
+        {/* EBook Offer Modal */}
+        <EbookOfferModal
+          isOpen={showEbookOffer}
+          onClose={handleEbookOfferClose}
+          playerProfile={neuralGameResults?.profile}
+          gameScore={neuralGameResults?.metrics ? 
             (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
             0
           }
+          achievements={neuralGameResults?.achievements || []}
+          onPurchase={handleEbookPurchase}
         />
 
         {/* Metric Change Effects */}

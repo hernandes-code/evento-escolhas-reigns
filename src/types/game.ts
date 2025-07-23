@@ -60,14 +60,6 @@ export interface GameState {
   };
 }
 
-export interface LeadData {
-  name: string;
-  whatsapp: string;
-  instagram: string;
-  eventType: string;
-  mainChallenge: string;
-}
-
 export type SwipeDirection = 'left' | 'right' | null;
 
 export interface RandomEvent {

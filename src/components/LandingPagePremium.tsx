@@ -12,6 +12,7 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [currentReveal, setCurrentReveal] = useState(0);
+  const [visitorsCount, setVisitorsCount] = useState(2847);
   
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);
@@ -38,11 +39,20 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Revelação progressiva do storytelling
+  // Contador de visitantes dinâmico
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisitorsCount(prev => prev + Math.floor(Math.random() * 3) + 1);
+    }, 8000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Revelação progressiva do storytelling focada no eBook
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentReveal(prev => (prev + 1) % 3);
-    }, 4000);
+      setCurrentReveal(prev => (prev + 1) % 4); // Aumentado para incluir mais revelações sobre o eBook
+    }, 5000);
     
     return () => clearInterval(timer);
   }, []);
@@ -179,7 +189,9 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
             >
               <span className="text-orange-400 font-semibold">Todo mês</span>, enquanto você produz eventos do jeito antigo...
               <br />
-              <span className="text-white font-bold">Outros produtores faturam 6 dígitos</span> usando o que você vai descobrir agora.
+              <span className="text-white font-bold">Outros produtores faturam 6 dígitos</span> usando os segredos que você está prestes a descobrir.
+              <br />
+              <span className="text-yellow-400 font-bold">Por apenas R$ 9,99</span>, você pode ter acesso ao que eles sabem.
             </motion.p>
           </motion.div>
 
@@ -230,9 +242,9 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
               <div className="relative flex items-center justify-center gap-4">
                 <Brain className="w-8 h-8 animate-pulse" />
                 <div className="text-left">
-                  <div className="text-2xl">DESCOBRIR MEU PERFIL</div>
+                  <div className="text-2xl">🧠 FAZER TESTE NEURAL</div>
                   <div className="text-sm opacity-90 font-normal">
-                    🎯 Teste gratuito • ⚡ 3 minutos • 🏆 Resultado imediato
+                    Descubra seu perfil e desbloqueie a oferta especial
                   </div>
                 </div>
                 <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
@@ -250,6 +262,107 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
             <ChevronDown className="w-6 h-6" />
           </motion.div>
 
+        </div>
+      </motion.section>
+
+      {/* SEÇÃO NOVA: PROVA SOCIAL DO EBOOK */}
+      <motion.section
+        className="py-20 relative bg-gradient-to-r from-slate-900 to-slate-800"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="container mx-auto px-4 text-center">
+          
+          {/* Stats do eBook */}
+          <motion.div
+            className="mb-12"
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h3 className="text-2xl font-bold text-orange-400 mb-6">
+              📚 O GUIA NEURAL JÁ TRANSFORMOU MILHARES DE PRODUTORES
+            </h3>
+            
+            <div className="grid md:grid-cols-4 gap-8">
+              <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-2xl p-6">
+                <motion.div
+                  className="text-4xl font-black text-orange-400 mb-2"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {visitorsCount}+
+                </motion.div>
+                <div className="text-white font-semibold">Produtores Transformados</div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-2xl p-6">
+                <div className="text-4xl font-black text-green-400 mb-2">127</div>
+                <div className="text-white font-semibold">Páginas de Conteúdo</div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-2xl p-6">
+                <div className="flex items-center justify-center mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <div className="text-white font-semibold">4.9/5 Avaliação</div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-2xl p-6">
+                <div className="text-4xl font-black text-purple-400 mb-2">R$ 9,99</div>
+                <div className="text-white font-semibold">Valor de Lançamento</div>
+                <div className="text-xs text-gray-400 line-through">Era R$ 99</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Depoimentos rápidos */}
+          <motion.div
+            className="grid md:grid-cols-3 gap-6 mb-12"
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            {[
+              { name: "Marina Santos", event: "Casamentos", result: "Triplicou a receita em 2 meses" },
+              { name: "Carlos Oliveira", event: "Corporativos", result: "Automatizou 80% dos processos" },
+              { name: "Ana Costa", event: "Formaturas", result: "Passou de 10 para 50 eventos/mês" }
+            ].map((testimonial, index) => (
+              <motion.div
+                key={index}
+                className="bg-slate-800/50 border border-gray-700/50 rounded-xl p-6"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ delay: 0.6 + index * 0.2 }}
+              >
+                <div className="flex justify-center mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <div className="text-white font-semibold mb-1">{testimonial.name}</div>
+                <div className="text-gray-400 text-sm mb-2">Eventos: {testimonial.event}</div>
+                <div className="text-orange-300 text-sm font-medium">"{testimonial.result}"</div>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <div className="text-orange-400 font-semibold mb-2">
+              ⚡ ÚLTIMAS 24H: {Math.floor(visitorsCount * 0.1)} produtores adquiriram o guia
+            </div>
+            <div className="text-gray-400 text-sm">
+              Faça o teste neural primeiro para desbloquear sua oferta personalizada
+            </div>
+          </motion.div>
         </div>
       </motion.section>
 

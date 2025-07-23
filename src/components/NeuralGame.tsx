@@ -6,8 +6,6 @@ import type { GameMetrics } from '../types/game';
 
 interface NeuralGameProps {
   onGameComplete: (profile: string, insights: any[], metrics: GameMetrics, achievements: string[]) => void;
-  onShowLeadForm: () => void;
-  onShowSuccessModal?: () => void;
 }
 
 interface Choice {
@@ -18,9 +16,10 @@ interface Choice {
   effects: Partial<GameMetrics>;
 }
 
-export default function NeuralGame({ onGameComplete, onShowLeadForm, onShowSuccessModal }: NeuralGameProps) {
+export default function NeuralGame({ onGameComplete }: NeuralGameProps) {
   const [currentScenario, setCurrentScenario] = useState(0);
   const [choices, setChoices] = useState<Choice[]>([]);
+  const [gamePhase, setGamePhase] = useState<'playing' | 'completing' | 'results'>('playing');
   const [metrics, setMetrics] = useState<GameMetrics>({
     budget: 50,
     audience: 50,
@@ -236,6 +235,82 @@ export default function NeuralGame({ onGameComplete, onShowLeadForm, onShowSucce
     );
   }
 
+  // Tela de completando análise (nova)
+  if (gamePhase === 'completing') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black flex items-center justify-center p-6 relative overflow-hidden">
+        {/* Efeitos de background */}
+        <div className="absolute inset-0">
+          {[...Array(50)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-orange-400 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0, 1, 0],
+                scale: [0, 1.5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="text-center z-10">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="mx-auto mb-8"
+          >
+            <Brain className="w-20 h-20 text-orange-400" />
+          </motion.div>
+          
+          <motion.h2
+            className="text-4xl md:text-6xl font-black text-white mb-6"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          >
+            🧠 PROCESSANDO
+          </motion.h2>
+          
+          <motion.p
+            className="text-xl text-gray-300 mb-8"
+            animate={{ opacity: [1, 0.5, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            Nossa IA está analisando suas 127 micro-decisões neurais...
+          </motion.p>
+          
+          <div className="flex justify-center gap-2 mb-8">
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="w-3 h-3 bg-orange-400 rounded-full"
+                animate={{ scale: [1, 1.5, 1] }}
+                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.2 }}
+              />
+            ))}
+          </div>
+          
+          <motion.div
+            className="text-orange-300 font-semibold"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            Preparando sua oportunidade personalizada...
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
   if (showingResult && dominantProfile) {
     const profile = NEURAL_PRODUCER_PROFILES[dominantProfile as keyof typeof NEURAL_PRODUCER_PROFILES];
     
@@ -401,12 +476,11 @@ export default function NeuralGame({ onGameComplete, onShowLeadForm, onShowSucce
           <div className="text-center">
             <motion.button
               onClick={() => {
-                // Se temos callback para SuccessModal, usa ele. Senão vai direto para LeadForm
-                if (onShowSuccessModal) {
-                  onShowSuccessModal();
-                } else {
-                  onShowLeadForm();
-                }
+                // Conclusão do jogo com suspense
+                setGamePhase('completing');
+                setTimeout(() => {
+                  onGameComplete(dominantProfile || 'balanced-strategist', personalityInsights, metrics, achievements);
+                }, 2000); // 2 segundos de suspense
               }}
               className="group relative bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 hover:from-orange-600 hover:via-red-600 hover:to-orange-700 text-white px-12 py-6 rounded-2xl font-black text-xl shadow-[0_20px_40px_rgba(251,146,60,0.4)] hover:shadow-[0_30px_60px_rgba(251,146,60,0.6)] border-2 border-orange-400/50 overflow-hidden"
               whileHover={{ scale: 1.05 }}
@@ -421,9 +495,9 @@ export default function NeuralGame({ onGameComplete, onShowLeadForm, onShowSucce
               <div className="relative flex items-center justify-center gap-4">
                 <Award className="w-8 h-8" />
                 <div>
-                  <div className="text-xl">{onShowSuccessModal ? "VER ANÁLISE COMPLETA" : "RECEBER MEUS BÔNUS"}</div>
+                  <div className="text-xl">🚀 FINALIZAR ANÁLISE NEURAL</div>
                   <div className="text-sm opacity-90 font-normal">
-                    {onShowSuccessModal ? "Ver sua Análise Neural Completa" : "E-book + Comunidade + Acesso à Plataforma"}
+                    Receba seu perfil + oportunidade exclusiva
                   </div>
                 </div>
                 <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />

@@ -6,15 +6,13 @@ interface GameOverModalProps {
   metrics: GameMetrics;
   reason: string;
   onRestart: () => void;
-  onContinueToForm: () => void;
   isVisible: boolean;
 }
 
 export default function GameOverModal({ 
   metrics, 
   reason, 
-  onRestart, 
-  onContinueToForm,
+  onRestart,
   isVisible 
 }: GameOverModalProps) {
   if (!isVisible) return null;
@@ -65,16 +63,8 @@ export default function GameOverModal({
         
         <div className="space-y-3">
           <Button 
-            onClick={onContinueToForm}
-            className="w-full bg-gradient-primary hover:opacity-90 text-primary-foreground"
-          >
-            Continuar para Formulário
-          </Button>
-          
-          <Button 
             onClick={onRestart}
-            variant="outline"
-            className="w-full border-border/30"
+            className="w-full bg-gradient-primary hover:opacity-90 text-primary-foreground"
           >
             <RotateCcw className="w-4 h-4 mr-2" />
             Jogar Novamente
