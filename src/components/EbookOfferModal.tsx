@@ -16,6 +16,9 @@ interface EbookOfferModalProps {
   gameScore: number;
   achievements: string[];
   onPurchase: () => void;
+  playerName?: string;
+  compatibilidade?: number;
+  traitDominante?: string;
 }
 
 const EbookOfferModal: React.FC<EbookOfferModalProps> = ({
@@ -24,7 +27,10 @@ const EbookOfferModal: React.FC<EbookOfferModalProps> = ({
   playerProfile,
   gameScore,
   achievements,
-  onPurchase
+  onPurchase,
+  playerName = 'Produtor',
+  compatibilidade = 92,
+  traitDominante = 'estratégico'
 }) => {
   const [currentPhase, setCurrentPhase] = useState(0); // 0: Revelação, 1: Oferta, 2: Urgência
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutos

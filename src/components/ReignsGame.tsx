@@ -10,14 +10,15 @@ import logo from '../assets/logo.png';
 import ConsequenceModal from './ConsequenceModal';
 import GameOverModal from './GameOverModal';
 import OnboardingModal from './OnboardingModal';
-import LandingPagePremium from './LandingPagePremium';
 import RandomEventModal from './RandomEventModal';
 import BadgeSystem from './BadgeSystem';
 import BadgeCompletionModal from './BadgeCompletionModal';
 import EbookOfferModal from './EbookOfferModal';
 import { useSound } from '../hooks/useSound';
 import { Volume2, VolumeX } from 'lucide-react';
-import NeuralGame from './NeuralGame';
+import LandingPageBilheteria from './LandingPageBilheteria';
+import { DesafioProdutor } from './DesafioProdutor';
+import { OfertaFinal } from './OfertaFinal';
 import MetricChangeEffects from './MetricChangeEffects';
 
 export default function ReignsGame() {
@@ -50,17 +51,18 @@ export default function ReignsGame() {
   });
 
 
-  const [showOnboarding, setShowOnboarding] = useState(false); // Desabilitado para usar landing page
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(true);
-  const [showNeuralGame, setShowNeuralGame] = useState(false);
-  const [showEbookOffer, setShowEbookOffer] = useState(false);
-  const [neuralGameResults, setNeuralGameResults] = useState<any>(null);
+  const [showDesafioProdutor, setShowDesafioProdutor] = useState(false);
+  const [showOfertaFinal, setShowOfertaFinal] = useState(false);
+  const [desafioResults, setDesafioResults] = useState<any>(null);
+  const [playerName, setPlayerName] = useState('Produtor');
   const [randomEvent, setRandomEvent] = useState<any>(null);
   const [showRandomEvent, setShowRandomEvent] = useState(false);
   const [showBadgeCompletion, setShowBadgeCompletion] = useState(false);
   const [metricEffects, setMetricEffects] = useState<any[]>([]);
-  const [cardKey, setCardKey] = useState(0); // Para forçar re-render da carta
-  const [cardVisible, setCardVisible] = useState(true); // Controla visibilidade da carta
+  const [cardKey, setCardKey] = useState(0);
+  const [cardVisible, setCardVisible] = useState(true);
 
   // Calculate badges based on performance and choices - SISTEMA EQUILIBRADO v2
   const calculateBadges = (metrics: GameMetricsType, totalPoints: number, choiceCategories: any) => {
@@ -369,18 +371,17 @@ export default function ReignsGame() {
 
 
 
-  const handleStartGameFromLanding = useCallback(() => {
+  const handleStartGameFromLanding = useCallback((nome: string) => {
+    setPlayerName(nome || 'Produtor');
     setShowLandingPage(false);
-    setShowNeuralGame(true); // Iniciar com o novo jogo neural
+    setShowDesafioProdutor(true);
   }, []);
 
-  const handleNeuralGameComplete = useCallback((profileKey: string, insights: any[], metrics: GameMetricsType, achievements: string[]) => {
-    const fullProfile = NEURAL_PRODUCER_PROFILES[profileKey as keyof typeof NEURAL_PRODUCER_PROFILES];
-    console.log('Neural game complete:', { profileKey, fullProfile, insights, metrics, achievements });
-    setNeuralGameResults({ profile: fullProfile, insights, metrics, achievements });
-    setShowNeuralGame(false);
-    // Mostrar oferta do eBook imediatamente após completar o jogo
-    setShowEbookOffer(true);
+  const handleDesafioComplete = useCallback((resultado: any) => {
+    console.log('Desafio completo:', resultado);
+    setDesafioResults(resultado);
+    setShowDesafioProdutor(false);
+    setShowOfertaFinal(true);
   }, []);
 
   const handleEbookPurchase = useCallback(() => {
@@ -390,11 +391,7 @@ export default function ReignsGame() {
     alert('Redirecionando para o pagamento... (implementar com Hotmart)');
   }, []);
 
-  const handleEbookOfferClose = useCallback(() => {
-    setShowEbookOffer(false);
-    // Opcionalmente voltar para landing page
-    setShowLandingPage(true);
-  }, []);
+  // Remover handlers não utilizados do sistema antigo
 
 
 
@@ -408,17 +405,27 @@ export default function ReignsGame() {
 
   // Se deve mostrar a landing page, renderizar apenas ela
   if (showLandingPage) {
-    return <LandingPagePremium onStartGame={handleStartGameFromLanding} />;
+    return <LandingPageBilheteria onStartGame={handleStartGameFromLanding} />;
   }
 
-  // Se deve mostrar o jogo neural, renderizar apenas ele
-  if (showNeuralGame) {
+  // Se deve mostrar o Desafio do Produtor, renderizar apenas ele
+  if (showDesafioProdutor) {
     return (
-      <NeuralGame 
-        onGameComplete={handleNeuralGameComplete}
+      <DesafioProdutor 
+        userName={playerName}
+        onComplete={handleDesafioComplete}
       />
     );
   }
+
+  // Se deve mostrar a oferta final, renderizar apenas ela
+  if (showOfertaFinal && desafioResults) {
+    return <OfertaFinal gameResult={desafioResults} />;
+  }
+
+  // Remover renders antigos não utilizados
+
+  // Remover outros renders condicionais antigos
 
   return (
     <div className="min-h-screen min-h-[100dvh] bg-gradient-warm flex flex-col overflow-hidden game-container" style={{ position: 'relative' }}>
@@ -644,19 +651,6 @@ export default function ReignsGame() {
           badges={gameState.badges}
           totalPoints={gameState.totalPoints}
           onClose={() => setShowBadgeCompletion(false)}
-        />
-
-        {/* EBook Offer Modal */}
-        <EbookOfferModal
-          isOpen={showEbookOffer}
-          onClose={handleEbookOfferClose}
-          playerProfile={neuralGameResults?.profile}
-          gameScore={neuralGameResults?.metrics ? 
-            (Object.values(neuralGameResults.metrics) as number[]).reduce((a: number, b: number) => a + b, 0) : 
-            0
-          }
-          achievements={neuralGameResults?.achievements || []}
-          onPurchase={handleEbookPurchase}
         />
 
         {/* Metric Change Effects */}

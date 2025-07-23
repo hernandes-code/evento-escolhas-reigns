@@ -5,7 +5,7 @@ import heroImage from '../assets/hero-events.jpg';
 import logo from '../assets/logo.png';
 
 interface LandingPageProps {
-  onStartGame: () => void;
+  onStartGame: (nome: string) => void;
 }
 
 export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
@@ -13,6 +13,7 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
   const [isHovering, setIsHovering] = useState(false);
   const [currentReveal, setCurrentReveal] = useState(0);
   const [visitorsCount, setVisitorsCount] = useState(2847);
+  const [playerName, setPlayerName] = useState('');
   
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);
@@ -58,7 +59,7 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
   }, []);
 
   const handleStartChallenge = () => {
-    onStartGame();
+    onStartGame(playerName || 'Produtor');
   };
 
   return (
@@ -215,6 +216,22 @@ export default function LandingPagePremium({ onStartGame }: LandingPageProps) {
               R$ 1.438,00 perdidos hoje
             </motion.div>
             <p className="text-red-300 text-sm mt-2">*Média calculada com produtores que não usam tecnologia adequada</p>
+          </motion.div>
+
+          {/* Campo de nome */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 3.2 }}
+            className="mb-6"
+          >
+            <input
+              type="text"
+              placeholder="Digite seu nome (opcional)"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              className="w-full max-w-md mx-auto block bg-slate-800/50 border-2 border-orange-500/30 rounded-xl px-6 py-4 text-white text-center text-lg placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20 transition-all backdrop-blur-sm"
+            />
           </motion.div>
 
           {/* CTA Principal premium com hover effect */}
