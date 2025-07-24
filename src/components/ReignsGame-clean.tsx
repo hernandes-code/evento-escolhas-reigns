@@ -8,6 +8,7 @@ export default function ReignsGame() {
   const [showDesafioProdutor, setShowDesafioProdutor] = useState(false);
   const [showOfertaFinal, setShowOfertaFinal] = useState(false);
   const [desafioResults, setDesafioResults] = useState<any>(null);
+  const [playerName, setPlayerName] = useState('Produtor');
 
   const handleStartGameFromLanding = () => {
     setShowLandingPage(false);
@@ -28,6 +29,7 @@ export default function ReignsGame() {
   if (showDesafioProdutor) {
     return (
       <DesafioProdutor 
+        userName={playerName}
         onComplete={handleDesafioComplete}
       />
     );

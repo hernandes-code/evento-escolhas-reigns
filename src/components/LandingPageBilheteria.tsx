@@ -4,11 +4,10 @@ import { Brain, Zap, Users, TrendingUp, Target, Crown, Sparkles, ArrowRight, Che
 import heroImage from '../assets/hero-events.jpg';
 
 interface LandingPageProps {
-  onStartGame: (nome: string) => void;
+  onStartGame: () => void;
 }
 
 export default function LandingPageBilheteria({ onStartGame }: LandingPageProps) {
-  const [playerName, setPlayerName] = useState('');
   const [currentReveal, setCurrentReveal] = useState(0);
   const [visitorsCount, setVisitorsCount] = useState(2847);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -33,7 +32,7 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
   }, []);
 
   const handleStartChallenge = () => {
-    onStartGame(playerName || 'Produtor');
+    onStartGame();
   };
 
   return (
@@ -408,27 +407,6 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
               específicas que <span className="text-white font-bold">funcionam para o seu tipo de personalidade...</span>
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-purple-500 mx-auto rounded-full"></div>
-          </motion.div>
-
-          {/* Campo de nome personalizado */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 2.6 }}
-            className="mb-8"
-          >
-            <div className="relative max-w-md mx-auto">
-              <input
-                type="text"
-                placeholder="Digite seu nome para personalizar a experiência"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-                className="w-full bg-slate-800/50 border-2 border-orange-500/30 rounded-2xl px-8 py-5 text-white text-center text-lg placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20 transition-all backdrop-blur-sm"
-              />
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                <Sparkles className="w-6 h-6 text-orange-400" />
-              </div>
-            </div>
           </motion.div>
 
           {/* CTA Principal GIGANTE */}

@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Users, DollarSign, TrendingUp, AlertTriangle, CheckCircle, X } from 'lucide-react';
 
 interface DesafioProductorProps {
-  userName: string;
   onComplete: (data: any) => void;
 }
 
@@ -155,7 +154,7 @@ const realScenarios: Scenario[] = [
   }
 ];
 
-export const DesafioProdutor: React.FC<DesafioProductorProps> = ({ userName, onComplete }) => {
+export const DesafioProdutor: React.FC<DesafioProductorProps> = ({ onComplete }) => {
   const [currentScenario, setCurrentScenario] = useState(0);
   const [profile, setProfile] = useState<Record<string, number>>({});
   const [choices, setChoices] = useState<string[]>([]);
@@ -188,7 +187,6 @@ export const DesafioProdutor: React.FC<DesafioProductorProps> = ({ userName, onC
       } else {
         // Calcular resultado final
         const finalResult = {
-          userName,
           profile: newProfile,
           choices,
           dominantCategory: choices.reduce((a, b, _, arr) => 
