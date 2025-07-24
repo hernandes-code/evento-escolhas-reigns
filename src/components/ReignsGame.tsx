@@ -1,40 +1,50 @@
 import { useState } from 'react';
 import LandingPageBilheteria from './LandingPageBilheteria';
-import { DesafioProdutor } from './DesafioProdutor';
-import { OfertaFinal } from './OfertaFinal';
+import QuizDiagnostico from './QuizDiagnostico';
+import OfertaFinal from './OfertaFinal';
 
 export default function ReignsGame() {
   const [showLandingPage, setShowLandingPage] = useState(true);
-  const [showDesafioProdutor, setShowDesafioProdutor] = useState(false);
+  const [showQuizDiagnostico, setShowQuizDiagnostico] = useState(false);
   const [showOfertaFinal, setShowOfertaFinal] = useState(false);
-  const [desafioResults, setDesafioResults] = useState<any>(null);
+  const [quizResults, setQuizResults] = useState<any>(null);
 
   const handleStartGameFromLanding = () => {
     setShowLandingPage(false);
-    setShowDesafioProdutor(true);
+    setShowQuizDiagnostico(true);
   };
 
-  const handleDesafioComplete = (results: any) => {
-    setDesafioResults(results);
-    setShowDesafioProdutor(false);
+  const handleQuizComplete = (results: any) => {
+    setQuizResults(results);
+    setShowQuizDiagnostico(false);
     setShowOfertaFinal(true);
   };
 
-  // Fluxo: Landing → DesafioProdutor → OfertaFinal
+  // Fluxo: Landing → QuizDiagnostico → OfertaFinal
   if (showLandingPage) {
     return <LandingPageBilheteria onStartGame={handleStartGameFromLanding} />;
   }
 
-  if (showDesafioProdutor) {
+  if (showQuizDiagnostico) {
     return (
-      <DesafioProdutor 
-        onComplete={handleDesafioComplete}
+      <QuizDiagnostico 
+        onComplete={handleQuizComplete}
       />
     );
   }
 
-  if (showOfertaFinal && desafioResults) {
-    return <OfertaFinal gameResult={desafioResults} />;
+  if (showOfertaFinal && quizResults) {
+    return (
+      <OfertaFinal 
+        nivel={quizResults.resultado.nivel}
+        categorias={quizResults.resultado.categorias}
+        pontuacao={quizResults.resultado.pontuacaoTotal}
+        onCompleted={() => {
+          console.log('Oferta finalizada');
+          // Aqui você pode adicionar lógica para reiniciar ou redirecionar
+        }}
+      />
+    );
   }
 
   return null;

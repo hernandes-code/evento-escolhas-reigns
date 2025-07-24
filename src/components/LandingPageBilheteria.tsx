@@ -218,9 +218,9 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
             className="mb-8"
           >
             <div className="w-20 h-20 mx-auto bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mb-4">
-              <Rocket className="w-10 h-10 text-white" />
+              <Brain className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-orange-400">PLATAFORMA NEURAL</h3>
+            <h3 className="text-2xl font-bold text-orange-400">ANÁLISE DO PRODUTOR</h3>
           </motion.div>
 
           {/* Título Principal com efeitos UAU */}
@@ -260,7 +260,7 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
                 textShadow: { duration: 4, repeat: Infinity }
               }}
             >
-              PRODUTOR
+              ANÁLISE
             </motion.span>
             
             <motion.span
@@ -278,7 +278,7 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
                 backgroundSize: '200% 100%',
               }}
             >
-              MASTER
+              COMPLETA
             </motion.span>
           </motion.h1>
 
@@ -291,22 +291,22 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           >
             {currentReveal === 0 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <span className="text-red-500 font-bold">Você já viveu isso:</span> ingressos encalhados até o último minuto, anúncios que gastam mas não convertem
+                <span className="text-red-500 font-bold">Descubra em 5 minutos:</span> qual é o seu perfil único de produtor e onde você está perdendo oportunidades
               </motion.p>
             )}
             {currentReveal === 1 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                A sensação de que <span className="text-orange-400 font-bold">só evento grande vende antecipado</span> enquanto outros produtores lotam qualquer evento
+                <span className="text-orange-400 font-bold">Análise baseada em dados:</span> identifique seus pontos fortes e áreas de crescimento no seu evento!
               </motion.p>
             )}
             {currentReveal === 2 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <span className="text-green-400 font-bold">Este guia nasceu exatamente para mudar isso.</span> Estratégias que fazem pessoas comuns comprarem antes da bilheteria abrir
+                <span className="text-green-400 font-bold">Estratégias personalizadas:</span> receba recomendações específicas para o seu tipo de evento e perfil
               </motion.p>
             )}
             {currentReveal === 3 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <span className="text-purple-400 font-bold">Descubra seu perfil de produtor</span> e receba as estratégias específicas que funcionam para você
+                <span className="text-purple-400 font-bold">Resultados imediatos:</span> implemente mudanças que geram impacto real nos seus próximos eventos
               </motion.p>
             )}
           </motion.div>
@@ -320,12 +320,11 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           >
             <p className="text-2xl md:text-3xl text-gray-300 leading-relaxed mb-8">
               <span className="text-orange-400 font-bold">Você já se perguntou</span> por que alguns produtores conseguem 
-              <span className="text-cyan-400 font-bold"> resultados extraordinários</span> enquanto outros lutam para 
-              vender os primeiros ingressos?
+              <span className="text-cyan-400 font-bold"> vender 80% dos ingressos antecipadamente</span> enquanto outros lutam até o último dia?
             </p>
             <p className="text-xl text-gray-400 leading-relaxed">
               A diferença não está na sorte, no orçamento ou no tipo de evento...
-              <span className="text-white font-bold"> está na estratégia psicológica por trás de cada decisão.</span>
+              <span className="text-white font-bold"> está no perfil estratégico e na abordagem de marketing personalizada.</span>
             </p>
           </motion.div>
 
@@ -337,16 +336,16 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-4xl mx-auto"
           >
             <div className="bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-500/30 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-green-400 mb-2">+500%</div>
-              <div className="text-gray-300">aumento no faturamento médio</div>
+              <div className="text-3xl font-bold text-green-400 mb-2">92%</div>
+              <div className="text-gray-300">dos produtores identificam gaps críticos</div>
             </div>
             <div className="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 border border-blue-500/30 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-blue-400 mb-2">12x</div>
-              <div className="text-gray-300">mais conversões em eventos</div>
+              <div className="text-3xl font-bold text-blue-400 mb-2">5 min</div>
+              <div className="text-gray-300">para descobrir seu perfil completo</div>
             </div>
             <div className="bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-500/30 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-purple-400 mb-2">98%</div>
-              <div className="text-gray-300">de satisfação comprovada</div>
+              <div className="text-3xl font-bold text-purple-400 mb-2">+1.5 mil</div>
+              <div className="text-gray-300">análises realizadas com sucesso</div>
             </div>
           </motion.div>
 
@@ -383,12 +382,12 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
 
               <div className="text-center">
                 <p className="text-2xl text-gray-200 mb-6">
-                  <span className="text-green-400 font-bold">Esse eBook foi criado especificamente para isso.</span>
+                  <span className="text-green-400 font-bold">Nossa análise vai revelar exatamente onde você está perdendo oportunidades.</span>
                 </p>
                 <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-                  Enquanto plataformas como Sympla, Eventbrite e Ingresse focam apenas na <span className="text-orange-400 font-bold">venda de ingressos</span>, 
-                  nós revelamos os <span className="text-cyan-400 font-bold">segredos psicológicos e estratégicos</span> que fazem alguns produtores 
-                  venderem 10x mais que outros. <span className="text-purple-400 font-bold">Descubra o que eles não te contam</span> participando do nosso desafio.
+                  Em apenas 5 minutos, você descobrirá seu <span className="text-orange-400 font-bold">perfil único de produtor</span>, 
+                  identificará seus <span className="text-cyan-400 font-bold">pontos fortes e áreas de crescimento</span>, e receberá 
+                  <span className="text-purple-400 font-bold">estratégias personalizadas</span> que realmente funcionam para o seu tipo de evento.
                 </p>
               </div>
             </div>
@@ -402,9 +401,9 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
             className="mb-12 max-w-4xl mx-auto text-center"
           >
             <p className="text-2xl md:text-3xl text-gray-300 leading-relaxed mb-6">
-              <span className="text-orange-400 font-bold">Agora imagine</span> descobrir exatamente qual é o seu 
-              <span className="text-cyan-400 font-bold"> perfil único de produtor</span> e receber as estratégias 
-              específicas que <span className="text-white font-bold">funcionam para o seu tipo de personalidade...</span>
+              <span className="text-orange-400 font-bold">Pronto para descobrir</span> qual é o seu 
+              <span className="text-cyan-400 font-bold"> perfil estratégico de produtor</span> e receber um 
+              <span className="text-white font-bold">plano personalizado de crescimento?</span>
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-purple-500 mx-auto rounded-full"></div>
           </motion.div>
@@ -475,9 +474,9 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
                   <Brain className="w-10 h-10 text-yellow-300" />
                 </motion.div>
                 <div className="text-left">
-                  <div className="text-3xl mb-2">🎯 DESCOBRIR MEU PERFIL DE PRODUTOR</div>
+                  <div className="text-3xl mb-2">🧭 FAZER MINHA ANÁLISE COMPLETA</div>
                   <div className="text-lg font-normal opacity-90">
-                    Análise gratuita + estratégias personalizadas + guia completo
+                    Diagnóstico personalizado + estratégias + plano de ação
                   </div>
                 </div>
                 <motion.div
@@ -542,20 +541,20 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="bg-slate-800/50 rounded-2xl p-6 border border-orange-500/20">
               <div className="text-2xl font-bold text-green-400 mb-2">Marina S.</div>
-              <div className="text-gray-300 mb-3">"Faturamento: R$ 15k → R$ 45k/mês"</div>
-              <div className="text-sm text-gray-400">Casamentos Premium</div>
+              <div className="text-gray-300 mb-3">"Faturamento: R$ 15k → R$ 25k/mês"</div>
+              <div className="text-sm text-gray-400">Festivais</div>
             </div>
             
             <div className="bg-slate-800/50 rounded-2xl p-6 border border-purple-500/20">
               <div className="text-2xl font-bold text-purple-400 mb-2">Carlos O.</div>
-              <div className="text-gray-300 mb-3">"Lista de espera: 0 → 50 clientes"</div>
+              <div className="text-gray-300 mb-3">"Lista de espera: 20 → 50 clientes"</div>
               <div className="text-sm text-gray-400">Bares e Baladas</div>
             </div>
             
             <div className="bg-slate-800/50 rounded-2xl p-6 border border-blue-500/20">
               <div className="text-2xl font-bold text-blue-400 mb-2">Ana C.</div>
-              <div className="text-gray-300 mb-3">"ROI: 500x em 30 dias"</div>
-              <div className="text-sm text-gray-400">Formaturas</div>
+              <div className="text-gray-300 mb-3">"ROI: 80x em 30 dias"</div>
+              <div className="text-sm text-gray-400">Feiras de negócios</div>
             </div>
           </div>
         </div>
