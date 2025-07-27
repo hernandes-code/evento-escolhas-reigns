@@ -291,7 +291,7 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           >
             {currentReveal === 0 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <span className="text-red-500 font-bold">Descubra em 5 minutos:</span> qual é o seu perfil único de produtor e onde você está perdendo oportunidades
+                <span className="text-orange-400 font-bold">Descubra em 5 minutos:</span> qual é o seu perfil único de produtor e onde você está perdendo oportunidades
               </motion.p>
             )}
             {currentReveal === 1 && (
@@ -301,12 +301,12 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
             )}
             {currentReveal === 2 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <span className="text-green-400 font-bold">Estratégias personalizadas:</span> receba recomendações específicas para o seu tipo de evento e perfil
+                <span className="text-orange-400 font-bold">Estratégias personalizadas:</span> receba recomendações específicas para o seu tipo de evento e perfil
               </motion.p>
             )}
             {currentReveal === 3 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <span className="text-purple-400 font-bold">Resultados imediatos:</span> implemente mudanças que geram impacto real nos seus próximos eventos
+                <span className="text-orange-400 font-bold">Resultados imediatos:</span> implemente mudanças que geram impacto real nos seus próximos eventos
               </motion.p>
             )}
           </motion.div>
@@ -320,7 +320,7 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           >
             <p className="text-2xl md:text-3xl text-gray-300 leading-relaxed mb-8">
               <span className="text-orange-400 font-bold">Você já se perguntou</span> por que alguns produtores conseguem 
-              <span className="text-cyan-400 font-bold"> vender 80% dos ingressos antecipadamente</span> enquanto outros lutam até o último dia?
+              <span className="text-white font-bold"> vender 80% dos ingressos antecipadamente</span> enquanto outros lutam até o último dia?
             </p>
             <p className="text-xl text-gray-400 leading-relaxed">
               A diferença não está na sorte, no orçamento ou no tipo de evento...
@@ -335,16 +335,16 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
             transition={{ delay: 2.2 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-4xl mx-auto"
           >
-            <div className="bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-500/30 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-green-400 mb-2">92%</div>
+            <div className="bg-gradient-to-br from-gray-700/20 to-gray-800/20 border border-orange-500/30 rounded-2xl p-6">
+              <div className="text-3xl font-bold text-orange-400 mb-2">92%</div>
               <div className="text-gray-300">dos produtores identificam gaps críticos</div>
             </div>
-            <div className="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 border border-blue-500/30 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-blue-400 mb-2">5 min</div>
+            <div className="bg-gradient-to-br from-gray-700/20 to-gray-800/20 border border-orange-500/30 rounded-2xl p-6">
+              <div className="text-3xl font-bold text-orange-400 mb-2">5 min</div>
               <div className="text-gray-300">para descobrir seu perfil completo</div>
             </div>
-            <div className="bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-500/30 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-purple-400 mb-2">+1.5 mil</div>
+            <div className="bg-gradient-to-br from-gray-700/20 to-gray-800/20 border border-orange-500/30 rounded-2xl p-6">
+              <div className="text-3xl font-bold text-orange-400 mb-2">+1.5 mil</div>
               <div className="text-gray-300">análises realizadas com sucesso</div>
             </div>
           </motion.div>
@@ -358,36 +358,36 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           >
             <div className="bg-gradient-to-br from-red-900/30 to-orange-900/30 border border-red-500/30 rounded-3xl p-8 md:p-12">
               <h2 className="text-3xl md:text-4xl font-black text-center mb-8">
-                <span className="text-red-400">SE VOCÊ PRODUZ EVENTOS</span><br />
+                <span className="text-orange-400">SE VOCÊ PRODUZ EVENTOS</span><br />
                 <span className="text-white">COM VENDA DE INGRESSOS:</span>
               </h2>
               
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="text-center">
                   <div className="text-6xl mb-4">🎵</div>
-                  <h3 className="text-xl font-bold text-red-300 mb-3">Shows e Festivais</h3>
+                  <h3 className="text-xl font-bold text-white mb-3">Shows e Festivais</h3>
                   <p className="text-gray-300">Ingressos parados na bilheteria, sem aquela corrida inicial que todo show precisa</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-6xl mb-4">�</div>
-                  <h3 className="text-xl font-bold text-orange-300 mb-3">Bares, Festas e Baladas</h3>
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-xl font-bold text-white mb-3">Bares, Festas e Baladas</h3>
                   <p className="text-gray-300">Eventos noturnos, festas temáticas e experiências que dependem de ingressos vendidos antecipadamente</p>
                 </div>
                 <div className="text-center">
                   <div className="text-6xl mb-4">📈</div>
-                  <h3 className="text-xl font-bold text-yellow-300 mb-3">Eventos de Alto Potencial</h3>
+                  <h3 className="text-xl font-bold text-white mb-3">Eventos de Alto Potencial</h3>
                   <p className="text-gray-300">Experiências únicas e exclusivas que podem multiplicar suas vendas com as estratégias certas</p>
                 </div>
               </div>
 
               <div className="text-center">
                 <p className="text-2xl text-gray-200 mb-6">
-                  <span className="text-green-400 font-bold">Nossa análise vai revelar exatamente onde você está perdendo oportunidades.</span>
+                  <span className="text-orange-400 font-bold">Nossa análise vai revelar exatamente onde você está perdendo oportunidades.</span>
                 </p>
                 <p className="text-xl text-gray-300 max-w-4xl mx-auto">
                   Em apenas 5 minutos, você descobrirá seu <span className="text-orange-400 font-bold">perfil único de produtor</span>, 
-                  identificará seus <span className="text-cyan-400 font-bold">pontos fortes e áreas de crescimento</span>, e receberá 
-                  <span className="text-purple-400 font-bold">estratégias personalizadas</span> que realmente funcionam para o seu tipo de evento.
+                  identificará seus <span className="text-white font-bold">pontos fortes e áreas de crescimento</span>, e receberá 
+                  <span className="text-white font-bold">estratégias personalizadas</span> que realmente funcionam para o seu tipo de evento.
                 </p>
               </div>
             </div>
@@ -402,7 +402,7 @@ export default function LandingPageBilheteria({ onStartGame }: LandingPageProps)
           >
             <p className="text-2xl md:text-3xl text-gray-300 leading-relaxed mb-6">
               <span className="text-orange-400 font-bold">Pronto para descobrir</span> qual é o seu 
-              <span className="text-cyan-400 font-bold"> perfil estratégico de produtor</span> e receber um 
+              <span className="text-white font-bold"> perfil estratégico de produtor</span> e receber um 
               <span className="text-white font-bold">plano personalizado de crescimento?</span>
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-purple-500 mx-auto rounded-full"></div>

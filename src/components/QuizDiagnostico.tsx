@@ -34,10 +34,11 @@ interface ResultadoQuiz {
     vendas: number;
     digital: number;
   };
-  nivel: 'iniciante' | 'intermediario' | 'avancado';
+  nivel: 'classico' | 'intermediario' | 'avancado';
   pontosFortes: string[];
   areasParaMelhoria: string[];
   recomendacoes: string[];
+  categoriaDominante: string;
 }
 
 const QuizDiagnostico: React.FC<QuizDiagnosticoProps> = ({ onComplete }) => {
@@ -380,11 +381,11 @@ const QuizDiagnostico: React.FC<QuizDiagnosticoProps> = ({ onComplete }) => {
 
     // Determinar nível
     const porcentagem = (pontuacaoTotal / maxPossivel) * 100;
-    let nivel: 'iniciante' | 'intermediario' | 'avancado';
+    let nivel: 'classico' | 'intermediario' | 'avancado';
     
     if (porcentagem >= 75) nivel = 'avancado';
     else if (porcentagem >= 45) nivel = 'intermediario';
-    else nivel = 'iniciante';
+    else nivel = 'classico';
 
     // Identificar pontos fortes e fracos
     const pontosFortes = Object.entries(categorias)
@@ -395,6 +396,10 @@ const QuizDiagnostico: React.FC<QuizDiagnosticoProps> = ({ onComplete }) => {
       .filter(([_, pontos]) => pontos < 4)
       .map(([categoria, _]) => categoria);
 
+    // Determinar categoria dominante
+    const categoriaDominante = Object.entries(categorias)
+      .reduce((a, b) => categorias[a[0] as keyof typeof categorias] > categorias[b[0] as keyof typeof categorias] ? a : b)[0];
+
     // Gerar recomendações personalizadas
     const recomendacoes = gerarRecomendacoes(nivel, categorias, areasParaMelhoria);
 
@@ -404,7 +409,8 @@ const QuizDiagnostico: React.FC<QuizDiagnosticoProps> = ({ onComplete }) => {
       nivel,
       pontosFortes,
       areasParaMelhoria,
-      recomendacoes
+      recomendacoes,
+      categoriaDominante
     };
   };
 

@@ -215,7 +215,7 @@ export const SimuladorEvento: React.FC<SimuladorEventoProps> = ({ onComplete }) 
     if (total >= 300) return 'Extraordinário';
     if (total >= 200) return 'Excelente';
     if (total >= 120) return 'Bom';
-    return 'Iniciante';
+    return 'Clássico';
   };
 
   const gerarInsights = () => {

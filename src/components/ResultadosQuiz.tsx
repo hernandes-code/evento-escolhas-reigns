@@ -16,7 +16,7 @@ interface ResultadosQuizProps {
       vendas: number;
       digital: number;
     };
-    nivel: 'iniciante' | 'intermediario' | 'avancado';
+    nivel: 'classico' | 'intermediario' | 'avancado';
     pontosFortes: string[];
     areasParaMelhoria: string[];
     recomendacoes: string[];
@@ -33,8 +33,8 @@ export const ResultadosQuiz: React.FC<ResultadosQuizProps> = ({
   const [etapaAtual, setEtapaAtual] = useState(0);
   
   const nivelInfo = {
-    iniciante: {
-      titulo: 'Produtor Iniciante',
+    classico: {
+      titulo: 'Produtor Clássico',
       cor: 'from-blue-500 to-cyan-500',
       icon: Rocket,
       descricao: 'Você tem uma base sólida e muito potencial para crescer!',

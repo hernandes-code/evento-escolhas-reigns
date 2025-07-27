@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import LandingPageBilheteria from './LandingPageBilheteria';
 import QuizDiagnostico from './QuizDiagnostico';
-import OfertaFinal from './OfertaFinal';
+import { OfertaFinalNova } from './OfertaFinalNova';
 
 export default function ReignsGame() {
   const [showLandingPage, setShowLandingPage] = useState(true);
@@ -35,14 +35,8 @@ export default function ReignsGame() {
 
   if (showOfertaFinal && quizResults) {
     return (
-      <OfertaFinal 
-        nivel={quizResults.resultado.nivel}
-        categorias={quizResults.resultado.categorias}
-        pontuacao={quizResults.resultado.pontuacaoTotal}
-        onCompleted={() => {
-          console.log('Oferta finalizada');
-          // Aqui você pode adicionar lógica para reiniciar ou redirecionar
-        }}
+      <OfertaFinalNova 
+        gameResult={quizResults}
       />
     );
   }
